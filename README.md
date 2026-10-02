@@ -24,6 +24,10 @@ IELTS Free is distributed through **GitHub Releases**. Each release contains:
 > **No release yet?** Build it yourself — see [Installation](#installation). The whole
 > point of this project is that the source builds with a plain Flutter SDK and
 > **zero code-generation steps**.
+>
+> **Maintainers:** see [`docs/RELEASING.md`](docs/RELEASING.md) for how to push,
+> tag and publish a release through GitHub Actions. You do **not** need a local
+> Android SDK or Visual Studio — the CI runners provide both.
 
 ---
 

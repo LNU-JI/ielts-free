@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Android build configuration realigned with Flutter 3.47.5.** The scaffolding
+  had been written against the Flutter 3.22-era templates and could not build
+  with the installed toolchain. Gradle `8.3` → `9.3.1`, Android Gradle Plugin
+  `8.1.0` → `9.1.0`, Kotlin `1.9.22` → `2.4.0`, and the build files were migrated
+  to the Kotlin DSL to match the official templates. `compileSdk` / `minSdk` /
+  `targetSdk` / `versionCode` / `versionName` now come from the `flutter`
+  extension instead of hard-coded numbers, so they track the SDK.
+- **Generated files are no longer committed.** `android/.gitignore` was added
+  (matching Flutter's own template) and `gradlew`, `gradlew.bat`,
+  `gradle-wrapper.jar` and `GeneratedPluginRegistrant.java` were removed from
+  version control. `GradleUtils.injectGradleWrapperIfNeeded()` copies the first
+  three from the Flutter SDK but deliberately does **not** overwrite files that
+  already exist, so committing them froze a stale wrapper. The committed
+  `GeneratedPluginRegistrant.java` was stale and omitted `path_provider`, which
+  would have thrown `MissingPluginException` at runtime.
+
+### Added
+
+- `docs/RELEASING.md` — how to push, tag and publish a release through GitHub
+  Actions, plus what to check before publishing for real.
+- `.gitattributes` — normalises line endings so `android/gradlew` cannot be
+  checked out with CRLF, which breaks the Android build on Linux CI.
+- `tool/verify/` — Python scripts that validate the content database, the schema
+  and the database migration without needing a Flutter toolchain.
+
+### Verified
+
+- `flutter analyze` → `No issues found!`
+- `flutter test` → `All tests passed!`
+
 ## [0.1.0] - 2026-10-01
 
 The first MVP release: a fully offline, adaptive IELTS learning loop.
