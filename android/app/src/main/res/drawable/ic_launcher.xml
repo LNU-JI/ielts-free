@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Vector launcher icon (text-only, so it can live in version control without a
+  binary asset). Replace with a proper adaptive icon (mipmap-* PNGs +
+  mipmap-anydpi-v26) before a store release.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Deep-blue background (brand primary #1E3A5F). -->
+    <path
+        android:fillColor="#1E3A5F"
+        android:pathData="M0,0h108v108h-108z" />
+    <!-- White "text lines" motif. -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M28,34h52v8h-52z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M28,50h52v8h-52z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M28,66h34v8h-34z" />
+</vector>

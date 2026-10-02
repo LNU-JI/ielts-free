@@ -1,0 +1,314 @@
+%% IELTS Free V0.1 —— 类图（数据模型 + 服务 + 仓储）
+%% 归属：内容库（只读）以 [C] 标注；用户库（读写）以 [U] 标注
+
+classDiagram
+    direction LR
+
+    %% ===== 内容库（只读） =====
+    class Vocabulary {
+        +int id
+        +String word
+        +String phonetic
+        +String partOfSpeech
+        +String meaningCN
+        +String meaningEN
+        +int difficulty
+        +String cefr
+        +String ieltsLevel
+        +List~String~ synonyms
+        +List~String~ antonyms
+        +List~String~ collocations
+        +List~Example~ examples
+        +String writingUsage
+        +String speakingUsage
+        +fromMap() Vocabulary
+        +toMap() Map
+    }
+    class VocabularyTopic {
+        +int id
+        +int vocabularyId
+        +String topic
+    }
+    class ReadingPassage {
+        +int id
+        +String title
+        +String topic
+        +int difficulty
+        +String band
+        +int readingTimeSec
+        +String passage
+        +List~String~ skills
+    }
+    class ReadingQuestion {
+        +int id
+        +int passageId
+        +int orderIndex
+        +QuestionType questionType
+        +String prompt
+        +String correctAnswer
+        +String evidence
+        +List~String~ keywords
+        +List~String~ synonyms
+        +String logic
+        +String explanation
+        +String skill
+        +int difficulty
+    }
+    class ReadingOption {
+        +int id
+        +int questionId
+        +int orderIndex
+        +String label
+        +String content
+        +bool isCorrect
+    }
+
+    %% ===== 用户库（读写） =====
+    class User {
+        +String id
+        +DateTime createdAt
+        +DateTime updatedAt
+    }
+    class UserProfile {
+        +String userId
+        +String displayName
+        +String weakestSkill
+        +bool onboardingCompleted
+    }
+    class StudyGoal {
+        +int id
+        +String userId
+        +double targetBand
+        +DateTime examDate
+        +int dailyStudyMinutes
+        +PlanType planType
+        +bool isActive
+    }
+    class StudyPlan {
+        +int id
+        +String userId
+        +int goalId
+        +int dayIndex
+        +String planDate
+        +PlanPhase phase
+        +String summaryJson
+    }
+    class DailyTask {
+        +int id
+        +String userId
+        +String planDate
+        +TaskType taskType
+        +String skill
+        +String title
+        +int targetMinutes
+        +int itemCount
+        +int completedCount
+        +TaskStatus status
+        +int sortOrder
+        +String payloadJson
+    }
+    class VocabularyReview {
+        +int id
+        +String userId
+        +int vocabularyId
+        +int memoryLevel
+        +int correctCount
+        +int wrongCount
+        +int streak
+        +DateTime lastReviewedAt
+        +DateTime nextReviewAt
+        +bool isMastered
+        +bool isFavorite
+    }
+    class SkillScore {
+        +int id
+        +String userId
+        +String skill
+        +double score
+        +int currentDifficulty
+        +int sampleCount
+        +DateTime lastPracticedAt
+    }
+    class UserAnswer {
+        +int id
+        +String userId
+        +RefType refType
+        +int refId
+        +String skill
+        +String userAnswer
+        +bool isCorrect
+        +int difficulty
+        +int timeSpentMs
+        +String sessionId
+        +DateTime answeredAt
+    }
+    class Mistake {
+        +int id
+        +String userId
+        +RefType refType
+        +int refId
+        +String questionType
+        +String skill
+        +String userAnswer
+        +String correctAnswer
+        +ErrorType errorType
+        +int difficulty
+        +int wrongCount
+        +DateTime lastWrongAt
+        +double mastery
+    }
+    class LearningSession {
+        +String id
+        +String userId
+        +String sessionType
+        +DateTime startedAt
+        +DateTime endedAt
+        +int durationSec
+        +int itemsCompleted
+        +String checkpointJson
+        +String status
+    }
+    class LearningStatistics {
+        +int id
+        +String userId
+        +String statDate
+        +int studyMinutes
+        +int questionsAnswered
+        +int correctCount
+        +int wordsReviewed
+        +int wordsMastered
+        +int currentStreak
+        +String lastStudyDate
+        +int totalStudyMinutes
+    }
+    class AppSetting {
+        +int id
+        +String userId
+        +String key
+        +String value
+    }
+    class ContentMetadata {
+        +int id
+        +String contentVersion
+        +String appCompatibility
+        +int vocabularyCount
+        +int readingCount
+        +String checksum
+        +DateTime importedAt
+    }
+    class Favorite {
+        +int id
+        +String userId
+        +RefType refType
+        +int refId
+    }
+    class Note {
+        +int id
+        +String userId
+        +RefType refType
+        +int refId
+        +String content
+    }
+
+    %% ===== 领域服务（纯 Dart，无 IO） =====
+    class MemoryService {
+        +applyResult(level, correct, streak, now) MemoryResult
+        +intervalFor(level) Duration
+    }
+    class SkillScoreService {
+        +update(skill, recentAnswers, now) double
+    }
+    class PriorityService {
+        +recompute(scores, recentErrors, now) List~Priority~
+    }
+    class DifficultyService {
+        +evaluate(window) DifficultyAction
+    }
+    class DailyPlanService {
+        +buildDailyPlan(input) List~DailyTask~
+    }
+    class PhaseService {
+        +phaseOf(daysRemaining) PlanPhase
+    }
+    class MasteryService {
+        +evolve(mastery, correct) double
+    }
+    class StreakService {
+        +onStudyEvent(stats, now) int
+    }
+    class GradingService {
+        +grade(question, userAnswer) GradeResult
+    }
+    class ClockService {
+        +now() DateTime
+    }
+    class ContentLoaderService {
+        +initialize() InitProgress
+        +importContentDb() void
+    }
+
+    %% ===== 仓储（领域层唯一数据接口） =====
+    class VocabularyRepository {
+        +page(offset, limit) List~Vocabulary~
+        +dueForReview(userId, now) List~VocabularyReview~
+    }
+    class ReadingRepository {
+        +listPassages() List~ReadingPassage~
+        +getPassage(id) ReadingPassage
+    }
+    class MistakesRepository {
+        +upsert(mistake) void
+        +page(userId, filter) List~Mistake~
+    }
+    class UserRepository {
+        +ensureLocalUser() UserProfile
+        +saveGoal(goal) void
+    }
+    class StudyPlanRepository {
+        +saveTasks(tasks) void
+        +todayTasks(userId, date) List~DailyTask~
+    }
+    class StatisticsRepository {
+        +recordSession(session) void
+        +updateDaily(stats) void
+    }
+
+    %% ===== 关系 =====
+    User "1" --> "1" UserProfile : has
+    User "1" --> "1" StudyGoal : has
+    User "1" --> "many" DailyTask : owns
+    User "1" --> "many" VocabularyReview : owns
+    User "1" --> "many" SkillScore : owns
+    User "1" --> "many" UserAnswer : owns
+    User "1" --> "many" Mistake : owns
+    User "1" --> "many" LearningSession : owns
+    User "1" --> "1" LearningStatistics : has
+    User "1" --> "many" AppSetting : owns
+    StudyGoal "1" --> "many" StudyPlan : generates
+    LearningSession "1" --> "many" UserAnswer : groups
+    Vocabulary "1" --> "many" VocabularyTopic : tagged
+    Vocabulary "1" --> "many" VocabularyReview : tracked-by
+    ReadingPassage "1" --> "many" ReadingQuestion : contains
+    ReadingQuestion "1" --> "many" ReadingOption : has
+    ReadingQuestion "1" --> "many" UserAnswer : answered-by
+    ReadingQuestion "1" --> "many" Mistake : may-become
+
+    MemoryService ..> VocabularyReview : updates
+    SkillScoreService ..> UserAnswer : reads
+    SkillScoreService ..> SkillScore : writes
+    PriorityService ..> Mistake : reads
+    DifficultyService ..> SkillScore : adjusts
+    DailyPlanService ..> PriorityService : uses
+    DailyPlanService ..> DailyTask : produces
+    PhaseService ..> StudyGoal : reads
+    MasteryService ..> Mistake : updates
+    StreakService ..> LearningStatistics : updates
+    GradingService ..> ReadingQuestion : grades
+    ContentLoaderService ..> ContentMetadata : writes
+
+    VocabularyRepository ..> Vocabulary
+    ReadingRepository ..> ReadingPassage
+    MistakesRepository ..> Mistake
+    UserRepository ..> UserProfile
+    StudyPlanRepository ..> DailyTask
+    StatisticsRepository ..> LearningStatistics

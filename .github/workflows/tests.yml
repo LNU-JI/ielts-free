@@ -1,0 +1,49 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  analyze-and-test:
+    name: Analyze & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter version
+        run: flutter --version
+
+      # sqflite_common_ffi loads the system SQLite shared library on the test
+      # host; ubuntu-latest does not ship libsqlite3.so, so install it first.
+      - name: Install SQLite (sqflite_common_ffi on Linux)
+        run: sudo apt-get update && sudo apt-get install -y libsqlite3-dev
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed lib test
+        continue-on-error: true
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test
+
+      # -----------------------------------------------------------------------
+      # NOTE (Route B): IELTS Free uses sqflite + sqflite_common_ffi with
+      # hand-written SQL/DAOs. There is intentionally NO code-generation step
+      # here (no build_runner / drift / json_serializable).
+      # -----------------------------------------------------------------------

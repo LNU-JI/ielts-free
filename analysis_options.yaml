@@ -1,0 +1,30 @@
+# Static analysis configuration for IELTS Free.
+#
+# Route B (sqflite + sqflite_common_ffi) uses NO code generation, so there is
+# nothing to exclude here — the whole lib/ tree is analyzed as-is.
+
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  language:
+    # Strict type checking: no implicit downcasts, no implicit dynamic,
+    # no raw generic types. This keeps the hand-written data layer honest.
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+
+  errors:
+    # `print` is banned across the app (logs must go through the local logger
+    # only, never to stdout in production builds).
+    avoid_print: error
+    # Treat unused code as a hard failure so dead imports never ship.
+    unused_import: error
+    unused_local_variable: error
+  exclude:
+    - build/**
+    - android/**
+    - windows/**
+
+linter:
+  rules:
+    avoid_print: true

@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+      PROFILE-ONLY manifest. INTERNET is required here for profile builds
+      (VM service). It is intentionally NOT present in the release manifest.
+    -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+</manifest>

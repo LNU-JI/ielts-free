@@ -1,0 +1,12 @@
+# Offline content pipeline (T02).
+#
+# Scripts here validate and compile the seed JSON into the read-only content
+# database. They are NOT part of the shipped app.
+#
+# Planned contents:
+#   - README.md
+#   - requirements.txt
+#   - schema.sql
+#   - validate_content.py
+#   - build_content_db.py
+#   - vocabulary/ reading/ validators/ generated/

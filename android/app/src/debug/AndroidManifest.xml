@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+      DEBUG-ONLY manifest. INTERNET is required here for Flutter hot reload and
+      the Dart VM service. It is intentionally NOT present in the release
+      manifest (src/main/AndroidManifest.xml).
+    -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+</manifest>

@@ -1,0 +1,101 @@
+name: ielts_free
+description: Free, offline-first, open-source IELTS learning app. No account, no server, no AI required.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+  flutter: '>=3.22.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management (no riverpod_generator / no codegen).
+  flutter_riverpod: ^2.5.1
+
+  # Declarative routing + ShellRoute.
+  go_router: ^14.2.0
+
+  # Local SQLite. Android/iOS use sqflite; Windows/Linux/macOS use the ffi factory.
+  sqflite: ^2.3.3
+  sqflite_common_ffi: ^2.3.3
+
+  # Paths & filesystem locations.
+  path: ^1.9.0
+  path_provider: ^2.1.3
+
+  # Date / number formatting (bundled data only, no l10n codegen).
+  intl: ^0.19.0
+
+  # Collection helpers.
+  collection: ^1.18.0
+
+  # SHA256 for content-package / backup integrity checks (pure computation).
+  crypto: ^3.0.3
+
+  # Session / answer identifiers.
+  uuid: ^4.4.0
+
+  # Local-only logging (never uploaded).
+  logging: ^1.2.0
+
+  # NOTE (Route B): This project uses sqflite + sqflite_common_ffi with
+  # hand-written SQL and DAOs. There is intentionally NO drift / build_runner.
+  #
+  # Intentionally NOT included (offline red line, see docs/ARCHITECTURE-v0.1.md 8.1):
+  #   google_fonts, dio, http, web_socket_channel, firebase_*, shared_preferences,
+  #   just_audio (V0.2), chart libraries (V0.2), build_runner, drift.
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  mocktail: ^1.0.4
+
+flutter:
+  uses-material-design: true
+
+  # Route B needs NO code generation step: `flutter pub get` -> `flutter run`.
+  # No custom fonts are declared on purpose (fully offline, system fonts only).
+  #
+  # `assets/seed/` is declared as a DIRECTORY so that new seed files added later
+  # are picked up automatically without editing this file again. The other asset
+  # folders (images/ icons/ audio/) exist as placeholders and are declared as
+  # directories too.
+  assets:
+    - assets/seed/
+    - assets/images/
+    - assets/icons/
+    - assets/audio/
+
+# ---------------------------------------------------------------------------
+# Native-asset hook configuration for `package:sqlite3` (a transitive dependency
+# of sqflite_common_ffi, which backs the desktop/test database factory).
+#
+# By default `package:sqlite3` downloads a pre-compiled `sqlite3.x64.windows.dll`
+# from GitHub Releases. In networks where github.com is unreachable that download
+# fails with `SocketException: connection timed out` and `flutter test` aborts
+# with "Building native assets failed".
+#
+# `url_pattern` (documented in
+# https://pub.dev/documentation/sqlite3/latest/topics/hook-topic.html) redirects
+# that download to a mirror. The artifact is still verified against the sha256
+# recorded inside `package:sqlite3`, so a mirror cannot substitute a different
+# binary — an incorrect file is rejected by the hook.
+#
+#   $RELEASE_TAG -> e.g. "sqlite3-3.7.0"
+#   $FILENAME    -> e.g. "sqlite3.x64.windows.dll"
+#
+# If your network can reach github.com directly, delete this whole `hooks:`
+# section — it is only needed as a fallback. Alternative escape hatches, both
+# documented upstream, are `source: system` (use the OS-provided SQLite, e.g.
+# `winsqlite3.dll` on Windows) or `source: source` (compile from sqlite3.c).
+# ---------------------------------------------------------------------------
+hooks:
+  user_defines:
+    sqlite3:
+      source: sqlite3
+      url_pattern: "https://ghproxy.net/https://github.com/simolus3/sqlite3.dart/releases/download/$RELEASE_TAG/$FILENAME"

@@ -1,0 +1,36 @@
+# Normalise line endings so the repository is identical on every platform.
+#
+# Without this, Windows' `core.autocrlf=true` can check out `android/gradlew`
+# (a bash script with no extension) with CRLF endings, which makes the Android
+# build fail on Linux CI with `bad interpreter: /bin/sh^M`.
+* text=auto eol=lf
+
+# Windows-only scripts must keep CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Shell scripts and Gradle wrappers must stay LF.
+gradlew text eol=lf
+*.sh text eol=lf
+
+# Binary assets — never touch these.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.jar binary
+*.zip binary
+*.db binary
+*.sqlite binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.dll binary
+*.so binary
+*.dylib binary

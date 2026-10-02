@@ -1,0 +1,13 @@
+{
+  "contentVersion": "1.0.0",
+  "appCompatibility": ">=0.1.0 <0.2.0",
+  "vocabularyCount": 300,
+  "readingCount": 8,
+  "readingQuestionCount": 80,
+  "listeningCount": 0,
+  "writingCount": 0,
+  "speakingCount": 0,
+  "generatedAt": "2026-10-01T04:54:31Z",
+  "checksum": "98b871a9cd58ce4b5a27fcfd539c187bc5ecc8f606abf9f87fec32788bc78607",
+  "contentDigest": "eac3609cabc79d6993b41124a4b4873568f225e7200049a00e9aff8039de29c3"
+}

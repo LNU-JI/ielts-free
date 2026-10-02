@@ -1,0 +1,102 @@
+%% IELTS Free V0.1 —— 核心时序图合集
+%% 图 1：首次启动初始化
+%% 图 2：做一道阅读题 → 错题入库 → 能力更新（闭环）
+%% 图 3：词汇复习 → 记忆等级更新
+
+%% =========================================================
+%% 图 1：首次启动初始化
+%% =========================================================
+sequenceDiagram
+    autonumber
+    participant M as main.dart
+    participant BS as BootstrapProvider
+    participant CL as ContentLoaderService
+    participant ADB as AppDatabase
+    participant CDB as ContentDatabase
+    participant URepo as UserRepository
+    participant R as Router
+
+    M->>M: initDatabaseFactory() (sqflite / ffi)
+    M->>BS: bootstrap()
+    BS->>ADB: existsUserDb()?
+    alt 首次启动
+        BS->>ADB: openUserDb(version:1) → onCreate → runMigrations(0→1)
+        ADB-->>BS: 建全部用户表 + 索引
+        BS->>CL: importContentDb()
+        CL->>CL: rootBundle.load(assets/seed/ielts_content_v1.db)
+        CL->>CDB: 复制到 documents/content/
+        CL->>CDB: openDatabase(readOnly:true)
+        CL->>CL: SHA256 校验 vs manifest
+        CL-->>BS: 导入成功 + content_metadata 写入用户库
+    else 非首次
+        BS->>ADB: openUserDb(version:1)
+        BS->>CDB: openContentDb(readOnly:true)
+    end
+    BS->>URepo: ensureLocalUser() → users + user_profile(onboarding_completed=0)
+    BS-->>R: BootstrapState.ready(onboardingCompleted:false)
+    R-->>M: redirect → /onboarding
+
+%% =========================================================
+%% 图 2：做一道阅读题 → 错题入库 → 能力更新（闭环）
+%% =========================================================
+sequenceDiagram
+    autonumber
+    participant U as User
+    participant RC as ReadingSessionController
+    participant GS as GradingService
+    participant ARepo as AnswerRepository
+    participant MRepo as MistakesRepository
+    participant MSS as MasteryService
+    participant SSS as SkillScoreService
+    participant PS as PriorityService
+    participant DPS as DailyPlanService
+    participant DC as DashboardController
+
+    U->>RC: 提交第 n 题(userAnswer)
+    RC->>GS: grade(question, userAnswer)
+    GS-->>RC: isCorrect + normalizedAnswer
+    RC->>ARepo: insert(user_answers)
+    alt 答错
+        RC->>MRepo: upsert(ref_type=READING, ref_id, error_type)
+        MRepo->>MSS: evolve(mastery, correct=false)
+        MSS-->>MRepo: mastery = max(0, m-0.2)
+        MRepo-->>RC: mistake 更新 (wrong_count++, last_wrong_at)
+    end
+    RC->>SSS: update(skill=READING_TFNG, recent answers)
+    SSS-->>RC: newScore (0..100, 平滑)
+    RC->>PS: recompute(skillScores, recentErrors)
+    PS-->>RC: priority 列表
+    RC->>DPS: refreshToday(priority, phase)
+    DPS-->>RC: 更新 daily_tasks（下一次训练变化）
+    RC->>DC: ref.invalidate(dashboardController)
+    DC-->>U: 首页进度/能力/任务清单已变化
+
+%% =========================================================
+%% 图 3：词汇复习 → 记忆等级更新
+%% =========================================================
+sequenceDiagram
+    autonumber
+    participant U as User
+    participant PC as PracticeController
+    participant GS as GradingService
+    participant VR as VocabularyReviewRepository
+    participant MS as MemoryService
+    participant MRepo as MistakesRepository
+    participant SSS as SkillScoreService
+    participant DC as DashboardController
+
+    U->>PC: 作答(correct / 不认识)
+    PC->>GS: grade(type, word, userAnswer)
+    GS-->>PC: isCorrect
+    PC->>VR: get(user_id, vocabulary_id)
+    VR-->>PC: 当前 review(level, streak, counts)
+    PC->>MS: applyResult(level, correct, streak, now)
+    MS-->>PC: {level', nextReviewAt, streak', counts'}
+    PC->>VR: upsert(review)
+    alt 答错
+        PC->>MRepo: upsert(ref_type=VOCABULARY, error_type=Word Meaning)
+    end
+    PC->>SSS: update(skill=VOCABULARY, recent answers)
+    SSS-->>PC: newScore
+    PC->>DC: ref.invalidate(dashboardController)
+    DC-->>U: 复习队列/掌握词汇数/能力分更新

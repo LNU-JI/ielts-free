@@ -1,0 +1,12 @@
+# Content pipeline — requirements (V0.1)
+
+**V0.1 uses the Python standard library only. No third-party packages are
+required.**
+
+```bash
+# nothing to install
+```
+
+The pipeline relies on `json`, `sqlite3`, `hashlib`, `pathlib`, `re`, `sys` and
+`datetime` from the standard library. This keeps the toolchain reproducible and
+avoids a `pip install` step in CI (see `docs/BRIEF.md` §47/§89/§90).

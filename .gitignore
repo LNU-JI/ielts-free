@@ -1,0 +1,66 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# ...but settings.json holds machine-specific absolute paths (SDK / pub-cache
+# exclusions), so it must never be committed.
+.vscode/settings.json
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Windows / Android ephemeral build artifacts
+/windows/flutter/ephemeral/
+/android/.gradle/
+/android/local.properties
+/android/key.properties
+*.keystore
+*.jks
+
+# -----------------------------------------------------------------------------
+# NOTE (Route B): This project uses NO code generation.
+# We intentionally do NOT ignore `*.g.dart` / `*.freezed.dart` / `*.mocks.dart`
+# because they must never exist in this repository. If you ever see such a file,
+# something has gone wrong with the architecture decision (see
+# docs/ARCHITECTURE-v0.1.md section 2.1).
+# -----------------------------------------------------------------------------
