@@ -7,8 +7,61 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Listening module.** The six-step intensive-listening loop distilled from
+  established IELTS method: blind listen → sentence dictation → compare with the
+  transcript → **classify the error** → shadow the audio → replay the section.
+  Audio is synthesised on device with `flutter_tts` (per sentence, slow mode,
+  per-speaker pitch), so the content pack ships **no audio files at all** —
+  strictly more offline than shipping mp3s. Mistakes are filed under a five-way
+  taxonomy (unknown word / phonetics / spelling / comprehension / paraphrase),
+  each with advice on how to fix that class of error, and hard sentences can be
+  kept in a sentence book for repeat practice.
+- **Speaking module.** Part 1/2/3 with the real timings (Part 2 gets 60 s
+  preparation and 120 s to speak), cue cards, notes, microphone recording kept
+  in the app's own documents directory, replay, and a five-item
+  self-assessment. There is deliberately **no AI scoring** — the
+  self-assessment is its offline replacement.
+- **Writing module.** Timed writing with a live word count that handles mixed
+  CJK/Latin text, Task 1 charts drawn with `CustomPainter` (line / bar / pie)
+  and a `Table` for tabular data — **no charting dependency** — sample-essay
+  comparison with paragraph outline and annotated highlights, and a phrase bank.
+- **Statistics page.** Cumulative overview, five-dimension skill radar and a
+  predicted band, all drawn with `CustomPainter`, plus the listening error-type
+  breakdown.
+- **Content pack v2.0.0.** 6 listening sections (97 sentence cues, 31 questions),
+  13 speaking topics (51 questions), 10 writing tasks with 10 sample essays and
+  45 phrases. All original — no official IELTS material is reproduced.
+
+### Changed
+
+- **User database schema is now v3.** Migration step 3 adds five additive tables
+  (`listening_error_log`, `sentence_book`, `speaking_attempts`,
+  `writing_attempts`, `phrase_book`). Verified against a real sqlite3 database:
+  every v1 table survives with unchanged row counts, user values are untouched
+  and `user_version` ends at 3.
+- **Two new dependencies**, both for local-only audio: `flutter_tts` synthesises
+  the listening audio and `just_audio` replays the user's own recording.
+  `audioplayers` was evaluated first but rejected because its dependency tree
+  pulls in `http`, which this project bans — the lock file contains no `http`,
+  `dio`, `firebase`, `google_fonts`, `web_socket_channel` or
+  `shared_preferences`.
+- Android gains `RECORD_AUDIO` only. **The release manifest still declares no
+  `INTERNET` permission**; the offline red line is intact.
+
 ### Fixed
 
+- `listening_questions.options` is an array of `{label, content}` objects, not
+  an array of strings — the model would have silently dropped every option of
+  every multiple-choice question.
+- `writing_samples.outline` is an array of `{section, content}` objects, not an
+  array of strings — the paragraph outline would have been dropped.
+- `tool/verify/schema_diff.py` normalised SQL comments on one side only, so
+  adding the same comment to both schema copies was reported as a difference.
+- `tool/verify/verify_migration.py` hard-coded the v2 block and could not read
+  Dart triple-quoted strings. It is now version-agnostic: it discovers every
+  step in `migrationSteps` and applies them in order.
 - **Android build configuration realigned with Flutter 3.47.5.** The scaffolding
   had been written against the Flutter 3.22-era templates and could not build
   with the installed toolchain. Gradle `8.3` → `9.3.1`, Android Gradle Plugin
