@@ -33,7 +33,35 @@ Create one at <https://github.com/settings/tokens>.
 > `git remote add origin git@github.com:<YOUR-USERNAME>/ielts-free.git`
 > and make sure your SSH key is registered with GitHub.
 
-### 1.3 Fix the commit author (optional)
+### 1.3 If the push fails
+
+**`fatal: 'origin' does not appear to be a git repository`**
+or **`The requested URL returned error: 400`**
+
+The remote URL still contains the literal placeholder. Check what it actually
+points at, then correct it:
+
+```powershell
+git remote -v
+git remote set-url origin https://github.com/<YOUR-USERNAME>/ielts-free.git
+```
+
+**`Repository not found`** — the repository has not been created on GitHub yet,
+or the token has no access to it. Create it first (step 1.1), and make sure the
+token has the `repo` scope.
+
+**`Authentication failed`** — GitHub rejects account passwords over HTTPS. Create
+a Personal Access Token (classic, scope `repo`) at
+<https://github.com/settings/tokens> and paste it when Git asks for a password.
+
+**`src refspec main does not match any`** — you are not on the `main` branch:
+
+```powershell
+git branch --show-current
+git checkout -b main
+```
+
+### 1.4 Fix the commit author (optional)
 
 The two existing commits were created with a placeholder identity. To rewrite
 them under your own name and e-mail:
