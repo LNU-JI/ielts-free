@@ -6,6 +6,31 @@ library;
 import 'package:ielts_free/core/models/enums/listening_question_type.dart';
 import 'package:ielts_free/core/models/json_utils.dart';
 
+/// A selectable option for a choice-style listening question.
+///
+/// Stored in `listening_questions.options` as a JSON array of objects with
+/// `label` (`A`/`B`/`C`/`D`) and `content` keys — the same shape the reading
+/// module uses, so the two can share option widgets.
+class ListeningOption {
+  const ListeningOption({required this.label, required this.content});
+
+  /// Option label, e.g. `A`.
+  final String label;
+
+  /// Option text.
+  final String content;
+
+  /// Builds a [ListeningOption] from a decoded JSON object.
+  factory ListeningOption.fromMap(Map<String, Object?> map) => ListeningOption(
+        label: asString(map['label']) ?? '',
+        content: asString(map['content']) ?? '',
+      );
+
+  /// Serialises back to the JSON shape used in the content pack.
+  Map<String, Object?> toMap() =>
+      <String, Object?>{'label': label, 'content': content};
+}
+
 /// A distractor: a tempting wrong answer and why it is wrong.
 ///
 /// Stored in `listening_questions.distractors` as a JSON array of objects with
@@ -35,7 +60,7 @@ class ListeningQuestion {
     required this.orderIndex,
     required this.type,
     required this.prompt,
-    this.options = const <String>[],
+    this.options = const <ListeningOption>[],
     required this.answer,
     this.alternatives = const <String>[],
     this.evidenceCueId,
@@ -59,7 +84,7 @@ class ListeningQuestion {
   final String prompt;
 
   /// Selectable options for choice-style questions.
-  final List<String> options;
+  final List<ListeningOption> options;
 
   /// The correct answer.
   final String answer;
@@ -88,7 +113,9 @@ class ListeningQuestion {
         orderIndex: intOrDefault(map['order_index'], 0),
         type: ListeningQuestionType.fromWire(asString(map['question_type'])),
         prompt: asString(map['prompt']) ?? '',
-        options: decodeStringList(map['options']),
+        options: decodeMapList(map['options'])
+            .map(ListeningOption.fromMap)
+            .toList(growable: false),
         answer: asString(map['answer']) ?? '',
         alternatives: decodeStringList(map['alternatives']),
         evidenceCueId: asInt(map['evidence_cue_id']),
@@ -105,7 +132,9 @@ class ListeningQuestion {
         'order_index': orderIndex,
         'question_type': type.wire,
         'prompt': prompt,
-        'options': encodeStringList(options),
+        'options': encodeMapList(<Map<String, Object?>>[
+          for (final ListeningOption o in options) o.toMap(),
+        ]),
         'answer': answer,
         'alternatives': encodeStringList(alternatives),
         'evidence_cue_id': evidenceCueId,

@@ -592,4 +592,110 @@ abstract final class AppStrings {
   static const String errorDatabase = '本地数据访问失败，请重试。';
   static const String errorContentMissing = '内容库加载失败，请重新安装应用。';
   static const String errorNotImplemented = '该功能尚未实现。';
+
+  // --- Listening (V0.2) ---------------------------------------------------
+
+  static const String listeningTitle = '听力精听';
+  static const String listeningIntro =
+      '精听的重点不是反复播放，而是找出「为什么没听出来」。';
+  static const String listeningEmpty = '暂无听力素材。';
+
+  /// The eight-step intensive-listening loop distilled from IELTS method.
+  static const String listeningStepBlind = '盲听';
+  static const String listeningStepBlindHint = '不暂停、不查词、不看原文，只听大意。';
+  static const String listeningStepDictation = '逐句听写';
+  static const String listeningStepDictationHint = '每句最多听 3–5 遍，听不出来先标记。';
+  static const String listeningStepCheck = '对照原文';
+  static const String listeningStepCheckHint = '原文是用来诊断问题的，不是用来提前降低难度的。';
+  static const String listeningStepClassify = '错因分类';
+  static const String listeningStepClassifyHint = '知道「为什么错」，下一轮才可能改得过来。';
+  static const String listeningStepShadow = '跟读模仿';
+  static const String listeningStepShadowHint = '模仿原音的停顿、重音与连读，会读了耳朵才听得出来。';
+  static const String listeningStepReplay = '整段复听';
+  static const String listeningStepReplayHint = '不看原文，确认能跟住信息与题目对应关系。';
+
+  static const String listeningPlayAll = '整段播放';
+  static const String listeningPlaySentence = '播放本句';
+  static const String listeningPlaySlow = '慢速';
+  static const String listeningShowTranslation = '显示翻译';
+  static const String listeningHideTranslation = '隐藏翻译';
+  static const String listeningShowTranscript = '显示原文';
+  static const String listeningHideTranscript = '隐藏原文';
+  static const String listeningPhoneticTraps = '语音难点';
+  static const String listeningEvidence = '原文定位';
+  static const String listeningDistractors = '干扰项分析';
+  static const String listeningTtsUnavailable = '当前设备不支持语音合成，无法播放音频。';
+  static const String listeningAddToSentenceBook = '收藏这句';
+  static const String listeningInSentenceBook = '已收藏';
+  static const String listeningDictationHint = '写下你听到的内容，写不出的地方留空。';
+
+  // --- Speaking (V0.2) ----------------------------------------------------
+
+  static const String speakingTitle = '口语训练';
+  static const String speakingIntro = '录音回放自评，比「感觉说顺了」可靠得多。';
+  static const String speakingEmpty = '暂无口语题库。';
+  static const String speakingCueCard = '提纲卡';
+  static const String speakingPreparation = '准备时间';
+  static const String speakingSpeaking = '作答时间';
+  static const String speakingStartPrep = '开始准备';
+  static const String speakingStartSpeaking = '开始作答';
+  static const String speakingStop = '停止';
+  static const String speakingReplay = '回放录音';
+  static const String speakingSelfRating = '自评清单';
+  static const String speakingSampleAnswer = '参考答案';
+  static const String speakingKeyPhrases = '高分表达';
+  static const String speakingFollowUps = '可能追问';
+  static const String speakingMicDenied = '需要麦克风权限才能录音。';
+  static const String speakingTimeUp = '时间到';
+
+  /// Self-assessment prompts — the offline stand-in for AI pronunciation
+  /// scoring, which this app deliberately does not do.
+  static const String speakingRateFluency = '流畅度：有没有长时间停顿？';
+  static const String speakingRateClarity = '清晰度：咬字是否清楚？';
+  static const String speakingRatePace = '节奏：语速是否自然？';
+  static const String speakingRateContent = '内容：要点是否说全？';
+  static const String speakingRateGrammar = '语法：有没有明显错误？';
+
+  // --- Writing (V0.2) -----------------------------------------------------
+
+  static const String writingTitle = '写作训练';
+  static const String writingIntro = '计时写作 + 字数统计 + 范文对照，考前把节奏练稳。';
+  static const String writingEmpty = '暂无写作题目。';
+  static const String writingTask1 = 'Task 1';
+  static const String writingTask2 = 'Task 2';
+  static const String writingTask1Hint = '图表描述，至少 150 词，建议 20 分钟。';
+  static const String writingTask2Hint = '议论文，至少 250 词，建议 40 分钟。';
+  static const String writingPrompt = '题目';
+  static const String writingChart = '图表数据';
+  static const String writingOutline = '结构提纲';
+  static const String writingStartWriting = '开始写作';
+  static const String writingYourEssay = '你的文章';
+  static const String writingWordCount = '字数';
+  static const String writingTargetWords = '目标';
+  static const String writingTimeLeft = '剩余时间';
+  static const String writingSave = '保存';
+  static const String writingSaved = '已保存';
+  static const String writingSample = '范文对照';
+  static const String writingAnnotations = '亮点句';
+  static const String writingPhraseBank = '句型库';
+  static const String writingAddPhrase = '收藏句型';
+  static const String writingUnderLength = '字数不足，考试会扣分。';
+
+  // --- Statistics (V0.2) --------------------------------------------------
+
+  static const String statisticsTitle = '学习统计';
+  static const String statisticsIntro = '看得见进步，才坚持得下去。';
+  static const String statisticsRadar = '能力雷达';
+  static const String statisticsPredictedBand = '预估分数';
+  static const String statisticsPredictedHint =
+      '基于本地答题正确率估算，仅供参考，不代表真实考试成绩。';
+  static const String statisticsTrend = '近 7 天趋势';
+  static const String statisticsTotalTime = '累计学习时长';
+  static const String statisticsQuestionsAnswered = '累计答题';
+  static const String statisticsAccuracy = '正确率';
+  static const String statisticsStreak = '连续学习';
+  static const String statisticsErrorBreakdown = '听力错因分布';
+  static const String statisticsNoData = '完成一些练习后，这里会出现你的数据。';
+  static const String statisticsMinutes = '分钟';
+  static const String statisticsDays = '天';
 }

@@ -1,0 +1,214 @@
+{
+  "version": "1.0.0",
+  "generatedBy": "content_pipeline",
+  "note": "All speaking topics, questions and sample answers are original IELTS-style material written for IELTS Free. They are not copied from any official test material.",
+  "topics": [
+    {
+      "id": 1,
+      "part": 1,
+      "topic": "Hometown",
+      "title": "Your Hometown",
+      "cue_card": null,
+      "prep_seconds": null,
+      "speak_seconds": 30,
+      "difficulty": 2,
+      "questions": [
+        {"id": 101, "question": "Where is your hometown?", "question_cn": "你的家乡在哪里？", "sample_answer": "My hometown is a medium-sized city in the south of the country, about an hour from the coast. It's not a famous tourist destination, but it's a comfortable place to live, and most of my family still lives there.", "key_phrases": ["a medium-sized city", "about an hour from the coast", "a comfortable place to live"], "follow_ups": []},
+        {"id": 102, "question": "What do you like most about your hometown?", "question_cn": "你最喜欢家乡的什么？", "sample_answer": "I'd say the pace of life. It's busy enough to have everything you need, but it never feels as rushed as a big city. I also love the food market near my old school, where you can buy fresh vegetables at very reasonable prices.", "key_phrases": ["the pace of life", "busy enough to", "at very reasonable prices"], "follow_ups": []},
+        {"id": 103, "question": "Has your hometown changed much in recent years?", "question_cn": "近年来你的家乡变化大吗？", "sample_answer": "Quite a lot, actually. They've built a new railway station and several shopping centres, so the city feels more modern than it did when I was a child. Some older residents miss the quiet streets, though.", "key_phrases": ["quite a lot, actually", "more modern than it did", "older residents miss"], "follow_ups": []},
+        {"id": 104, "question": "Would you like to live there in the future?", "question_cn": "你将来想住在那里吗？", "sample_answer": "Possibly, though not immediately. I'd like to work in a bigger city for a few years to gain experience, and then maybe move back. My hometown is a great place to raise a family, so I can see myself returning one day.", "key_phrases": ["not immediately", "gain experience", "I can see myself returning"], "follow_ups": []}
+      ]
+    },
+    {
+      "id": 2,
+      "part": 1,
+      "topic": "Work and Study",
+      "title": "Work and Study",
+      "cue_card": null,
+      "prep_seconds": null,
+      "speak_seconds": 30,
+      "difficulty": 2,
+      "questions": [
+        {"id": 201, "question": "Do you work or are you a student?", "question_cn": "你在工作还是上学？", "sample_answer": "I'm a full-time student at the moment, studying business. I chose it because I'm interested in how companies make decisions, and I hope it will open up a range of career options later on.", "key_phrases": ["at the moment", "a range of career options", "later on"], "follow_ups": []},
+        {"id": 202, "question": "What do you enjoy most about your studies?", "question_cn": "你最喜欢学业的哪一点？", "sample_answer": "I really enjoy the group projects. They force you to explain your ideas clearly and listen to other people, which is a skill I think I'll use throughout my career. The exams, on the other hand, I could live without.", "key_phrases": ["I really enjoy", "force you to", "I could live without"], "follow_ups": []},
+        {"id": 203, "question": "What kind of job would you like to do in the future?", "question_cn": "你将来想做什么样的工作？", "sample_answer": "Ideally something that combines analysis with working with people, perhaps in marketing or consulting. I'd hate to sit alone at a desk all day, so a role with plenty of interaction would suit me better.", "key_phrases": ["Ideally", "combines analysis with", "would suit me better"], "follow_ups": []},
+        {"id": 204, "question": "Is it important to enjoy your work?", "question_cn": "享受工作重要吗？", "sample_answer": "I think it's very important. You spend a huge part of your life at work, so if you dread it every morning, that has a real effect on your health. Of course, salary matters too, but for me enjoyment comes first.", "key_phrases": ["a huge part of your life", "dread it", "enjoyment comes first"], "follow_ups": []}
+      ]
+    },
+    {
+      "id": 3,
+      "part": 1,
+      "topic": "Food",
+      "title": "Food and Cooking",
+      "cue_card": null,
+      "prep_seconds": null,
+      "speak_seconds": 30,
+      "difficulty": 2,
+      "questions": [
+        {"id": 301, "question": "Do you enjoy cooking?", "question_cn": "你喜欢做饭吗？", "sample_answer": "Yes, I do, though I'm no expert. I cook simple meals most evenings — pasta, rice dishes, that sort of thing. I find it relaxing after a long day, and it's much cheaper than eating out.", "key_phrases": ["I'm no expert", "that sort of thing", "much cheaper than eating out"], "follow_ups": []},
+        {"id": 302, "question": "What is your favourite food?", "question_cn": "你最喜欢的食物是什么？", "sample_answer": "Probably noodles with vegetables. It's a dish my grandmother used to make, so it reminds me of my childhood. It's not fancy at all, but for me it's the definition of comfort food.", "key_phrases": ["reminds me of my childhood", "not fancy at all", "comfort food"], "follow_ups": []},
+        {"id": 303, "question": "Do you prefer eating at home or in restaurants?", "question_cn": "你更喜欢在家吃还是在餐厅吃？", "sample_answer": "It depends on the occasion. For everyday meals I'd rather eat at home, because it's healthier and I know exactly what's in the food. But when I'm celebrating something, eating out is a nice treat.", "key_phrases": ["It depends on the occasion", "I'd rather", "a nice treat"], "follow_ups": []},
+        {"id": 304, "question": "Have your eating habits changed in recent years?", "question_cn": "近年来你的饮食习惯有变化吗？", "sample_answer": "Yes, they've changed quite a bit. I used to skip breakfast and eat a lot of fast food, but now I try to cook properly and eat more vegetables. I feel much more energetic as a result.", "key_phrases": ["changed quite a bit", "I used to", "as a result"], "follow_ups": []}
+      ]
+    },
+    {
+      "id": 4,
+      "part": 1,
+      "topic": "Weather",
+      "title": "Weather and Seasons",
+      "cue_card": null,
+      "prep_seconds": null,
+      "speak_seconds": 30,
+      "difficulty": 2,
+      "questions": [
+        {"id": 401, "question": "What kind of weather do you like?", "question_cn": "你喜欢什么样的天气？", "sample_answer": "I'm happiest when it's cool and sunny — around twenty degrees, with a light breeze. I find hot, humid weather quite draining, and I'd rather wear a jacket than sit in front of a fan all day.", "key_phrases": ["I'm happiest when", "quite draining", "I'd rather"], "follow_ups": []},
+        {"id": 402, "question": "Does the weather affect your mood?", "question_cn": "天气会影响你的心情吗？", "sample_answer": "Definitely. On grey, rainy days I feel less motivated and tend to stay indoors, whereas bright sunshine puts me in a much better mood. I suppose that's true for most people.", "key_phrases": ["Definitely", "less motivated", "puts me in a much better mood"], "follow_ups": []},
+        {"id": 403, "question": "What is your favourite season?", "question_cn": "你最喜欢哪个季节？", "sample_answer": "Autumn, without a doubt. The temperature is comfortable, the colours are beautiful, and it's the perfect season for walking. Summer is too hot for me, and winter always feels a bit gloomy.", "key_phrases": ["without a doubt", "the perfect season for", "feels a bit gloomy"], "follow_ups": []},
+        {"id": 404, "question": "Do you check the weather forecast?", "question_cn": "你会查看天气预报吗？", "sample_answer": "Almost every morning, actually. It only takes a few seconds, and it saves me from getting caught in the rain without an umbrella. If heavy rain is forecast, I'll leave home earlier to avoid the traffic.", "key_phrases": ["Almost every morning, actually", "saves me from", "If heavy rain is forecast"], "follow_ups": []}
+      ]
+    },
+    {
+      "id": 5,
+      "part": 1,
+      "topic": "Technology",
+      "title": "Technology in Daily Life",
+      "cue_card": null,
+      "prep_seconds": null,
+      "speak_seconds": 30,
+      "difficulty": 3,
+      "questions": [
+        {"id": 501, "question": "How often do you use your phone?", "question_cn": "你多久用一次手机？", "sample_answer": "Far too often, to be honest. I use it for messages, maps, payments and almost everything in between. I've started leaving it in another room while I study, just to stay focused.", "key_phrases": ["Far too often, to be honest", "almost everything in between", "just to stay focused"], "follow_ups": []},
+        {"id": 502, "question": "What app do you use most?", "question_cn": "你最常用哪个应用？", "sample_answer": "Probably a messaging app, since that's how I keep in touch with friends and family. I also rely heavily on a map app, because I'm hopeless at remembering directions and it has saved me more than once.", "key_phrases": ["keep in touch with", "rely heavily on", "it has saved me more than once"], "follow_ups": []},
+        {"id": 503, "question": "Do you think technology makes life easier?", "question_cn": "你认为科技让生活更轻松了吗？", "sample_answer": "On balance, yes. Tasks that used to take hours now take minutes, and information is available instantly. The downside is that we're always reachable, so it can be hard to switch off completely.", "key_phrases": ["On balance", "The downside is that", "switch off completely"], "follow_ups": []},
+        {"id": 504, "question": "Is there any technology you find difficult to use?", "question_cn": "有没有你觉得难用的科技产品？", "sample_answer": "Smart home devices, I'd say. In theory they're convenient, but setting them up always seems more complicated than the instructions suggest, and I usually end up asking a friend for help.", "key_phrases": ["I'd say", "In theory", "end up asking a friend for help"], "follow_ups": []}
+      ]
+    },
+    {
+      "id": 6,
+      "part": 1,
+      "topic": "Free Time",
+      "title": "Free Time and Hobbies",
+      "cue_card": null,
+      "prep_seconds": null,
+      "speak_seconds": 30,
+      "difficulty": 2,
+      "questions": [
+        {"id": 601, "question": "What do you like to do in your free time?", "question_cn": "你空闲时间喜欢做什么？", "sample_answer": "I like reading and going for long walks, usually with a podcast in my ears. I also play badminton with a couple of friends at the weekend, which is a good way to stay active without it feeling like exercise.", "key_phrases": ["usually with a podcast in my ears", "a good way to stay active", "without it feeling like exercise"], "follow_ups": []},
+        {"id": 602, "question": "Do you prefer to spend free time alone or with others?", "question_cn": "你更喜欢独处还是和别人一起度过空闲时间？", "sample_answer": "It depends on my mood. After a busy week I crave some quiet time on my own, but if I've been working alone all day, meeting friends is exactly what I need. I'd say I'm somewhere in between.", "key_phrases": ["It depends on my mood", "I crave", "somewhere in between"], "follow_ups": []},
+        {"id": 603, "question": "Have you taken up any new hobbies recently?", "question_cn": "你最近有开始新的爱好吗？", "sample_answer": "Yes, I've recently started learning to take better photographs. I'm still a complete beginner, but I've discovered that looking for good shots makes me notice details in ordinary places that I'd otherwise walk past.", "key_phrases": ["recently started learning", "a complete beginner", "otherwise walk past"], "follow_ups": []},
+        {"id": 604, "question": "Do you think people have enough free time these days?", "question_cn": "你认为现在人们有足够的空闲时间吗？", "sample_answer": "Probably not. Many people work long hours and then spend their evenings answering messages, so they never really rest. I think we all need to protect a bit of time each day simply to do nothing.", "key_phrases": ["Probably not", "never really rest", "protect a bit of time"], "follow_ups": []}
+      ]
+    },
+    {
+      "id": 7,
+      "part": 2,
+      "topic": "An Influential Person",
+      "title": "Describe a Person Who Has Influenced You",
+      "cue_card": "Describe a person who has had an important influence on your life.\nYou should say:\n- who this person is\n- how you know them\n- what qualities they have\nand explain why they have influenced you so much.",
+      "prep_seconds": 60,
+      "speak_seconds": 120,
+      "difficulty": 3,
+      "questions": [
+        {"id": 701, "question": "Describe a person who has had an important influence on your life.", "question_cn": "描述一个对你生活有重要影响的人。", "sample_answer": "The person I'd like to talk about is my secondary-school English teacher, Mrs Chen, who taught me for three years. She was strict, but in a way that made you want to do better rather than feel afraid. What struck me most was how much time she gave to students outside class; she would stay behind to help anyone who asked, even on Fridays. Looking back, I think she influenced me in two ways. First, she showed me that effort matters more than natural talent — she often said that a willing student would always overtake a lazy one. Second, and perhaps more importantly, she treated every student as capable, which slowly built my confidence. I was a shy teenager who rarely spoke up, and it was her encouragement that made me comfortable expressing my opinions. Without her, I doubt I would have chosen to study abroad, because it was her belief in me that gave me the courage to apply.", "key_phrases": ["What struck me most", "in a way that", "Looking back", "perhaps more importantly", "built my confidence", "I doubt I would have"], "follow_ups": []},
+        {"id": 702, "question": "Do you still keep in touch with this person?", "question_cn": "你还和这个人保持联系吗？", "sample_answer": "Not as often as I'd like, unfortunately. She retired a few years ago, and we mostly exchange messages around the New Year. I did visit her once when I was back in my hometown, and it was lovely to tell her how much her teaching had meant to me.", "key_phrases": ["Not as often as I'd like", "exchange messages", "how much her teaching had meant to me"], "follow_ups": []},
+        {"id": 703, "question": "Do you think teachers are important influences on young people?", "question_cn": "你认为老师对年轻人有重要影响吗？", "sample_answer": "Absolutely. Children spend a huge amount of time at school, so teachers shape not only what they learn but also how they see themselves. A good teacher can spark a lifelong interest, while a discouraging one can put a student off a subject for years.", "key_phrases": ["Absolutely", "shape not only ... but also", "spark a lifelong interest", "put a student off"], "follow_ups": []}
+      ]
+    },
+    {
+      "id": 8,
+      "part": 2,
+      "topic": "A Place to Relax",
+      "title": "Describe a Place Where You Like to Relax",
+      "cue_card": "Describe a place where you like to relax.\nYou should say:\n- where this place is\n- how often you go there\n- what you do there\nand explain why it helps you to relax.",
+      "prep_seconds": 60,
+      "speak_seconds": 120,
+      "difficulty": 3,
+      "questions": [
+        {"id": 801, "question": "Describe a place where you like to relax.", "question_cn": "描述一个你喜欢放松的地方。", "sample_answer": "The place I'd like to describe is a small park near my home, which sits beside a river. It's nothing spectacular — just a few benches, some old trees and a path that follows the water — but I go there at least twice a week, usually in the early evening. When I'm there, I normally walk for twenty minutes or so and then sit on my favourite bench with a book, though quite often I end up just watching the water and thinking. The reason it helps me relax is that it feels completely removed from the pressures of daily life. There are no screens, no deadlines and no noise except birds and the occasional bicycle. I find that half an hour there clears my head better than any amount of time spent scrolling on my phone, and I always come home feeling calmer and more able to concentrate.", "key_phrases": ["nothing spectacular", "at least twice a week", "end up just watching", "completely removed from", "clears my head", "come home feeling calmer"], "follow_ups": []},
+        {"id": 802, "question": "Would you recommend this place to other people?", "question_cn": "你会把这个地方推荐给别人吗？", "sample_answer": "I would, especially to anyone who lives in the city and needs a break from the crowds. It's not a tourist attraction, so it's rarely busy, and that's exactly what makes it special. I'd just ask people to take their rubbish home with them.", "key_phrases": ["especially to anyone who", "rarely busy", "exactly what makes it special"], "follow_ups": []},
+        {"id": 803, "question": "Do people in your country have enough places to relax?", "question_cn": "你们国家的人有足够的放松场所吗？", "sample_answer": "In the countryside, yes, but in big cities I'd say it's a real problem. Public spaces are often crowded, and many are being built over. I think city planners should protect green areas, because having somewhere peaceful to go is important for everyone's well-being.", "key_phrases": ["I'd say it's a real problem", "being built over", "important for everyone's well-being"], "follow_ups": []}
+      ]
+    },
+    {
+      "id": 9,
+      "part": 2,
+      "topic": "A Skill to Learn",
+      "title": "Describe a Skill You Would Like to Learn",
+      "cue_card": "Describe a skill you would like to learn.\nYou should say:\n- what the skill is\n- how you would learn it\n- how long you think it would take\nand explain why you would like to learn this skill.",
+      "prep_seconds": 60,
+      "speak_seconds": 120,
+      "difficulty": 3,
+      "questions": [
+        {"id": 901, "question": "Describe a skill you would like to learn.", "question_cn": "描述一项你想学习的技能。", "sample_answer": "A skill I've always wanted to learn is speaking Spanish fluently. I studied it for a couple of years at school, but I've forgotten most of it, and I'd love to be able to hold a real conversation. If I were going to learn it properly, I think I'd combine a few methods: I'd take an evening class to get the grammar straight, use a language app for daily practice, and — most importantly — try to speak with native speakers, perhaps through an online exchange. Realistically, I imagine it would take a year or two of steady effort to become reasonably fluent, since languages reward consistency more than short bursts of study. The main reason I want to learn it is that Spanish is spoken in so many countries, and I'd love to travel through Latin America without relying on English. Beyond that, I think learning a language keeps your mind flexible and teaches you to see the world from a different point of view.", "key_phrases": ["I've always wanted to", "hold a real conversation", "combine a few methods", "Realistically", "reward consistency more than", "beyond that"], "follow_ups": []},
+        {"id": 902, "question": "Do you think it is harder to learn a skill as an adult?", "question_cn": "你认为成年后学技能更难吗？", "sample_answer": "In some ways, yes. Adults usually have less free time and can feel embarrassed about making mistakes, which slows them down. On the other hand, they're often more disciplined and can understand the theory faster, so it's not all bad news.", "key_phrases": ["In some ways", "feel embarrassed about", "On the other hand", "not all bad news"], "follow_ups": []},
+        {"id": 903, "question": "Should schools teach more practical skills?", "question_cn": "学校应该教授更多实用技能吗？", "sample_answer": "I'd certainly argue so. Many students leave school knowing a great deal about history and literature but very little about cooking, budgeting or basic repairs. Adding practical skills wouldn't replace academic subjects; it would simply prepare young people better for everyday life.", "key_phrases": ["I'd certainly argue so", "a great deal about", "wouldn't replace ... it would simply", "prepare young people better for"], "follow_ups": []}
+      ]
+    },
+    {
+      "id": 10,
+      "part": 2,
+      "topic": "An Important Decision",
+      "title": "Describe an Important Decision You Have Made",
+      "cue_card": "Describe an important decision that you have made.\nYou should say:\n- what the decision was\n- when you made it\n- who helped you\nand explain why it was an important decision for you.",
+      "prep_seconds": 60,
+      "speak_seconds": 120,
+      "difficulty": 4,
+      "questions": [
+        {"id": 1001, "question": "Describe an important decision that you have made.", "question_cn": "描述一个你做过的重要决定。", "sample_answer": "The most important decision I've made was choosing to study abroad instead of taking a well-paid job straight after school. I made it about two years ago, at a point when I had offers from both a university overseas and a local company. My parents were cautious about the idea and my friends thought I was mad to turn down the salary, but my older sister encouraged me to think about where I wanted to be in ten years rather than what looked good in the short term. In the end, I decided that the experience and the qualifications were worth more than a comfortable start. Looking back, it was a turning point, because it forced me to become independent — I had to manage my own money, cook for myself and make friends in a new language. It was frightening at the time, but I've never regretted it.", "key_phrases": ["The most important decision I've made", "were cautious about", "thought I was mad", "think about where I wanted to be in ten years", "a turning point", "I've never regretted it"], "follow_ups": []},
+        {"id": 1002, "question": "Do you think young people should make big decisions alone?", "question_cn": "你认为年轻人应该独自做大决定吗？", "sample_answer": "Not entirely alone, no. It's healthy to take responsibility, but it's also wise to get advice from people who know you well, since they may notice things you've overlooked. The key is to listen carefully and then make the final choice yourself.", "key_phrases": ["Not entirely alone", "It's healthy to", "the key is to", "make the final choice yourself"], "follow_ups": []},
+        {"id": 1003, "question": "Do people find it easy to make decisions?", "question_cn": "人们觉得做决定容易吗？", "sample_answer": "Generally, I don't think so, especially when every option has a cost. What makes it harder is the fear of regret — people worry about the choice they didn't make. I've found that writing down the pros and cons really helps to clear the mind.", "key_phrases": ["Generally, I don't think so", "the fear of regret", "the choice they didn't make", "clear the mind"], "follow_ups": []}
+      ]
+    },
+    {
+      "id": 11,
+      "part": 3,
+      "topic": "Technology and Society",
+      "title": "Technology and Society",
+      "cue_card": null,
+      "prep_seconds": null,
+      "speak_seconds": 45,
+      "difficulty": 4,
+      "questions": [
+        {"id": 1101, "question": "How has technology changed the way people communicate?", "question_cn": "科技如何改变了人们的沟通方式？", "sample_answer": "It has made communication far faster and, in some ways, more shallow. We can reach anyone instantly, which is wonderful for keeping in touch across distances, but a stream of short messages can replace a proper conversation. I'd argue the quality of communication has not improved as much as the speed.", "key_phrases": ["far faster and, in some ways, more shallow", "keeping in touch across distances", "I'd argue", "not improved as much as"], "follow_ups": ["Do you think older people find new technology harder to use?", "Has technology brought people closer together or pushed them apart?"]},
+        {"id": 1102, "question": "Do you think people spend too much time on their phones?", "question_cn": "你认为人们在手机上花太多时间了吗？", "sample_answer": "Many people do, yes, and often without realising it. The problem is that these devices are designed to hold our attention, so willpower alone is not enough. I think schools and workplaces should teach people to manage their screen time rather than simply blaming individuals.", "key_phrases": ["without realising it", "designed to hold our attention", "willpower alone is not enough", "rather than simply blaming individuals"], "follow_ups": ["Should there be laws limiting phone use in public places?", "What could replace the time people spend online?"]},
+        {"id": 1103, "question": "What are the disadvantages of relying on technology?", "question_cn": "依赖科技有哪些弊端？", "sample_answer": "The obvious one is that when systems fail, we're often helpless — many people can't navigate without a map app or calculate without a phone. There's also a privacy cost, since so much of our data is collected. Convenience, in other words, comes with strings attached.", "key_phrases": ["the obvious one is", "we're often helpless", "a privacy cost", "comes with strings attached"], "follow_ups": ["How can individuals protect their privacy online?", "Do the benefits of technology outweigh these drawbacks?"]},
+        {"id": 1104, "question": "Will technology replace many jobs in the future?", "question_cn": "未来科技会取代很多工作吗？", "sample_answer": "It will certainly replace certain tasks, and probably whole jobs in areas like routine administration. However, I'm sceptical about the idea that it will replace everything, because many roles depend on trust and judgement. The real challenge may be retraining people whose jobs do disappear.", "key_phrases": ["replace certain tasks", "I'm sceptical about", "depend on trust and judgement", "the real challenge may be"], "follow_ups": ["Which jobs do you think are safest from automation?", "Should governments pay for retraining programmes?"]},
+        {"id": 1105, "question": "How can technology be used to help society?", "question_cn": "如何利用科技帮助社会？", "sample_answer": "There are countless examples — telemedicine brings doctors to remote areas, and online courses give people access to education they couldn't otherwise afford. The key is to make sure these tools reach everyone, not just those who are already advantaged, otherwise they widen the gap.", "key_phrases": ["countless examples", "brings doctors to remote areas", "couldn't otherwise afford", "widen the gap"], "follow_ups": ["Should internet access be considered a basic right?", "How can poorer communities benefit more from technology?"]}
+      ]
+    },
+    {
+      "id": 12,
+      "part": 3,
+      "topic": "Education",
+      "title": "Education and Learning",
+      "cue_card": null,
+      "prep_seconds": null,
+      "speak_seconds": 45,
+      "difficulty": 4,
+      "questions": [
+        {"id": 1201, "question": "What makes a good teacher?", "question_cn": "怎样才算一位好老师？", "sample_answer": "I'd say patience and the ability to explain things in more than one way. A good teacher also notices when a student is struggling before it becomes a problem. Subject knowledge matters, of course, but the best teachers make you feel that your progress genuinely matters to them.", "key_phrases": ["I'd say", "in more than one way", "before it becomes a problem", "genuinely matters to them"], "follow_ups": ["Do you think teaching is a well-respected job in your country?", "Should teachers be paid more?"]},
+        {"id": 1202, "question": "Should education be free for everyone?", "question_cn": "教育应该对所有人免费吗？", "sample_answer": "Up to a certain level, absolutely — a literate population benefits everybody. For university, I'm less certain. Some contribution may be fair, provided that no one is excluded because of money, and that loans are not a burden for decades afterwards.", "key_phrases": ["Up to a certain level, absolutely", "a literate population benefits everybody", "provided that", "a burden for decades"], "follow_ups": ["Who should pay for higher education?", "Does free education reduce its value?"]},
+        {"id": 1203, "question": "Is it better to study alone or in a group?", "question_cn": "独自学习还是小组学习更好？", "sample_answer": "Both have their place. Studying alone lets you go at your own pace and think deeply, while group work exposes you to different viewpoints and keeps you motivated. Ideally, a student would mix the two rather than rely on only one.", "key_phrases": ["Both have their place", "go at your own pace", "exposes you to different viewpoints", "rather than rely on only one"], "follow_ups": ["Do group projects always work fairly?", "How can teachers make group work more effective?"]},
+        {"id": 1204, "question": "Do exams measure a student's ability well?", "question_cn": "考试能很好地衡量学生的能力吗？", "sample_answer": "Only partly. Exams are good at testing knowledge under pressure and are easy to compare, but they ignore creativity, teamwork and practical skills. I think a mix of exams and coursework would give a fairer picture of what a student can really do.", "key_phrases": ["Only partly", "good at testing knowledge under pressure", "ignore creativity", "a fairer picture"], "follow_ups": ["Are there better ways to assess students?", "Does exam pressure harm young people's health?"]},
+        {"id": 1205, "question": "How might education change in the future?", "question_cn": "未来教育可能如何变化？", "sample_answer": "I expect it to become more flexible and more personalised, with online tools adapting to each learner's pace. That said, I hope schools keep their social role, because learning to work with other people is something a screen can't easily teach.", "key_phrases": ["more flexible and more personalised", "adapting to each learner's pace", "That said", "something a screen can't easily teach"], "follow_ups": ["Will online learning ever replace classrooms?", "What role should teachers play in a digital future?"]}
+      ]
+    },
+    {
+      "id": 13,
+      "part": 3,
+      "topic": "Cities and the Environment",
+      "title": "Cities and the Environment",
+      "cue_card": null,
+      "prep_seconds": null,
+      "speak_seconds": 45,
+      "difficulty": 4,
+      "questions": [
+        {"id": 1301, "question": "What are the biggest environmental problems in cities?", "question_cn": "城市里最大的环境问题是什么？", "sample_answer": "Air pollution and traffic congestion are probably the most visible, and they're closely linked. Waste is another huge issue, since cities generate enormous amounts of rubbish. What worries me most is that the poorest neighbourhoods usually suffer from these problems the most.", "key_phrases": ["the most visible", "closely linked", "enormous amounts of", "What worries me most is"], "follow_ups": ["Which of these problems is hardest to solve?", "Are city governments doing enough?"]},
+        {"id": 1302, "question": "How can cities be made greener?", "question_cn": "如何让城市更环保？", "sample_answer": "There's no single answer, but planting more trees, improving public transport and encouraging cycling all help. I'd also argue for more parks, because green space cools the air and improves people's mental health at the same time. The challenge is finding the money and the land.", "key_phrases": ["There's no single answer", "I'd also argue for", "cools the air", "The challenge is finding"], "follow_ups": ["Should private cars be banned from city centres?", "How can residents be encouraged to take part?"]},
+        {"id": 1303, "question": "Should people be encouraged to live in cities rather than the countryside?", "question_cn": "应该鼓励人们住在城市而不是乡村吗？", "sample_answer": "I don't think it should be forced in either direction. Cities offer jobs and services, but they're often overcrowded, while rural areas need young people to stay. A better approach is to invest in smaller towns, so that people have a real choice about where to live.", "key_phrases": ["forced in either direction", "offer jobs and services", "A better approach is to", "a real choice about where to live"], "follow_ups": ["Why do so many young people move to cities?", "What could make rural life more attractive?"]},
+        {"id": 1304, "question": "Whose responsibility is it to protect the environment — individuals or governments?", "question_cn": "保护环境是个人还是政府的责任？", "sample_answer": "Both, but governments have far more power. An individual can recycle and use less energy, yet a single policy can change the behaviour of millions. I'd say that individuals should do what they can, while governments must create the conditions for real change.", "key_phrases": ["Both, but", "far more power", "change the behaviour of millions", "create the conditions for real change"], "follow_ups": ["Are individual actions meaningless without government policy?", "How can governments encourage greener habits?"]},
+        {"id": 1305, "question": "Do you think people will change their behaviour to protect the environment?", "question_cn": "你认为人们会改变行为来保护环境吗？", "sample_answer": "Slowly, and often only when it becomes convenient or cheaper. Most people care about the environment in principle, but habits are hard to break. That's why making green choices the easy, affordable option is more effective than simply asking people to try harder.", "key_phrases": ["Slowly, and often only when", "in principle", "habits are hard to break", "more effective than simply asking"], "follow_ups": ["What would make you personally change your habits?", "Is education or taxation more effective?"]}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "version": "1.0.0",
+  "generatedBy": "content_pipeline",
+  "note": "All writing tasks, model essays, outlines, annotations and phrase lists are original IELTS-style material written for IELTS Free. They are not copied from any official test material.",
+  "tasks": [
+    {
+      "id": 1,
+      "task": 1,
+      "title": "Internet Access in Three Countries",
+      "prompt": "The line graph below shows the percentage of households with internet access in three countries between 2000 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.",
+      "chart_data": {"type": "line", "title": "Households with internet access, 2000-2020", "xAxis": {"label": "Year", "values": [2000, 2005, 2010, 2015, 2020]}, "yAxis": {"label": "Percentage of households", "unit": "%"}, "series": [{"name": "Country A", "values": [22, 38, 55, 72, 88]}, {"name": "Country B", "values": [15, 27, 40, 61, 80]}, {"name": "Country C", "values": [3, 5, 9, 34, 70]}]},
+      "min_words": 150,
+      "time_minutes": 20,
+      "difficulty": 3,
+      "samples": [
+        {
+          "band": "7.5",
+          "essay": "The line graph illustrates the percentage of households with internet access in three countries between 2000 and 2020.\n\nOverall, access rose substantially in all three nations over the period, although Country A remained the highest throughout. The most striking feature is Country C, which began with almost no connections but recorded by far the fastest growth.\n\nIn 2000, just over a fifth of households in Country A had internet access, compared with roughly 15 per cent in Country B and only 3 per cent in Country C. Over the following decade, the figure for Country A climbed steadily to about 55 per cent, while Country B rose more slowly to 40 per cent. Country C, by contrast, remained below 10 per cent until 2010.\n\nThe second decade saw the gap narrow considerably. By 2020, access in Country A had reached 88 per cent, and Country B had risen to 80 per cent. The most dramatic change concerned Country C, where the proportion soared from under 10 per cent in 2010 to 70 per cent in 2020, almost matching the level that Country B had reached five years earlier.",
+          "outline": [{"section": "Introduction", "content": "Paraphrase the topic: percentage of households with internet access, three countries, 2000-2020."}, {"section": "Overview", "content": "All three increased; Country A stayed highest; Country C grew fastest from a very low base."}, {"section": "Body paragraph 1", "content": "Figures for 2000 and 2010: A 22 to 55, B 15 to 40, C still under 10."}, {"section": "Body paragraph 2", "content": "Figures for 2020 and the closing of the gap: A 88, B 80, C 70."}],
+          "annotations": [{"sentence": "The most striking feature is Country C, which began with almost no connections but recorded by far the fastest growth.", "comment": "A clear overview sentence that highlights the single most important pattern, which examiners reward.", "band": "7+"}, {"sentence": "Country C, by contrast, remained below 10 per cent until 2010.", "comment": "Uses a contrast linker and reports data without listing every number.", "band": "7+"}, {"sentence": "the proportion soared from under 10 per cent in 2010 to 70 per cent in 2020", "comment": "Precise data description with the verb 'soared' showing an upward trend.", "band": "7+"}, {"sentence": "The second decade saw the gap narrow considerably.", "comment": "Uses a personified subject ('the second decade saw') for grammatical variety.", "band": "7+"}]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "task": 1,
+      "title": "Reasons for Choosing a University",
+      "prompt": "The bar chart below shows the results of a survey of 500 students, who were asked which factors were important when choosing a university. Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.",
+      "chart_data": {"type": "bar", "title": "Important factors when choosing a university (% of 500 students)", "categories": ["Course quality", "Location", "Cost of living", "University reputation", "Campus facilities"], "series": [{"name": "Percentage of students", "values": [78, 64, 55, 42, 30]}], "unit": "%"},
+      "min_words": 150,
+      "time_minutes": 20,
+      "difficulty": 3,
+      "samples": [
+        {
+          "band": "7.5",
+          "essay": "The bar chart shows which factors 500 students considered important when choosing a university.\n\nOverall, academic factors were valued more highly than practical ones. Course quality was by far the most important consideration, whereas campus facilities attracted the least support.\n\nCourse quality was selected by 78 per cent of the students, making it the top priority by a clear margin. Location came second, mentioned by 64 per cent, closely followed by the cost of living at 55 per cent. This suggests that although students cared about where they would study and how much it would cost, neither factor mattered as much as the standard of the course itself.\n\nThe university's reputation was important to 42 per cent of respondents, roughly half the figure recorded for course quality. Campus facilities ranked last, chosen by only 30 per cent, which was less than half the number who valued course quality. Interestingly, reputation and facilities, the two least popular factors, were both connected to the institution rather than to the student's own experience.",
+          "outline": [{"section": "Introduction", "content": "Paraphrase the chart: survey of 500 students on factors for choosing a university."}, {"section": "Overview", "content": "Academic factors outrank practical ones; course quality highest, facilities lowest."}, {"section": "Body paragraph 1", "content": "Report the top three factors: course quality 78%, location 64%, cost 55%."}, {"section": "Body paragraph 2", "content": "Report the bottom two factors and compare them with the highest."}],
+          "annotations": [{"sentence": "Overall, academic factors were valued more highly than practical ones.", "comment": "Concise overview that groups the data into a pattern rather than listing values.", "band": "7+"}, {"sentence": "Course quality was by far the most important consideration, whereas campus facilities attracted the least support.", "comment": "Combines the highest and lowest in one sentence using 'whereas'.", "band": "7+"}, {"sentence": "roughly half the figure recorded for course quality", "comment": "Describes data by comparison instead of repeating raw numbers.", "band": "7+"}, {"sentence": "Interestingly, reputation and facilities, the two least popular factors, were both connected to the institution", "comment": "Adds a short interpretation without over-claiming; uses a fronted adverb.", "band": "7+"}]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "task": 1,
+      "title": "Household Spending in One Country",
+      "prompt": "The pie chart below shows how an average household in one country spent its money in 2023. Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.",
+      "chart_data": {"type": "pie", "title": "Average household spending, 2023", "unit": "%", "items": [{"label": "Housing", "value": 32}, {"label": "Food", "value": 24}, {"label": "Transport", "value": 15}, {"label": "Leisure", "value": 12}, {"label": "Other", "value": 17}]},
+      "min_words": 150,
+      "time_minutes": 20,
+      "difficulty": 2,
+      "samples": [
+        {
+          "band": "7.0",
+          "essay": "The pie chart illustrates how an average household in one country allocated its spending in 2023.\n\nOverall, housing and food together accounted for well over half of the household budget, while leisure received the smallest share.\n\nHousing was the largest single category, taking up 32 per cent of total expenditure, which was almost a third. Food was the second biggest item at 24 per cent, meaning that these two essentials consumed 56 per cent of the average budget between them. Transport followed at 15 per cent, a little under half the amount spent on food.\n\nThe remaining categories were smaller. Leisure attracted the least spending, at just 12 per cent, while the 'other' category accounted for 17 per cent, more than the household spent on transport. Taken together, the figures suggest that necessities dominated the budget, leaving relatively little for discretionary items such as entertainment. It is also worth noting that no single category exceeded a third of total spending, which shows how widely the budget was spread.",
+          "outline": [{"section": "Introduction", "content": "Paraphrase the chart: household spending by category in 2023."}, {"section": "Overview", "content": "Housing and food dominate; leisure is the smallest category."}, {"section": "Body paragraph 1", "content": "Housing 32%, food 24%, transport 15%."}, {"section": "Body paragraph 2", "content": "Leisure 12% and other 17%; note that necessities dominate."}],
+          "annotations": [{"sentence": "housing and food together accounted for well over half of the household budget", "comment": "Groups categories and uses 'accounted for' for data description.", "band": "7+"}, {"sentence": "which was almost a third", "comment": "Re-expresses a percentage in words for variety.", "band": "7+"}, {"sentence": "a little under half the amount spent on food", "comment": "Compares two categories without repeating the raw figure.", "band": "7+"}, {"sentence": "Taken together, the figures suggest that necessities dominated the budget", "comment": "A brief closing interpretation that stays within the data.", "band": "7+"}]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "task": 1,
+      "title": "Passenger Numbers at Four Airports",
+      "prompt": "The table below gives information about the number of passengers (in millions) using four airports in 2015 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.",
+      "chart_data": {"type": "table", "title": "Passengers at four airports (millions)", "columns": ["Airport", "2015", "2020"], "rows": [["Northgate", 42, 28], ["Eastfield", 35, 39], ["Kingsbury", 60, 55], ["Riverport", 12, 21]]},
+      "min_words": 150,
+      "time_minutes": 20,
+      "difficulty": 3,
+      "samples": [
+        {
+          "band": "7.5",
+          "essay": "The table compares the number of passengers using four airports in 2015 and 2020.\n\nOverall, two of the four airports handled fewer passengers in 2020 than in 2015, while the other two recorded an increase. Kingsbury remained the busiest airport in both years, and Riverport the quietest.\n\nKingsbury served 60 million passengers in 2015, the highest figure in the table, although this had fallen to 55 million by 2020. Northgate experienced a much sharper decline, dropping from 42 million to 28 million, a decrease of a third. These were the only two airports to lose passengers over the five-year period.\n\nBy contrast, Eastfield and Riverport both grew. Eastfield rose modestly from 35 million to 39 million, while Riverport saw the largest relative growth of any airport, climbing from 12 million to 21 million, an increase of 75 per cent. Even so, Riverport remained the least busy of the four in 2020.",
+          "outline": [{"section": "Introduction", "content": "Paraphrase the table: passenger numbers at four airports in 2015 and 2020."}, {"section": "Overview", "content": "Two airports fell, two rose; Kingsbury busiest, Riverport quietest in both years."}, {"section": "Body paragraph 1", "content": "The airports that declined: Kingsbury and Northgate."}, {"section": "Body paragraph 2", "content": "The airports that grew: Eastfield and Riverport, with the biggest relative rise at Riverport."}],
+          "annotations": [{"sentence": "Overall, two of the four airports handled fewer passengers in 2020 than in 2015, while the other two recorded an increase.", "comment": "Overview organises the data into a rising/falling pattern.", "band": "7+"}, {"sentence": "dropping from 42 million to 28 million, a decrease of a third", "comment": "Calculates a proportion to show understanding of the data.", "band": "7+"}, {"sentence": "Riverport saw the largest relative growth of any airport", "comment": "Highlights a superlative feature with a varied sentence pattern.", "band": "7+"}, {"sentence": "Even so, Riverport remained the least busy of the four in 2020.", "comment": "Uses a concessive linker to add a final comparison.", "band": "7+"}]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "task": 2,
+      "title": "Free University Education",
+      "prompt": "Some people believe that university education should be free for all students, regardless of their family income. To what extent do you agree or disagree with this view? Give reasons for your answer and include any relevant examples from your own knowledge or experience. Write at least 250 words.",
+      "chart_data": null,
+      "min_words": 250,
+      "time_minutes": 40,
+      "difficulty": 4,
+      "samples": [
+        {
+          "band": "7.5",
+          "essay": "It is often argued that higher education should be available to every student without charge, whatever their family's income. While I accept that cost should never prevent a capable person from studying, I do not believe that a completely free system is either realistic or fair, and I therefore agree only in part with this view.\n\nThe strongest argument for free university education is that it promotes equality of opportunity. When tuition fees are high, talented students from poorer families may decide not to apply, and society then loses the skills they could have contributed. A nurse or engineer who never trains because of money is a loss to everyone, not just to the individual.\n\nHowever, making education entirely free creates problems of its own. Universities still need funds for teaching, laboratories and libraries, so the money would simply have to come from higher taxes or from other public services, such as hospitals. Moreover, since graduates usually earn more than non-graduates, it seems reasonable to ask them to contribute something towards the cost of their own advantage.\n\nA fairer solution, in my view, is a system based on income rather than on blanket free provision. Fees could be paid through loans that are repaid only when a graduate earns above a certain salary, and generous grants could support students from low-income households. This keeps higher education open to all while sharing the cost fairly.\n\nIn conclusion, although I strongly support removing financial barriers to university, I do not think that free education for everyone is the best way to achieve this. A well-designed system of loans and grants is more sustainable and, in the long run, more equitable.",
+          "outline": [{"section": "Introduction", "content": "State a partial agreement: cost should not block capable students, but a fully free system is neither realistic nor fair."}, {"section": "Body 1 (for)", "content": "Free education promotes equality of opportunity; talent is lost when fees deter poorer students."}, {"section": "Body 2 (against)", "content": "Free provision must be funded by taxes or other services; graduates benefit most and can contribute."}, {"section": "Body 3 (alternative)", "content": "Propose income-based loans plus grants as a fairer solution."}, {"section": "Conclusion", "content": "Restate the position: remove barriers, but use a sustainable loans-and-grants model."}],
+          "annotations": [{"sentence": "While I accept that cost should never prevent a capable person from studying, I do not believe that a completely free system is either realistic or fair", "comment": "A clear thesis with concession and a defined position — exactly what a Task 2 introduction needs.", "band": "7+"}, {"sentence": "A nurse or engineer who never trains because of money is a loss to everyone, not just to the individual.", "comment": "Concrete example that supports the argument and widens its relevance.", "band": "7+"}, {"sentence": "it seems reasonable to ask them to contribute something towards the cost of their own advantage", "comment": "Balanced, hedged opinion language rather than an absolute claim.", "band": "7+"}, {"sentence": "A well-designed system of loans and grants is more sustainable and, in the long run, more equitable.", "comment": "Conclusion offers a specific position, avoiding a vague ending.", "band": "7+"}]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "task": 2,
+      "title": "The Right Age to Start School",
+      "prompt": "Some people think that children should begin formal education at a very early age, while others believe that they should start school later. Discuss both views and give your own opinion. Write at least 250 words.",
+      "chart_data": null,
+      "min_words": 250,
+      "time_minutes": 40,
+      "difficulty": 4,
+      "samples": [
+        {
+          "band": "7.5",
+          "essay": "People disagree about the ideal age at which children should start school. Supporters of an early start argue that young minds absorb information quickly, whereas others believe that formal lessons should wait until children are more mature. This essay will examine both positions before explaining why I favour a later start.\n\nThose who advocate starting early point to the speed at which young children learn. Between the ages of three and six, the brain is especially receptive to language and numbers, so early teaching can build a strong foundation. In addition, attending a school or nursery gives children regular contact with others, which helps them develop social skills at a stage when they are naturally curious.\n\nOn the other hand, critics warn that too much formal instruction can be counterproductive. Young children learn best through play, and sitting still at a desk for long periods may create stress rather than understanding. Research in several countries has found that children who begin formal reading later often catch up within a year or two, which suggests that an early academic start brings few lasting advantages. It may also deprive them of the freedom to explore and to develop at their own pace.\n\nIn my view, the case for a later start is stronger. Early education is valuable, but it should be playful and social rather than academic. Children who spend their first years learning through games and conversation arrive at school curious and confident, which is a better foundation for the years of study ahead.\n\nIn conclusion, while an early start has real benefits, particularly for language and social development, I believe that formal academic education should begin later, when children are ready to sit, listen and concentrate.",
+          "outline": [{"section": "Introduction", "content": "Present the two views and state the writer's position: in favour of a later start."}, {"section": "Body 1 (early start)", "content": "Young brains learn fast; school provides social contact and a foundation."}, {"section": "Body 2 (later start)", "content": "Formal instruction can be stressful; later starters catch up; children need play."}, {"section": "Body 3 (own opinion)", "content": "Early education should be playful and social, not academic."}, {"section": "Conclusion", "content": "Summarise both sides and restate support for a later formal start."}],
+          "annotations": [{"sentence": "This essay will examine both positions before explaining why I favour a later start.", "comment": "Signposts the discussion structure and gives a clear position early.", "band": "7+"}, {"sentence": "the brain is especially receptive to language and numbers", "comment": "Uses precise vocabulary to present the first view fairly.", "band": "7+"}, {"sentence": "Young children learn best through play, and sitting still at a desk for long periods may create stress rather than understanding.", "comment": "Balanced evaluation of the opposing view with a natural contrast.", "band": "7+"}, {"sentence": "Children who spend their first years learning through games and conversation arrive at school curious and confident", "comment": "A specific, well-developed personal opinion rather than a generic statement.", "band": "7+"}]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "task": 2,
+      "title": "Working from Home",
+      "prompt": "In many countries, an increasing number of employees are choosing to work from home rather than in an office. Do the advantages of this trend outweigh the disadvantages? Write at least 250 words.",
+      "chart_data": null,
+      "min_words": 250,
+      "time_minutes": 40,
+      "difficulty": 4,
+      "samples": [
+        {
+          "band": "7.5",
+          "essay": "Working from home, once a rare arrangement, has become common in many countries. Although it brings clear benefits for employees and employers alike, it also creates difficulties that should not be ignored. In my view, the advantages outweigh the disadvantages, provided that the arrangement is managed carefully.\n\nThe main benefit is flexibility. Without a daily commute, workers save both time and money, and many find that they can organise their day around family commitments. Employers benefit too, since they can reduce the cost of office space and recruit skilled staff who live far away. Studies also suggest that many employees are more productive at home, partly because they suffer fewer interruptions.\n\nHowever, there are real drawbacks. Working alone can be isolating, and the boundary between work and private life easily disappears when the office is the kitchen table. New employees in particular may struggle to learn from colleagues informally, which can slow their development. In addition, some tasks depend on spontaneous discussion, and these are harder to carry out through a screen.\n\nNevertheless, these problems are manageable rather than fundamental. Companies can set clear expectations about working hours, provide opportunities for regular meetings, and offer a mix of office and home days. When such measures are in place, the flexibility gained clearly outweighs the loss of a shared workplace.\n\nIn conclusion, although remote work can cause isolation and blur the line between work and rest, these disadvantages can be reduced with sensible policies. On balance, the freedom and efficiency it offers make it a positive development for most employees.",
+          "outline": [{"section": "Introduction", "content": "Introduce the trend and state the position: advantages outweigh disadvantages if managed well."}, {"section": "Body 1 (advantages)", "content": "Flexibility, saved time and money, lower office costs, higher productivity."}, {"section": "Body 2 (disadvantages)", "content": "Isolation, blurred work-life boundary, weaker informal learning and collaboration."}, {"section": "Body 3 (evaluation)", "content": "Show the drawbacks are manageable through clear policies and hybrid arrangements."}, {"section": "Conclusion", "content": "Restate the balanced judgement in favour of remote work."}],
+          "annotations": [{"sentence": "In my view, the advantages outweigh the disadvantages, provided that the arrangement is managed carefully.", "comment": "Directly answers the 'outweigh' question and adds a condition.", "band": "7+"}, {"sentence": "the boundary between work and private life easily disappears when the office is the kitchen table", "comment": "Vivid, natural phrasing that develops the disadvantage clearly.", "band": "7+"}, {"sentence": "Nevertheless, these problems are manageable rather than fundamental.", "comment": "Uses a linking adverb to move from problems to evaluation.", "band": "7+"}, {"sentence": "When such measures are in place, the flexibility gained clearly outweighs the loss of a shared workplace.", "comment": "Explicit weighing of advantages against disadvantages, as the task requires.", "band": "7+"}]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "task": 2,
+      "title": "Traffic Congestion in Cities",
+      "prompt": "Traffic congestion is becoming a serious problem in many cities. What are the main causes of this problem, and what measures could be taken to solve it? Write at least 250 words.",
+      "chart_data": null,
+      "min_words": 250,
+      "time_minutes": 40,
+      "difficulty": 4,
+      "samples": [
+        {
+          "band": "7.5",
+          "essay": "Traffic congestion affects almost every large city, wasting time, increasing pollution and damaging the quality of urban life. This essay will consider the main causes of the problem before suggesting some practical solutions.\n\nOne major cause is the rapid growth of car ownership. As incomes rise, more families can afford a car, and many people regard it as more convenient than public transport. A second cause is poor urban planning. In cities designed around the car, homes, workplaces and shops are often far apart, so short journeys still require a vehicle. A third factor is inadequate public transport, especially in outer districts, where buses are slow, crowded or simply unavailable.\n\nSeveral measures could ease the situation. The most effective is to invest in reliable public transport, since people will leave their cars at home only if the alternative is fast and comfortable. Cities such as those with modern metro systems have shown that this can reduce traffic significantly. A second measure is to discourage unnecessary car use, for example through congestion charges or higher parking fees in the city centre. Such schemes are already used in several major cities, where they have cut the number of cars entering the centre. Finally, better planning can help: mixing homes with offices and shops makes it possible to walk or cycle for daily needs.\n\nIn conclusion, congestion is caused mainly by rising car ownership, car-centred planning and weak public transport. Dealing with it requires both investment in alternatives and policies that make driving less attractive, combined with smarter urban design.",
+          "outline": [{"section": "Introduction", "content": "State the problem and say the essay will discuss causes then solutions."}, {"section": "Body 1 (causes)", "content": "Growth of car ownership, car-centred planning, inadequate public transport."}, {"section": "Body 2 (solutions)", "content": "Invest in public transport, discourage car use with charges, mix land uses."}, {"section": "Conclusion", "content": "Summarise the causes and the combined measures needed."}],
+          "annotations": [{"sentence": "This essay will consider the main causes of the problem before suggesting some practical solutions.", "comment": "Clearly signposts the two-part structure the question demands.", "band": "7+"}, {"sentence": "In cities designed around the car, homes, workplaces and shops are often far apart", "comment": "Explains a cause with a specific mechanism, not just a label.", "band": "7+"}, {"sentence": "people will leave their cars at home only if the alternative is fast and comfortable", "comment": "Justifies the proposed solution logically.", "band": "7+"}, {"sentence": "Dealing with it requires both investment in alternatives and policies that make driving less attractive", "comment": "Synthesises solutions into a single, well-controlled closing statement.", "band": "7+"}]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "task": 2,
+      "title": "Living Alone",
+      "prompt": "In many countries, more and more people are choosing to live alone. Why is this happening, and is it a positive or a negative development? Write at least 250 words.",
+      "chart_data": null,
+      "min_words": 250,
+      "time_minutes": 40,
+      "difficulty": 5,
+      "samples": [
+        {
+          "band": "7.5",
+          "essay": "Living alone, once unusual, has become a common choice in many countries. This essay will explain why this change has occurred and will argue that, on balance, it is a positive development.\n\nSeveral factors explain the rise in solo living. The first is economic: greater prosperity means that more people can afford their own home, which was impossible for earlier generations. A second reason is social. Attitudes towards marriage and family have changed, and it is now widely accepted that adults may choose to remain single without being considered unusual. Longer life expectancy also plays a part, since many older people live alone after a partner dies. Finally, cities make solo life practical, offering small flats, delivery services and a wide range of entertainment outside the home.\n\nIn my view, this trend is largely positive. Living alone encourages independence and self-reliance, and it allows people to make decisions about their own lives without compromise. People who live alone often report that they cook more healthily and manage their time better, simply because no one else is organising their day. For many, it is a period of genuine freedom rather than loneliness. That said, there are risks. Isolation can harm mental health, particularly among the elderly, and living alone is less efficient, since one person uses the same heating and appliances as a family.\n\nIn conclusion, the growth of solo living is driven by prosperity, changing social attitudes, longer lives and the convenience of city life. Although it can lead to loneliness if it is not managed well, I believe the freedom and independence it brings make it a positive development overall.",
+          "outline": [{"section": "Introduction", "content": "Introduce the trend, state the essay will give reasons and a judgement."}, {"section": "Body 1 (why)", "content": "Prosperity, changing attitudes to marriage, longer life expectancy, convenience of cities."}, {"section": "Body 2 (positive)", "content": "Independence, self-reliance, personal freedom."}, {"section": "Body 3 (negative)", "content": "Risk of isolation and mental health problems; less efficient use of resources."}, {"section": "Conclusion", "content": "Summarise the causes and conclude that it is broadly positive."}],
+          "annotations": [{"sentence": "This essay will explain why this change has occurred and will argue that, on balance, it is a positive development.", "comment": "Answers both parts of a two-part question in the introduction.", "band": "7+"}, {"sentence": "Longer life expectancy also plays a part, since many older people live alone after a partner dies.", "comment": "Adds a distinct cause with a clear supporting explanation.", "band": "7+"}, {"sentence": "For many, it is a period of genuine freedom rather than loneliness.", "comment": "Nuanced phrasing that qualifies the argument.", "band": "7+"}, {"sentence": "Although it can lead to loneliness if it is not managed well, I believe the freedom and independence it brings make it a positive development overall.", "comment": "Weighs both sides and delivers a clear final judgement.", "band": "7+"}]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "task": 2,
+      "title": "Buying Local Food",
+      "prompt": "Nowadays, many people choose to buy food that is produced locally rather than food imported from other countries. Is this a positive or a negative development? Write at least 250 words.",
+      "chart_data": null,
+      "min_words": 250,
+      "time_minutes": 40,
+      "difficulty": 4,
+      "samples": [
+        {
+          "band": "7.5",
+          "essay": "In recent years, growing numbers of shoppers have preferred locally produced food to goods shipped in from abroad. I believe that this is largely a positive development, although it is not without drawbacks.\n\nThe strongest argument in favour of buying local is environmental. Food that travels long distances must be transported by air, sea or road, which produces significant emissions. Choosing food grown nearby therefore reduces a household's carbon footprint. Local produce is often fresher as well, since it can be harvested closer to the time it is sold, and it may contain fewer preservatives. There is an economic benefit too: money spent with local farmers tends to stay in the community and supports small businesses. Farmers' markets, which have appeared in many towns, are one sign of how strong this demand has become.\n\nHowever, the trend has disadvantages that should be acknowledged. Restricting purchases to local food reduces choice, and in colder countries it may mean going without fresh fruit and vegetables for part of the year. Local farming is not automatically greener either, because food grown in heated greenhouses can use more energy than produce imported from a warmer climate. In addition, farmers in developing countries depend on exporting their crops, so a sharp fall in demand could harm their livelihoods.\n\nOn balance, I am convinced that buying local food is a positive development, provided it is part of a wider effort to eat sustainably rather than a strict rule. Choosing seasonal local produce where possible, while still supporting fair trade with other countries, seems to offer the best of both worlds.",
+          "outline": [{"section": "Introduction", "content": "Introduce the trend and state the position: broadly positive, with some drawbacks."}, {"section": "Body 1 (positive)", "content": "Lower transport emissions, fresher produce, money stays in the local economy."}, {"section": "Body 2 (negative)", "content": "Less choice and seasonal gaps, heated greenhouses, harm to exporting farmers."}, {"section": "Body 3 (judgement)", "content": "Argue for local and seasonal food as part of sustainable eating, not a strict rule."}, {"section": "Conclusion", "content": "Restate the balanced but positive conclusion."}],
+          "annotations": [{"sentence": "I believe that this is largely a positive development, although it is not without drawbacks.", "comment": "Clear position with a hedge — answers 'positive or negative' directly.", "band": "7+"}, {"sentence": "money spent with local farmers tends to stay in the community and supports small businesses", "comment": "Adds an economic dimension to broaden the argument.", "band": "7+"}, {"sentence": "Local farming is not automatically greener either, because food grown in heated greenhouses can use more energy", "comment": "A genuinely balanced counter-argument that strengthens the essay.", "band": "7+"}, {"sentence": "Choosing seasonal local produce where possible, while still supporting fair trade with other countries, seems to offer the best of both worlds.", "comment": "Concludes with a nuanced, well-expressed synthesis.", "band": "7+"}]
+        }
+      ]
+    }
+  ],
+  "phrases": [
+    {"category": "开头", "task": 2, "phrase": "It is often argued that ...", "meaning_cn": "人们常常认为……", "example": "It is often argued that governments should spend more on public transport.", "band": "6.5+"},
+    {"category": "开头", "task": 2, "phrase": "In recent years, there has been growing concern about ...", "meaning_cn": "近年来，人们对……越来越担忧", "example": "In recent years, there has been growing concern about the amount of plastic in the oceans.", "band": "7+"},
+    {"category": "开头", "task": 1, "phrase": "The chart illustrates ...", "meaning_cn": "该图表展示了……", "example": "The chart illustrates the proportion of households with internet access between 2000 and 2020.", "band": "6.5+"},
+    {"category": "开头", "task": 2, "phrase": "While some people believe that ..., others take the opposite view.", "meaning_cn": "虽然有些人认为……，但另一些人持相反观点。", "example": "While some people believe that exams are the fairest form of assessment, others take the opposite view.", "band": "7+"},
+    {"category": "开头", "task": 2, "phrase": "This essay will examine both sides of the argument before drawing a conclusion.", "meaning_cn": "本文将审视双方观点，然后得出结论。", "example": "This essay will examine both sides of the argument before drawing a conclusion.", "band": "7+"},
+    {"category": "结尾", "task": 2, "phrase": "In conclusion, ...", "meaning_cn": "总之，……", "example": "In conclusion, I believe that the benefits of remote work outweigh its drawbacks.", "band": "6.5+"},
+    {"category": "结尾", "task": 2, "phrase": "To sum up, although ..., I believe that ...", "meaning_cn": "总而言之，虽然……，但我认为……", "example": "To sum up, although fees are a barrier, I believe that targeted grants are the fairest solution.", "band": "7+"},
+    {"category": "结尾", "task": 2, "phrase": "On balance, the benefits of ... appear to outweigh the drawbacks.", "meaning_cn": "总的来说，……的好处似乎大于弊端。", "example": "On balance, the benefits of cycling to work appear to outweigh the drawbacks.", "band": "7+"},
+    {"category": "结尾", "task": 1, "phrase": "Overall, ...", "meaning_cn": "总体而言，……", "example": "Overall, access rose in all three countries over the period.", "band": "6.5+"},
+    {"category": "结尾", "task": 2, "phrase": "It is therefore clear that ...", "meaning_cn": "因此很明显……", "example": "It is therefore clear that action must be taken on several fronts at once.", "band": "7+"},
+    {"category": "让步", "task": 2, "phrase": "Admittedly, ...", "meaning_cn": "诚然，……", "example": "Admittedly, free education would place a heavy burden on taxpayers.", "band": "7+"},
+    {"category": "让步", "task": 2, "phrase": "It is true that ... ; however, ...", "meaning_cn": "诚然……；然而……", "example": "It is true that technology saves time; however, it can also distract us from work.", "band": "7+"},
+    {"category": "让步", "task": 2, "phrase": "While this argument has some merit, ...", "meaning_cn": "虽然这一论点有一定道理，但……", "example": "While this argument has some merit, it overlooks the needs of rural residents.", "band": "7.5+"},
+    {"category": "让步", "task": 2, "phrase": "Despite the fact that ..., ...", "meaning_cn": "尽管……，……", "example": "Despite the fact that the scheme is expensive, it has reduced congestion noticeably.", "band": "7+"},
+    {"category": "让步", "task": 2, "phrase": "There is no denying that ..., yet ...", "meaning_cn": "不可否认……，然而……", "example": "There is no denying that cars are convenient, yet their costs to the environment are serious.", "band": "7.5+"},
+    {"category": "因果", "task": 2, "phrase": "As a result, ...", "meaning_cn": "因此，……", "example": "As a result, many graduates now carry large debts for years.", "band": "6.5+"},
+    {"category": "因果", "task": 2, "phrase": "This is largely because ...", "meaning_cn": "这主要是因为……", "example": "This is largely because public transport in outer districts is unreliable.", "band": "7+"},
+    {"category": "因果", "task": 2, "phrase": "Consequently, ...", "meaning_cn": "结果，……", "example": "Consequently, families are choosing to live further from the city centre.", "band": "7+"},
+    {"category": "因果", "task": 2, "phrase": "Owing to ..., ...", "meaning_cn": "由于……，……", "example": "Owing to rising fuel costs, more commuters have switched to the train.", "band": "7+"},
+    {"category": "因果", "task": 2, "phrase": "One of the main reasons for this is that ...", "meaning_cn": "造成这一点的主要原因之一是……", "example": "One of the main reasons for this is that people are living longer than before.", "band": "7+"},
+    {"category": "举例", "task": 2, "phrase": "For instance, ...", "meaning_cn": "例如，……", "example": "For instance, cities with modern metro systems have seen car use fall.", "band": "6.5+"},
+    {"category": "举例", "task": 2, "phrase": "A case in point is ...", "meaning_cn": "一个典型的例子是……", "example": "A case in point is Singapore, which combines several cooling measures.", "band": "7+"},
+    {"category": "举例", "task": 2, "phrase": "To illustrate, ...", "meaning_cn": "举例来说，……", "example": "To illustrate, a single cotton T-shirt can require thousands of litres of water.", "band": "7+"},
+    {"category": "举例", "task": 2, "phrase": "This can be seen in ..., where ...", "meaning_cn": "这可以在……中看到，那里……", "example": "This can be seen in several European capitals, where cycle lanes have doubled ridership.", "band": "7.5+"},
+    {"category": "举例", "task": 2, "phrase": "Take ... as an example.", "meaning_cn": "以……为例。", "example": "Take the cost of housing as an example: it has risen faster than wages.", "band": "7+"},
+    {"category": "对比", "task": 2, "phrase": "By contrast, ...", "meaning_cn": "相比之下，……", "example": "By contrast, rural areas often lack fast internet connections.", "band": "7+"},
+    {"category": "对比", "task": 2, "phrase": "On the other hand, ...", "meaning_cn": "另一方面，……", "example": "On the other hand, later start times may reduce time for part-time work.", "band": "6.5+"},
+    {"category": "对比", "task": 2, "phrase": "Whereas ..., ...", "meaning_cn": "而……，……", "example": "Whereas older workers value security, younger ones often prioritise flexibility.", "band": "7+"},
+    {"category": "对比", "task": 1, "phrase": "In comparison with ..., ...", "meaning_cn": "与……相比，……", "example": "In comparison with Country A, Country C grew far more quickly.", "band": "7+"},
+    {"category": "对比", "task": 2, "phrase": "Unlike ..., ...", "meaning_cn": "与……不同，……", "example": "Unlike private cars, buses move far more people per hour of road space.", "band": "7+"},
+    {"category": "趋势描述", "task": 1, "phrase": "rose steadily", "meaning_cn": "稳步上升", "example": "The figure for Country A rose steadily from 22 per cent to 88 per cent.", "band": "6.5+"},
+    {"category": "趋势描述", "task": 1, "phrase": "declined sharply", "meaning_cn": "急剧下降", "example": "Passenger numbers at Northgate declined sharply after 2015.", "band": "7+"},
+    {"category": "趋势描述", "task": 1, "phrase": "remained stable", "meaning_cn": "保持稳定", "example": "Spending on transport remained stable throughout the period.", "band": "6.5+"},
+    {"category": "趋势描述", "task": 1, "phrase": "fluctuated slightly", "meaning_cn": "略有波动", "example": "The number of visitors fluctuated slightly between 2010 and 2015.", "band": "7+"},
+    {"category": "趋势描述", "task": 1, "phrase": "peaked at ... before falling", "meaning_cn": "在……达到峰值后下降", "example": "Sales peaked at 60 million before falling to 55 million.", "band": "7+"},
+    {"category": "数据描述", "task": 1, "phrase": "accounted for approximately ... per cent", "meaning_cn": "约占……%", "example": "Housing accounted for approximately 32 per cent of household spending.", "band": "6.5+"},
+    {"category": "数据描述", "task": 1, "phrase": "the proportion of ... was twice as high as ...", "meaning_cn": "……的比例是……的两倍", "example": "The proportion of students choosing course quality was twice as high as those choosing facilities.", "band": "7+"},
+    {"category": "数据描述", "task": 1, "phrase": "just under / just over half", "meaning_cn": "略低于/略高于一半", "example": "Just over half of the budget went on housing and food.", "band": "7+"},
+    {"category": "数据描述", "task": 1, "phrase": "a marginal increase of ... percentage points", "meaning_cn": "小幅上升了……个百分点", "example": "There was a marginal increase of two percentage points in leisure spending.", "band": "7+"},
+    {"category": "数据描述", "task": 1, "phrase": "the figure for ... stood at ...", "meaning_cn": "……的数字为……", "example": "In 2015, the figure for Riverport stood at 12 million.", "band": "7+"},
+    {"category": "观点表达", "task": 2, "phrase": "In my view, ...", "meaning_cn": "在我看来，……", "example": "In my view, the advantages of this trend outweigh the disadvantages.", "band": "6.5+"},
+    {"category": "观点表达", "task": 2, "phrase": "I firmly believe that ...", "meaning_cn": "我坚信……", "example": "I firmly believe that education should never depend on a family's income.", "band": "7+"},
+    {"category": "观点表达", "task": 2, "phrase": "It seems to me that ...", "meaning_cn": "在我看来……", "example": "It seems to me that governments have more power to change behaviour than individuals do.", "band": "7+"},
+    {"category": "观点表达", "task": 2, "phrase": "I would argue that ...", "meaning_cn": "我认为……", "example": "I would argue that practical skills deserve a larger place in the school curriculum.", "band": "7+"},
+    {"category": "观点表达", "task": 2, "phrase": "Personally, I am convinced that ...", "meaning_cn": "就个人而言，我确信……", "example": "Personally, I am convinced that buying local food is a positive development.", "band": "7+"}
+  ]
+}

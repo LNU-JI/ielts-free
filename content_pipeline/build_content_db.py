@@ -24,11 +24,14 @@ SEED_DIR = ROOT / "assets" / "seed"
 SCHEMA_FILE = Path(__file__).resolve().parent / "schema.sql"
 VOCAB_FILE = SEED_DIR / "vocabulary_seed.json"
 READING_FILE = SEED_DIR / "reading_seed.json"
+LISTENING_FILE = SEED_DIR / "listening_seed.json"
+SPEAKING_FILE = SEED_DIR / "speaking_seed.json"
+WRITING_FILE = SEED_DIR / "writing_seed.json"
 DB_FILE = SEED_DIR / "ielts_content_v1.db"
 MANIFEST_FILE = SEED_DIR / "manifest.json"
 
-CONTENT_VERSION = "1.0.0"
-APP_COMPATIBILITY = ">=0.1.0 <0.2.0"
+CONTENT_VERSION = "2.0.0"
+APP_COMPATIBILITY = ">=0.2.0 <0.3.0"
 
 SKILL_BY_TYPE = {
     "TFNG": "READING_TFNG",
@@ -65,6 +68,14 @@ _CONTENT_DIGEST_TABLES = (
     ("reading_passages", "id"),
     ("reading_questions", "id"),
     ("reading_options", "id"),
+    ("listening_sections", "id"),
+    ("listening_cues", "id"),
+    ("listening_questions", "id"),
+    ("speaking_topics", "id"),
+    ("speaking_questions", "id"),
+    ("writing_tasks", "id"),
+    ("writing_samples", "id"),
+    ("writing_phrases", "id"),
 )
 
 
@@ -90,7 +101,14 @@ def compute_content_digest(connection: sqlite3.Connection) -> str:
 def build() -> int:
     vocabulary = load_json(VOCAB_FILE)
     reading = load_json(READING_FILE)
+    listening = load_json(LISTENING_FILE)
+    speaking = load_json(SPEAKING_FILE)
+    writing = load_json(WRITING_FILE)
     passages = reading.get("passages", []) if isinstance(reading, dict) else reading
+    sections = listening.get("sections", []) if isinstance(listening, dict) else listening
+    topics = speaking.get("topics", []) if isinstance(speaking, dict) else speaking
+    writing_tasks = writing.get("tasks", []) if isinstance(writing, dict) else writing
+    writing_phrases = writing.get("phrases", []) if isinstance(writing, dict) else []
 
     if DB_FILE.exists():
         DB_FILE.unlink()
@@ -206,6 +224,168 @@ def build() -> int:
                         ),
                     )
 
+        # --- listening ------------------------------------------------------
+        listening_question_count = 0
+        for section in sections:
+            connection.execute(
+                """
+                INSERT INTO listening_sections (
+                    id, part, title, scene, accent, difficulty, overview, skills
+                ) VALUES (?,?,?,?,?,?,?,?)
+                """,
+                (
+                    int(section["id"]),
+                    int(section["part"]),
+                    section["title"],
+                    section.get("scene"),
+                    section.get("accent"),
+                    int(section.get("difficulty", 3)),
+                    section.get("overview"),
+                    json_text(section.get("skills", [])),
+                ),
+            )
+            for order_index, cue in enumerate(section.get("cues", []), start=1):
+                connection.execute(
+                    """
+                    INSERT INTO listening_cues (
+                        id, section_id, order_index, speaker, text, translation,
+                        phonetic_notes
+                    ) VALUES (?,?,?,?,?,?,?)
+                    """,
+                    (
+                        int(cue["id"]),
+                        int(section["id"]),
+                        order_index,
+                        cue.get("speaker"),
+                        cue["text"],
+                        cue.get("translation"),
+                        json_text(cue.get("phonetic_notes", [])),
+                    ),
+                )
+            for order_index, question in enumerate(section.get("questions", []), start=1):
+                evidence_cue_id = question.get("evidence_cue_id")
+                connection.execute(
+                    """
+                    INSERT INTO listening_questions (
+                        id, section_id, order_index, question_type, prompt,
+                        options, answer, alternatives, evidence_cue_id,
+                        explanation, distractors
+                    ) VALUES (?,?,?,?,?,?,?,?,?,?,?)
+                    """,
+                    (
+                        int(question["id"]),
+                        int(section["id"]),
+                        order_index,
+                        question["type"],
+                        question["prompt"],
+                        json_text(question.get("options", [])),
+                        question["answer"],
+                        json_text(question.get("alternatives", [])),
+                        int(evidence_cue_id) if evidence_cue_id is not None else None,
+                        question.get("explanation"),
+                        json_text(question.get("distractors", [])),
+                    ),
+                )
+                listening_question_count += 1
+
+        # --- speaking -------------------------------------------------------
+        speaking_question_count = 0
+        for topic in topics:
+            connection.execute(
+                """
+                INSERT INTO speaking_topics (
+                    id, part, topic, title, cue_card, prep_seconds,
+                    speak_seconds, difficulty
+                ) VALUES (?,?,?,?,?,?,?,?)
+                """,
+                (
+                    int(topic["id"]),
+                    int(topic["part"]),
+                    topic["topic"],
+                    topic["title"],
+                    topic.get("cue_card"),
+                    topic.get("prep_seconds"),
+                    int(topic["speak_seconds"]),
+                    int(topic.get("difficulty", 3)),
+                ),
+            )
+            for order_index, question in enumerate(topic.get("questions", []), start=1):
+                connection.execute(
+                    """
+                    INSERT INTO speaking_questions (
+                        id, topic_id, order_index, question, question_cn,
+                        sample_answer, key_phrases, follow_ups
+                    ) VALUES (?,?,?,?,?,?,?,?)
+                    """,
+                    (
+                        int(question["id"]),
+                        int(topic["id"]),
+                        order_index,
+                        question["question"],
+                        question.get("question_cn"),
+                        question.get("sample_answer"),
+                        json_text(question.get("key_phrases", [])),
+                        json_text(question.get("follow_ups", [])),
+                    ),
+                )
+                speaking_question_count += 1
+
+        # --- writing --------------------------------------------------------
+        writing_sample_count = 0
+        for task in writing_tasks:
+            chart_data = task.get("chart_data")
+            connection.execute(
+                """
+                INSERT INTO writing_tasks (
+                    id, task, title, prompt, chart_data, min_words,
+                    time_minutes, difficulty
+                ) VALUES (?,?,?,?,?,?,?,?)
+                """,
+                (
+                    int(task["id"]),
+                    int(task["task"]),
+                    task["title"],
+                    task["prompt"],
+                    json_text(chart_data) if chart_data is not None else None,
+                    int(task["min_words"]),
+                    int(task["time_minutes"]),
+                    int(task.get("difficulty", 3)),
+                ),
+            )
+            for sample in task.get("samples", []):
+                connection.execute(
+                    """
+                    INSERT INTO writing_samples (
+                        task_id, band, essay, outline, annotations
+                    ) VALUES (?,?,?,?,?)
+                    """,
+                    (
+                        int(task["id"]),
+                        sample.get("band"),
+                        sample["essay"],
+                        json_text(sample.get("outline", [])),
+                        json_text(sample.get("annotations", [])),
+                    ),
+                )
+                writing_sample_count += 1
+        for phrase in writing_phrases:
+            phrase_task = phrase.get("task")
+            connection.execute(
+                """
+                INSERT INTO writing_phrases (
+                    category, task, phrase, meaning_cn, example, band
+                ) VALUES (?,?,?,?,?,?)
+                """,
+                (
+                    phrase["category"],
+                    int(phrase_task) if phrase_task is not None else None,
+                    phrase["phrase"],
+                    phrase.get("meaning_cn"),
+                    phrase.get("example"),
+                    phrase.get("band"),
+                ),
+            )
+
         connection.execute("PRAGMA user_version = 1")
         connection.commit()
 
@@ -228,9 +408,9 @@ def build() -> int:
                 APP_COMPATIBILITY,
                 len(vocabulary),
                 len(passages),
-                0,
-                0,
-                0,
+                len(sections),
+                len(writing_tasks),
+                len(topics),
                 content_digest,
                 created_at,
             ),
@@ -253,9 +433,14 @@ def build() -> int:
         "vocabularyCount": len(vocabulary),
         "readingCount": len(passages),
         "readingQuestionCount": question_count,
-        "listeningCount": 0,
-        "writingCount": 0,
-        "speakingCount": 0,
+        "listeningCount": len(sections),
+        "listeningCueCount": sum(len(s.get("cues", [])) for s in sections),
+        "listeningQuestionCount": listening_question_count,
+        "writingCount": len(writing_tasks),
+        "writingSampleCount": writing_sample_count,
+        "writingPhraseCount": len(writing_phrases),
+        "speakingCount": len(topics),
+        "speakingQuestionCount": speaking_question_count,
         "generatedAt": created_at,
         "checksum": file_checksum,
         "contentDigest": content_digest,
@@ -270,6 +455,14 @@ def build() -> int:
     print(f"  vocabulary rows  : {len(vocabulary)}")
     print(f"  reading passages : {len(passages)}")
     print(f"  reading questions: {question_count}")
+    print(f"  listening sections: {len(sections)}")
+    print(f"  listening cues   : {sum(len(s.get('cues', [])) for s in sections)}")
+    print(f"  listening questions: {listening_question_count}")
+    print(f"  speaking topics  : {len(topics)}")
+    print(f"  speaking questions: {speaking_question_count}")
+    print(f"  writing tasks    : {len(writing_tasks)}")
+    print(f"  writing samples  : {writing_sample_count}")
+    print(f"  writing phrases  : {len(writing_phrases)}")
     print(f"  integrity_check  : {integrity}")
     print(f"  file sha256      : {file_checksum}")
     print(f"  content digest   : {content_digest}")

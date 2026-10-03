@@ -1,13 +1,18 @@
 {
-  "contentVersion": "1.0.0",
-  "appCompatibility": ">=0.1.0 <0.2.0",
+  "contentVersion": "2.0.0",
+  "appCompatibility": ">=0.2.0 <0.3.0",
   "vocabularyCount": 300,
   "readingCount": 8,
   "readingQuestionCount": 80,
-  "listeningCount": 0,
-  "writingCount": 0,
-  "speakingCount": 0,
-  "generatedAt": "2026-10-01T04:54:31Z",
-  "checksum": "98b871a9cd58ce4b5a27fcfd539c187bc5ecc8f606abf9f87fec32788bc78607",
-  "contentDigest": "eac3609cabc79d6993b41124a4b4873568f225e7200049a00e9aff8039de29c3"
+  "listeningCount": 6,
+  "listeningCueCount": 97,
+  "listeningQuestionCount": 31,
+  "writingCount": 10,
+  "writingSampleCount": 10,
+  "writingPhraseCount": 45,
+  "speakingCount": 13,
+  "speakingQuestionCount": 51,
+  "generatedAt": "2026-10-03T06:11:55Z",
+  "checksum": "9756e7c7e0ba9c7328baaf391f90eb6a3332daba5e2585d1192d2d503b856545",
+  "contentDigest": "c0106c3997d32f873bcd36dd45d37d697b317dade5402aaa8d74b4ba182732cc"
 }
