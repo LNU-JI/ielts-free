@@ -23,7 +23,7 @@ constexpr const wchar_t kWindowClassName[] = L"FLUTTER_RUNNER_WIN32_WINDOW";
 /// A value of 0 indicates apps should use dark mode. A non-zero or missing
 /// value indicates apps should use light mode.
 constexpr const wchar_t kGetPreferredBrightnessRegKey[] =
-    L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize";
+  L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize";
 constexpr const wchar_t kGetPreferredBrightnessRegValue[] = L"AppsUseLightTheme";
 
 // The number of Win32Window objects that currently exist.
@@ -32,7 +32,7 @@ static int g_active_window_count = 0;
 using EnableNonClientDpiScaling = BOOL __stdcall(HWND hwnd);
 
 // Scale helper to convert logical scaler values to physical using passed in
-// scale factor.
+// scale factor
 int Scale(int source, double scale_factor) {
   return static_cast<int>(source * scale_factor);
 }
@@ -257,10 +257,6 @@ RECT Win32Window::GetClientArea() {
 
 HWND Win32Window::GetHandle() {
   return window_handle_;
-}
-
-bool Win32Window::IsBeingDestroyed() {
-  return window_handle_ == nullptr;
 }
 
 void Win32Window::SetQuitOnClose(bool quit_on_close) {

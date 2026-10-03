@@ -10,10 +10,9 @@ include(${EPHEMERAL_DIR}/generated_config.cmake)
 # https://github.com/flutter/flutter/issues/57146.
 set(WRAPPER_ROOT "${EPHEMERAL_DIR}/cpp_client_wrapper")
 
-# Set fallback configurations for older versions of the Flutter tool.
-if (NOT DEFINED FLUTTER_ENGINE_OUTPUT_DIR)
-  set(FLUTTER_ENGINE_OUTPUT_DIR
-    "${CMAKE_CURRENT_BINARY_DIR}/../windows/flutter/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Profile>:Profile>$<$<CONFIG:Release>:Release>")
+# Set fallback configurations for older versions of the flutter tool.
+if (NOT DEFINED FLUTTER_TARGET_PLATFORM)
+  set(FLUTTER_TARGET_PLATFORM "windows-x64")
 endif()
 
 # === Flutter Library ===
@@ -63,7 +62,8 @@ add_library(flutter_wrapper_plugin STATIC
 )
 apply_standard_settings(flutter_wrapper_plugin)
 set_target_properties(flutter_wrapper_plugin PROPERTIES
-  POSITION_INDEPENDENT_CODE ON
+  POSITION_INDEPENDENT_CODE ON)
+set_target_properties(flutter_wrapper_plugin PROPERTIES
   CXX_VISIBILITY_PRESET hidden)
 target_link_libraries(flutter_wrapper_plugin PUBLIC flutter)
 target_include_directories(flutter_wrapper_plugin PUBLIC
@@ -85,8 +85,8 @@ add_dependencies(flutter_wrapper_app flutter_assemble)
 
 # === Flutter tool backend ===
 # _phony_ is a non-existent file to force this command to run every time,
-# since currently there's no way to get a real input file from the node or
-# native build systems.
+# since currently there's no way to get a full input/output list from the
+# flutter tool.
 set(PHONY_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/_phony_")
 set_source_files_properties("${PHONY_OUTPUT}" PROPERTIES SYMBOLIC TRUE)
 add_custom_command(
@@ -97,7 +97,7 @@ add_custom_command(
   COMMAND ${CMAKE_COMMAND} -E env
     ${FLUTTER_TOOL_ENVIRONMENT}
     "${FLUTTER_ROOT}/packages/flutter_tools/bin/tool_backend.bat"
-      windows-x64 $<CONFIG>
+      ${FLUTTER_TARGET_PLATFORM} $<CONFIG>
   VERBATIM
 )
 add_custom_target(flutter_assemble DEPENDS

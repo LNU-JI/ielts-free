@@ -16,6 +16,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   to the Kotlin DSL to match the official templates. `compileSdk` / `minSdk` /
   `targetSdk` / `versionCode` / `versionName` now come from the `flutter`
   extension instead of hard-coded numbers, so they track the SDK.
+- **Windows build configuration realigned with Flutter 3.47.5.** The scaffolding
+  had been assembled from a Flutter 3.22-era template and was missing
+  `project(ielts_free LANGUAGES CXX)` in `windows/CMakeLists.txt`, so CMake never
+  enabled C++ and `flutter build windows` failed on CI. The whole `windows/` tree
+  is now reproduced from the installed SDK's templates, with `windows/.gitignore`
+  added. Two deliberate local customisations are preserved: the window title reads
+  "IELTS Free", and the `IDI_APP_ICON` line in `Runner.rc` stays commented out
+  because the project ships no `app_icon.ico` (the SDK's own template placeholder
+  is a 0-byte file).
 - **Generated files are no longer committed.** `android/.gitignore` was added
   (matching Flutter's own template) and `gradlew`, `gradlew.bat`,
   `gradle-wrapper.jar` and `GeneratedPluginRegistrant.java` were removed from
