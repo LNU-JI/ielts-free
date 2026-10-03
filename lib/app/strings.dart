@@ -712,4 +712,98 @@ abstract final class AppStrings {
   static const String statisticsNoData = '完成一些练习后，这里会出现你的数据。';
   static const String statisticsMinutes = '分钟';
   static const String statisticsDays = '天';
+
+  // --- Vocabulary book (browse mode, T04b) --------------------------------
+
+  /// Page title of the vocabulary book (browse) experience.
+  static const String vocabularyBookTitle = '词汇本';
+
+  /// Tooltip / semantic label of the AppBar action that opens the book.
+  static const String vocabularyBookOpen = '词汇本';
+
+  /// Shown below the grid once every matching word has been loaded.
+  static const String vocabularyBookEnd = '没有更多了。';
+
+  /// Chinese display names for the 40 vocabulary topics.
+  ///
+  /// Keys are the canonical slugs defined by `docs/VOCABULARY-TOPICS.md`; the
+  /// database stores slugs only, so the mapping lives in the UI layer. The
+  /// insertion order doubles as the canonical browse order.
+  static const Map<String, String> vocabularyTopicLabels = <String, String>{
+    'education': '教育',
+    'environment': '环境',
+    'technology': '科技',
+    'health': '健康',
+    'work': '工作',
+    'economy': '经济',
+    'government': '政府',
+    'society': '社会',
+    'culture': '文化',
+    'media': '媒体',
+    'science': '科学',
+    'research': '研究',
+    'family': '家庭',
+    'city': '城市',
+    'transport': '交通',
+    'housing': '住房',
+    'food': '食物',
+    'agriculture': '农业',
+    'energy': '能源',
+    'climate': '气候',
+    'water': '水资源',
+    'animals': '动物',
+    'plants': '植物',
+    'law': '法律',
+    'crime': '犯罪',
+    'war': '战争',
+    'history': '历史',
+    'art': '艺术',
+    'music': '音乐',
+    'sport': '体育',
+    'travel': '旅行',
+    'language': '语言',
+    'communication': '沟通',
+    'psychology': '心理',
+    'money': '金钱',
+    'business': '商业',
+    'industry': '工业',
+    'population': '人口',
+    'migration': '移民',
+    'globalization': '全球化',
+  };
+
+  /// Chinese display name for a topic [slug], falling back to the raw slug when
+  /// the topic is not one of the 40 canonical values.
+  static String vocabularyTopicName(String slug) =>
+      vocabularyTopicLabels[slug] ?? slug;
+
+  // --- Content pack (V0.2) ------------------------------------------------
+
+  static const String contentPackSection = '内容包管理';
+  static const String contentPackSourceLabel = '当前使用';
+  static const String contentPackSourceBuiltin = '内置内容包';
+  static const String contentPackSourceImported = '导入的内容包';
+  static const String contentPackVersionLabel = '内容版本';
+  static const String contentPackCountsLabel = '内容数量';
+  static const String contentPackFileLabel = '来源文件';
+  static const String contentPackUnavailable = '暂不可用';
+  static const String contentPackOfflineNote =
+      '内容包由你在浏览器中下载后，在此从本机文件导入；应用全程离线，不会联网。';
+  static const String contentPackImportAction = '导入内容包';
+  static const String contentPackImportHint = '选择本机的 .db 或 .zip 内容包文件';
+  static const String contentPackRestoreAction = '恢复内置内容包';
+  static const String contentPackRestoreConfirmTitle = '恢复内置内容包？';
+  static const String contentPackRestoreConfirmMessage =
+      '将移除已导入的内容包，改用应用内置的内容库。你的学习数据不受影响。';
+  static const String contentPackImporting = '正在校验并导入内容包…';
+  static const String contentPackImportSuccess = '内容包导入成功：v';
+  static const String contentPackImportFailed = '内容包导入失败，请重试。';
+  static const String contentPackRestoreSuccess = '已恢复内置内容包。';
+  static const String contentPackRestoreFailed = '恢复失败，请重试。';
+  static const String contentPackPickFailed = '未能读取所选文件，请重试。';
+  static const String contentPackCountsVocabulary = '词汇';
+  static const String contentPackCountsReading = '阅读';
+  static const String contentPackCountsListening = '听力';
+  static const String contentPackCountsWriting = '写作';
+  static const String contentPackCountsSpeaking = '口语';
 }

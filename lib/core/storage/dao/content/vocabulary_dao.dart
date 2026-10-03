@@ -16,8 +16,19 @@ class VocabularyDao extends BaseDao {
 
   static const String _table = 'vocabulary';
 
+  /// Delimiter used by [page] to collapse a word's topics into one column.
+  /// Shared with `Vocabulary._decodeAggregatedTopics`.
+  static const String _topicDelimiter = ',';
+
   /// Returns one page of vocabulary, optionally filtered by [topic],
-  /// [difficulty] and a free-text [query] against the word.
+  /// [difficulty] and a free-text [query] against the word **or** its Chinese
+  /// meaning.
+  ///
+  /// Every returned word carries its own aggregated [Vocabulary.topics]: the
+  /// `vocabulary_topics` rows are `LEFT JOIN`ed and collapsed with
+  /// `GROUP_CONCAT`, so the topics come back in **one** query (no N+1). The
+  /// concatenation order follows the `idx_vt_vocab` index scan (i.e. authoring
+  /// order in practice); callers must not rely on a guaranteed order.
   Future<List<Vocabulary>> page({
     int limit = 20,
     int offset = 0,
@@ -28,42 +39,37 @@ class VocabularyDao extends BaseDao {
     final String? like =
         (query != null && query.trim().isNotEmpty) ? '%${query.trim()}%' : null;
 
-    if (topic != null && topic.isNotEmpty) {
-      final List<Map<String, Object?>> rows = await db.rawQuery(
-        'SELECT v.* FROM $_table v '
-        'JOIN vocabulary_topics vt ON vt.vocabulary_id = v.id '
-        'WHERE vt.topic = ? '
-        '${difficulty != null ? 'AND v.difficulty = ? ' : ''}'
-        '${like != null ? 'AND v.word LIKE ? ' : ''}'
-        'ORDER BY v.word ASC LIMIT ? OFFSET ?',
-        <Object?>[
-          topic,
-          if (difficulty != null) difficulty,
-          if (like != null) like,
-          limit,
-          offset,
-        ],
-      );
-      return rows.map(Vocabulary.fromMap).toList(growable: false);
-    }
-
     final List<String> clauses = <String>[];
     final List<Object?> args = <Object?>[];
+
+    if (topic != null && topic.isNotEmpty) {
+      // EXISTS keeps the row set duplicate-free even if a word carries the same
+      // topic twice, where a plain JOIN would emit the word once per match.
+      clauses.add('EXISTS (SELECT 1 FROM vocabulary_topics ft '
+          'WHERE ft.vocabulary_id = v.id AND ft.topic = ?)');
+      args.add(topic);
+    }
     if (difficulty != null) {
-      clauses.add('difficulty = ?');
+      clauses.add('v.difficulty = ?');
       args.add(difficulty);
     }
     if (like != null) {
-      clauses.add('word LIKE ?');
+      // Match the head word OR the Chinese meaning, so users can search in
+      // either language. The same pattern is bound twice.
+      clauses.add('(v.word LIKE ? OR v.meaning_cn LIKE ?)');
+      args.add(like);
       args.add(like);
     }
-    final List<Map<String, Object?>> rows = await db.query(
-      _table,
-      where: clauses.isEmpty ? null : clauses.join(' AND '),
-      whereArgs: clauses.isEmpty ? null : args,
-      orderBy: 'word ASC',
-      limit: limit,
-      offset: offset,
+
+    final String where = clauses.isEmpty ? '' : 'WHERE ${clauses.join(' AND ')}';
+    final List<Map<String, Object?>> rows = await db.rawQuery(
+      'SELECT v.*, GROUP_CONCAT(vt.topic, \'$_topicDelimiter\') AS topics '
+      'FROM $_table v '
+      'LEFT JOIN vocabulary_topics vt ON vt.vocabulary_id = v.id '
+      '$where '
+      'GROUP BY v.id '
+      'ORDER BY v.word ASC LIMIT ? OFFSET ?',
+      <Object?>[...args, limit, offset],
     );
     return rows.map(Vocabulary.fromMap).toList(growable: false);
   }
@@ -73,8 +79,8 @@ class VocabularyDao extends BaseDao {
     if (topic != null && topic.isNotEmpty) {
       final List<Map<String, Object?>> rows = await db.rawQuery(
         'SELECT COUNT(*) AS c FROM $_table v '
-        'JOIN vocabulary_topics vt ON vt.vocabulary_id = v.id '
-        'WHERE vt.topic = ?',
+        'WHERE EXISTS (SELECT 1 FROM vocabulary_topics vt '
+        'WHERE vt.vocabulary_id = v.id AND vt.topic = ?)',
         <Object?>[topic],
       );
       return Sqflite.firstIntValue(rows) ?? 0;

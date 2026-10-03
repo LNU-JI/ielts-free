@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +7,8 @@ import 'package:ielts_free/app/constants.dart';
 import 'package:ielts_free/app/router.dart';
 import 'package:ielts_free/app/strings.dart';
 import 'package:ielts_free/app/theme.dart';
+import 'package:ielts_free/core/providers/content_pack_providers.dart';
+import 'package:ielts_free/core/services/content_pack_service.dart';
 import 'package:ielts_free/core/utils/date_utils.dart';
 import 'package:ielts_free/features/settings/application/settings_controller.dart';
 import 'package:ielts_free/shared/widgets/adaptive_layout.dart';
@@ -154,6 +157,8 @@ class _SettingsBody extends ConsumerWidget {
               ),
             ],
           ),
+          const SizedBox(height: AppSpacing.lg),
+          const _ContentPackCard(),
           const SizedBox(height: AppSpacing.lg),
           _Section(
             title: AppStrings.settingsSectionAbout,
@@ -469,6 +474,260 @@ class _ChipRow<T> extends StatelessWidget {
                 ),
               ),
           ],
+        ),
+      ],
+    );
+  }
+}
+
+/// Content-pack management (V0.2).
+///
+/// Shows whether the built-in or an imported pack is active and lets the learner
+/// import a locally-downloaded `.db` / `.zip` file (browser downloads the pack;
+/// the app only reads a local file, so it never needs the network) or fall back
+/// to the built-in content.
+class _ContentPackCard extends ConsumerStatefulWidget {
+  const _ContentPackCard();
+
+  @override
+  ConsumerState<_ContentPackCard> createState() => _ContentPackCardState();
+}
+
+class _ContentPackCardState extends ConsumerState<_ContentPackCard> {
+  bool _busy = false;
+
+  Future<void> _import() async {
+    final FilePickerResult? picked;
+    try {
+      picked = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: <String>['db', 'zip'],
+        withData: false,
+      );
+    } on Object {
+      if (mounted) {
+        _snack(AppStrings.contentPackPickFailed);
+      }
+      return;
+    }
+
+    final List<PlatformFile> files =
+        picked?.files ?? const <PlatformFile>[];
+    if (files.isEmpty) {
+      return; // The user cancelled the picker.
+    }
+    final String? path = files.first.path;
+    if (path == null) {
+      if (mounted) {
+        _snack(AppStrings.contentPackPickFailed);
+      }
+      return;
+    }
+
+    setState(() => _busy = true);
+    try {
+      final ContentPackValidation result = await ref
+          .read(contentPackControllerProvider.notifier)
+          .importFromPath(path);
+      if (!mounted) {
+        return;
+      }
+      if (result.ok) {
+        final ContentPackInfo? info =
+            ref.read(contentPackControllerProvider).valueOrNull;
+        _snack(
+          '${AppStrings.contentPackImportSuccess}${info?.contentVersion ?? ''}',
+        );
+      } else {
+        _snack(result.reason ?? AppStrings.contentPackImportFailed);
+      }
+    } on Object {
+      if (mounted) {
+        _snack(AppStrings.contentPackImportFailed);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _busy = false);
+      }
+    }
+  }
+
+  Future<void> _restore() async {
+    final bool confirmed = await _confirm(
+      AppStrings.contentPackRestoreConfirmTitle,
+      AppStrings.contentPackRestoreConfirmMessage,
+    );
+    if (!confirmed || !mounted) {
+      return;
+    }
+    setState(() => _busy = true);
+    try {
+      await ref.read(contentPackControllerProvider.notifier).restoreBuiltin();
+      if (mounted) {
+        _snack(AppStrings.contentPackRestoreSuccess);
+      }
+    } on Object {
+      if (mounted) {
+        _snack(AppStrings.contentPackRestoreFailed);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _busy = false);
+      }
+    }
+  }
+
+  void _snack(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  Future<bool> _confirm(String title, String message) async {
+    final bool? result = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text(AppStrings.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text(AppStrings.confirm),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final AsyncValue<ContentPackInfo> async =
+        ref.watch(contentPackControllerProvider);
+    final bool isImported = async.valueOrNull?.isImported ?? false;
+
+    return _Section(
+      title: AppStrings.contentPackSection,
+      children: <Widget>[
+        async.when(
+          loading: () => const Padding(
+            padding: EdgeInsets.symmetric(vertical: AppSpacing.md),
+            child: LinearProgressIndicator(),
+          ),
+          error: (Object error, StackTrace stackTrace) => Text(
+            AppStrings.contentPackUnavailable,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          data: (ContentPackInfo info) => _details(context, info),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        if (_busy)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+            child: Row(
+              children: <Widget>[
+                const SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Text(
+                  AppStrings.contentPackImporting,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
+            ),
+          )
+        else
+          Wrap(
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.sm,
+            children: <Widget>[
+              FilledButton.tonal(
+                onPressed: _import,
+                child: const Text(AppStrings.contentPackImportAction),
+              ),
+              if (isImported)
+                OutlinedButton(
+                  onPressed: _restore,
+                  child: const Text(AppStrings.contentPackRestoreAction),
+                ),
+            ],
+          ),
+        const SizedBox(height: AppSpacing.sm),
+        Text(
+          AppStrings.contentPackImportHint,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: context.palette.muted,
+              ),
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        Text(
+          AppStrings.contentPackOfflineNote,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: context.palette.muted,
+              ),
+        ),
+      ],
+    );
+  }
+
+  Widget _details(BuildContext context, ContentPackInfo info) {
+    final ThemeData theme = Theme.of(context);
+    final String source = info.isImported
+        ? AppStrings.contentPackSourceImported
+        : AppStrings.contentPackSourceBuiltin;
+    final String counts = <String>[
+      '${AppStrings.contentPackCountsVocabulary} ${info.vocabularyCount}',
+      '${AppStrings.contentPackCountsReading} ${info.readingCount}',
+      '${AppStrings.contentPackCountsListening} ${info.listeningCount}',
+      '${AppStrings.contentPackCountsWriting} ${info.writingCount}',
+      '${AppStrings.contentPackCountsSpeaking} ${info.speakingCount}',
+    ].join(' · ');
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        _kv(theme, AppStrings.contentPackSourceLabel, source),
+        const SizedBox(height: AppSpacing.xs),
+        _kv(
+          theme,
+          AppStrings.contentPackVersionLabel,
+          info.contentVersion ?? AppStrings.contentPackUnavailable,
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        _kv(theme, AppStrings.contentPackCountsLabel, counts),
+        if (info.isImported && info.originalFileName != null) ...<Widget>[
+          const SizedBox(height: AppSpacing.xs),
+          _kv(
+            theme,
+            AppStrings.contentPackFileLabel,
+            info.originalFileName!,
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _kv(ThemeData theme, String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(
+          width: 88,
+          child: Text(
+            label,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Text(value, style: theme.textTheme.bodyMedium),
         ),
       ],
     );

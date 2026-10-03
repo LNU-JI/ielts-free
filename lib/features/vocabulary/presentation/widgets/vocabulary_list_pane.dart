@@ -7,6 +7,7 @@ import 'package:ielts_free/app/strings.dart';
 import 'package:ielts_free/app/theme.dart';
 import 'package:ielts_free/core/models/vocabulary.dart';
 import 'package:ielts_free/features/vocabulary/application/vocabulary_list_controller.dart';
+import 'package:ielts_free/features/vocabulary/presentation/vocabulary_topic_order.dart';
 import 'package:ielts_free/shared/widgets/empty_state.dart';
 import 'package:ielts_free/shared/widgets/error_view.dart';
 import 'package:ielts_free/shared/widgets/loading_view.dart';
@@ -138,9 +139,9 @@ class _VocabularyListPaneState extends ConsumerState<VocabularyListPane> {
                   selected: data.topic == null,
                   onTap: () => controller.setTopic(null),
                 ),
-                for (final String topic in data.topics)
+                for (final String topic in orderVocabularyTopics(data.topics))
                   _FilterChip(
-                    label: topic,
+                    label: AppStrings.vocabularyTopicName(topic),
                     selected: data.topic == topic,
                     onTap: () => controller.setTopic(topic),
                   ),

@@ -71,6 +71,21 @@ dependencies:
   # play back the LOCAL file the learner just recorded. There is no streaming
   # audio, no networked audio and no audio asset to download.
 
+  # --- V0.2 offline content packs ----------------------------------------
+  # Importing a large content pack (.db / .zip) is done WITHOUT any network
+  # code: the user downloads the pack in their BROWSER, then picks the LOCAL
+  # file here. The app only ever reads a file from disk, so no INTERNET
+  # permission is added and the offline red line is preserved.
+  #
+  # `file_picker` is used instead of the official `file_selector` because every
+  # version of `file_selector_platform_interface` transitively depends on
+  # `package:http`, which the offline red line forbids. `file_picker`'s tree
+  # (cross_file, win32, ffi, dbus, web, path) pulls in no networking package.
+  # `archive` is pure Dart (zip/tar/…); it is used only to unpack a `.zip`
+  # content pack that bundles the `.db` with its `manifest.json`.
+  file_picker: ^10.3.10
+  archive: ^4.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -94,6 +109,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/audio/
+    - assets/illustrations/
 
 # ---------------------------------------------------------------------------
 # Native-asset hook configuration for `package:sqlite3` (a transitive dependency

@@ -45,6 +45,19 @@ REQUIRED_QUESTION_FIELDS = [
 ]
 
 VALID_CEFR = {"A1", "A2", "B1", "B2", "C1", "C2"}
+
+# Vocabulary topic slugs are a shared contract (docs/VOCABULARY-TOPICS.md):
+# exactly these 40 lower-case, hyphen-free values. Anything else is an error.
+VALID_VOCAB_TOPICS = {
+    "education", "environment", "technology", "health", "work", "economy",
+    "government", "society", "culture", "media", "science", "research",
+    "family", "city", "transport", "housing", "food", "agriculture", "energy",
+    "climate", "water", "animals", "plants", "law", "crime", "war", "history",
+    "art", "music", "sport", "travel", "language", "communication",
+    "psychology", "money", "business", "industry", "population", "migration",
+    "globalization",
+}
+MIN_VOCABULARY = 1000
 VALID_TYPES = {
     "TFNG", "YNNG", "MC", "MATCH_HEADINGS", "MATCH_INFO",
     "SENTENCE_COMPLETION", "SUMMARY_COMPLETION", "TABLE_COMPLETION",
@@ -112,6 +125,10 @@ def check_vocabulary(items: list) -> tuple[int, int, int, list[str]]:
         topics = item.get("topics")
         if not isinstance(topics, list) or not topics:
             problems.append("topics must be a non-empty list")
+        else:
+            for topic in topics:
+                if topic not in VALID_VOCAB_TOPICS:
+                    problems.append(f"invalid topic slug: {topic!r}")
 
         examples = item.get("examples")
         if not isinstance(examples, list) or not examples:
@@ -519,6 +536,12 @@ def main() -> int:
     valid = v_valid + r_valid + l_valid + s_valid + w_valid
     review = v_review + r_review + l_review + s_review + w_review
     duplicate = v_dup + r_dup + l_dup + s_dup + w_dup
+
+    if len(vocabulary) < MIN_VOCABULARY:
+        review += 1
+        issues.append(
+            f"[vocab] expected at least {MIN_VOCABULARY} items, found {len(vocabulary)}"
+        )
 
     print("IELTS Free — content validation")
     print(f"  vocabulary items : {len(vocabulary)}")

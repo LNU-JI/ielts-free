@@ -22,6 +22,7 @@ import 'package:ielts_free/features/speaking/presentation/speaking_list_page.dar
 import 'package:ielts_free/features/speaking/presentation/speaking_session_page.dart';
 import 'package:ielts_free/features/statistics/presentation/statistics_page.dart';
 import 'package:ielts_free/features/study_plan/presentation/study_plan_page.dart';
+import 'package:ielts_free/features/vocabulary/presentation/vocabulary_book_page.dart';
 import 'package:ielts_free/features/vocabulary/presentation/vocabulary_detail_page.dart';
 import 'package:ielts_free/features/vocabulary/presentation/vocabulary_list_page.dart';
 import 'package:ielts_free/features/vocabulary/presentation/vocabulary_practice_page.dart';
@@ -151,6 +152,13 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
             builder: (BuildContext context, GoRouterState state) =>
                 const VocabularyListPage(),
             routes: <RouteBase>[
+              // Must precede the `:id` route, otherwise `/vocabulary/book`
+              // matches `:id` and tries to open word number 0.
+              GoRoute(
+                path: 'book',
+                builder: (BuildContext context, GoRouterState state) =>
+                    const VocabularyBookPage(),
+              ),
               GoRoute(
                 path: ':id',
                 builder: (BuildContext context, GoRouterState state) =>

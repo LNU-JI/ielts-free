@@ -21,7 +21,16 @@ class VocabularyListPage extends StatelessWidget {
 
     if (context.isDesktopLayout) {
       return Scaffold(
-        appBar: AppBar(title: const Text(AppStrings.vocabularyTitle)),
+        appBar: AppBar(
+          title: const Text(AppStrings.vocabularyTitle),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.collections_bookmark_outlined),
+              tooltip: AppStrings.vocabularyBookOpen,
+              onPressed: () => context.go('${AppRoutes.vocabulary}/book'),
+            ),
+          ],
+        ),
         body: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -44,7 +53,16 @@ class VocabularyListPage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.vocabularyTitle)),
+      appBar: AppBar(
+        title: const Text(AppStrings.vocabularyTitle),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.collections_bookmark_outlined),
+            tooltip: AppStrings.vocabularyBookOpen,
+            onPressed: () => context.go('${AppRoutes.vocabulary}/book'),
+          ),
+        ],
+      ),
       body: VocabularyListPane(onSelect: select),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ielts_free/app/strings.dart';
 import 'package:ielts_free/app/theme.dart';
 import 'package:ielts_free/core/models/vocabulary.dart';
+import 'package:ielts_free/features/vocabulary/presentation/vocabulary_topic_order.dart';
 import 'package:ielts_free/shared/widgets/section_card.dart';
 
 /// The full vocabulary card used on the detail page (PRD §4.3 / BRIEF §14).
@@ -263,8 +264,9 @@ class _TopicsField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> items =
-        topics.where((String t) => t.trim().isNotEmpty).toList(growable: false);
+    final List<String> items = orderVocabularyTopics(
+      topics.where((String t) => t.trim().isNotEmpty).toList(growable: false),
+    );
     if (items.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -281,7 +283,8 @@ class _TopicsField extends StatelessWidget {
           spacing: AppSpacing.sm,
           runSpacing: AppSpacing.xs,
           children: items
-              .map((String topic) => _Chip(text: topic))
+              .map((String topic) =>
+                  _Chip(text: AppStrings.vocabularyTopicName(topic)))
               .toList(growable: false),
         ),
       ],

@@ -1,7 +1,7 @@
 {
   "contentVersion": "2.0.0",
   "appCompatibility": ">=0.2.0 <0.3.0",
-  "vocabularyCount": 300,
+  "vocabularyCount": 1000,
   "readingCount": 8,
   "readingQuestionCount": 80,
   "listeningCount": 6,
@@ -12,7 +12,7 @@
   "writingPhraseCount": 45,
   "speakingCount": 13,
   "speakingQuestionCount": 51,
-  "generatedAt": "2026-10-03T06:11:55Z",
-  "checksum": "9756e7c7e0ba9c7328baaf391f90eb6a3332daba5e2585d1192d2d503b856545",
-  "contentDigest": "c0106c3997d32f873bcd36dd45d37d697b317dade5402aaa8d74b4ba182732cc"
+  "generatedAt": "2026-10-03T08:15:27Z",
+  "checksum": "f8e9dd96fd1f7df017ccf5b26801037f0186e9213201e541c40a09f6f705c539",
+  "contentDigest": "542f04ae40ede220f0630572313fd8e2c8f43b9413c93703f6de589cf3ee132d"
 }

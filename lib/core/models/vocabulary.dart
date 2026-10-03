@@ -5,7 +5,9 @@
 /// `related_words`) are stored as JSON strings and decoded here.
 ///
 /// Topics live in the separate `vocabulary_topics` table and are modelled by
-/// [VocabularyTopic]; they are intentionally not duplicated on this row.
+/// [VocabularyTopic]. They are intentionally not duplicated on this row; the
+/// **list** query hydrates [Vocabulary.topics] from a join, while single-row
+/// lookups leave it empty.
 library;
 
 import 'package:ielts_free/core/models/json_utils.dart';
@@ -42,6 +44,26 @@ class VocabularyExample {
   int get hashCode => Object.hash(en, cn);
 }
 
+/// Splits the comma-separated `topics` column produced by the vocabulary list
+/// query (see `VocabularyDao._topicsAggregate`) into a list of slugs.
+///
+/// The delimiter (`,`) is a contract shared with the DAO. Duplicates are
+/// collapsed while preserving order. A missing column — e.g. the row came from a
+/// single-word lookup that does not join `vocabulary_topics` — yields an empty
+/// list, so [Vocabulary.fromMap] stays backward compatible.
+List<String> _decodeAggregatedTopics(Object? raw) {
+  final String? joined = asString(raw);
+  if (joined == null || joined.isEmpty) {
+    return const <String>[];
+  }
+  return joined
+      .split(',')
+      .map((String slug) => slug.trim())
+      .where((String slug) => slug.isNotEmpty)
+      .toSet()
+      .toList(growable: false);
+}
+
 /// A single vocabulary item.
 class Vocabulary {
   const Vocabulary({
@@ -62,6 +84,7 @@ class Vocabulary {
     this.speakingUsage,
     this.commonMistakes = const <String>[],
     this.relatedWords = const <String>[],
+    this.topics = const <String>[],
     this.createdAt,
   });
 
@@ -116,6 +139,14 @@ class Vocabulary {
   /// Related words (word family).
   final List<String> relatedWords;
 
+  /// Topic slugs attached to this word, in authoring order.
+  ///
+  /// Hydrated by the **list** query from `vocabulary_topics` (one query, no
+  /// N+1). Empty when the row was loaded by a single-word lookup, or when the
+  /// word carries no topics. Not persisted through [toMap] — the topics live in
+  /// their own table.
+  final List<String> topics;
+
   /// Creation timestamp (UTC).
   final DateTime? createdAt;
 
@@ -140,6 +171,7 @@ class Vocabulary {
         speakingUsage: asString(map['speaking_usage']),
         commonMistakes: decodeStringList(map['common_mistakes']),
         relatedWords: decodeStringList(map['related_words']),
+        topics: _decodeAggregatedTopics(map['topics']),
         createdAt: AppDateUtils.parseUtcIso(asString(map['created_at'])),
       );
 
