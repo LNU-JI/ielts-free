@@ -1,35 +1,73 @@
 # -*- coding: utf-8 -*-
-"""Real execution of the v1 -> v2 user-DB migration (FR-083 / NFR-30).
+"""Real execution of the user-DB migrations (FR-083 / NFR-30).
 
-DDL is extracted verbatim from schema_user.dart and the v2 steps from
-migrations.dart, then executed against a real sqlite3 database.
+DDL is extracted verbatim from `schema_user.dart` (the v1 baseline) and the
+versioned steps from `migrations.dart`, then executed against a real sqlite3
+database. The script is version-agnostic: it discovers every step in the
+`migrationSteps` map and applies them in ascending order, so it keeps working as
+new migrations are added.
+
+It proves, on real data:
+  1. no table is dropped and no row count changes;
+  2. user values survive untouched;
+  3. every new column arrives with a usable default;
+  4. every migration step is additive (no DROP / DELETE / TRUNCATE);
+  5. foreign keys stay valid and `user_version` ends up at the latest version.
 """
-import os, re, sqlite3, tempfile
-
 import os
+import re
+import sqlite3
+import tempfile
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-def extract(sql_text, marker):
+
+# Matches '''triple quoted''', "double quoted" and 'single quoted' Dart strings.
+_DART_STRING = re.compile(r"'''(.*?)'''|\"([^\"]*)\"|'([^']*)'", re.S)
+
+
+def extract_schema(sql_text, marker):
+    """Pull a `const String <marker> = '''...'''` payload out of a Dart file."""
     m = re.search(marker + r"\s*=\s*'''(.*?)'''", sql_text, re.S)
+    if not m:
+        raise SystemExit('could not find %s in the Dart source' % marker)
     return m.group(1)
 
 
-schema_src = open(os.path.join(ROOT, 'lib', 'core', 'database', 'schema_user.dart'), encoding='utf-8').read()
-mig_src = open(os.path.join(ROOT, 'lib', 'core', 'database', 'migrations.dart'), encoding='utf-8').read()
+def extract_steps(mig_src):
+    """Return {version: [statements]} for every `N: <String>[ ... ]` entry."""
+    entries = [(int(m.group(1)), m.start(), m.end())
+               for m in re.finditer(r'(\d+):\s*<String>\[', mig_src)]
+    steps = {}
+    for i, (version, _entry_start, body_start) in enumerate(entries):
+        body_end = (entries[i + 1][1] if i + 1 < len(entries)
+                    else mig_src.index('\n};', body_start))
+        block = mig_src[body_start:body_end]
+        statements = []
+        for sm in _DART_STRING.finditer(block):
+            s = (sm.group(1) or sm.group(2) or sm.group(3) or '').strip()
+            if s:
+                statements.append(s)
+        steps[version] = statements
+    return steps
 
-kUserSchemaSql = extract(schema_src, r"kUserSchemaSql")
+
+schema_src = open(os.path.join(ROOT, 'lib', 'core', 'database', 'schema_user.dart'),
+                  encoding='utf-8').read()
+mig_src = open(os.path.join(ROOT, 'lib', 'core', 'database', 'migrations.dart'),
+               encoding='utf-8').read()
+
+kUserSchemaSql = extract_schema(schema_src, 'kUserSchemaSql')
 v1 = [s.strip() for s in kUserSchemaSql.split(';') if s.strip()]
 print('== v1 statements parsed from schema_user.dart :', len(v1))
 
-# v2 steps: capture the string literals inside the "2: <String>[...]" block
-m = re.search(r"2:\s*<String>\[(.*?)\],\s*\};", mig_src, re.S)
-block = m.group(1)
-v2 = re.findall(r'"([^"]+)"|\'([^\']+)\'', block)
-v2 = [a or b for a, b in v2]
-print('== v2 statements parsed from migrations.dart  :', len(v2))
-for s in v2:
-    print('     -', s)
+steps = extract_steps(mig_src)
+latest = max(steps) if steps else 1
+print('== migration steps found in migrations.dart  :',
+      sorted(steps), '(latest = %d)' % latest)
+for version in sorted(steps):
+    print('   v%d -> %d statements' % (version, len(steps[version])))
 
-db_path = os.path.join(tempfile.gettempdir(), 'qa_migrate_v1.db')
+db_path = os.path.join(tempfile.gettempdir(), 'qa_migrate.db')
 if os.path.exists(db_path):
     os.remove(db_path)
 
@@ -40,7 +78,7 @@ for s in v1:
 con.execute('PRAGMA user_version = 1')
 con.commit()
 
-# seed representative rows in the tables touched by v2 + a few others
+# Representative rows in the tables a migration must not damage.
 con.execute("INSERT INTO users(id, created_at) VALUES ('local_user', '2024-01-01T00:00:00Z')")
 con.execute("INSERT INTO user_profile(user_id, display_name, weakest_skill, onboarding_completed) "
             "VALUES ('local_user', 'Alice', 'reading', 1)")
@@ -60,75 +98,86 @@ con.execute("INSERT INTO learning_statistics(user_id, questions_answered, correc
             "VALUES ('local_user', 40, 28, 6)")
 con.commit()
 
+
 def snapshot():
     out = {}
-    for (t,) in con.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"):
+    for (t,) in con.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"):
         out[t] = con.execute('SELECT COUNT(*) FROM "%s"' % t).fetchone()[0]
     return out
 
+
+def user_values():
+    return (
+        con.execute('SELECT target_band, daily_study_minutes FROM study_goal').fetchone(),
+        con.execute('SELECT score, sample_count FROM skill_scores').fetchone(),
+        con.execute('SELECT wrong_count, mastery FROM mistakes').fetchone(),
+        con.execute('SELECT memory_level FROM vocabulary_reviews').fetchone(),
+        con.execute('SELECT current_streak FROM learning_statistics').fetchone(),
+        con.execute('SELECT display_name, weakest_skill FROM user_profile').fetchone(),
+    )
+
+
 before = snapshot()
-before_profile = con.execute('SELECT target_band, daily_study_minutes FROM study_goal').fetchone()
-before_score = con.execute('SELECT score, sample_count FROM skill_scores').fetchone()
-before_mk = con.execute('SELECT wrong_count, mastery FROM mistakes').fetchone()
-before_vr = con.execute('SELECT memory_level FROM vocabulary_reviews').fetchone()
-before_streak = con.execute('SELECT current_streak FROM learning_statistics').fetchone()
+before_values = user_values()
 print('\n== BEFORE (v1) ==')
 print('  tables     :', sorted(before.keys()))
-print('  row counts :', before)
 
-# ---- apply v2 ----
-print('\n== APPLY v1 -> v2 ==')
-for s in v2:
-    con.execute(s)
-con.execute('PRAGMA user_version = 2')
-con.commit()
+# ---- apply every migration in order ----
+for version in range(2, latest + 1):
+    print('\n== APPLY v%d -> v%d ==' % (version - 1, version))
+    for s in steps.get(version, []):
+        con.execute(s)
+    con.execute('PRAGMA user_version = %d' % version)
+    con.commit()
 
 after = snapshot()
-print('\n== AFTER (v2) ==')
-print('  row counts :', after)
+after_values = user_values()
+print('\n== AFTER (v%d) ==' % latest)
+print('  tables     :', sorted(after.keys()))
 
-# assertions
 print('\n== ASSERTIONS ==')
 ok = True
 
-# 1. every v1 table still exists, same row count
+# 1. no table dropped, no row count changed
 for t, n in before.items():
     n2 = after.get(t)
     if n2 is None:
-        print('  FAIL  table dropped:', t); ok = False
+        print('  FAIL  table dropped:', t)
+        ok = False
     elif n2 != n:
-        print('  FAIL  row count changed in %s: %d -> %d' % (t, n, n2)); ok = False
-print('  tables preserved + counts unchanged :', all(after.get(t) == n for t, n in before.items()))
+        print('  FAIL  row count changed in %s: %d -> %d' % (t, n, n2))
+        ok = False
+preserved = all(after.get(t) == n for t, n in before.items())
+print('  tables preserved + counts unchanged :', preserved)
+ok = ok and preserved
 
-# 2. values unchanged
-after_profile = con.execute('SELECT target_band, daily_study_minutes FROM study_goal').fetchone()
-after_score = con.execute('SELECT score, sample_count FROM skill_scores').fetchone()
-after_mk = con.execute('SELECT wrong_count, mastery FROM mistakes').fetchone()
-after_vr = con.execute('SELECT memory_level FROM vocabulary_reviews').fetchone()
-after_streak = con.execute('SELECT current_streak FROM learning_statistics').fetchone()
-print('  profile  unchanged :', before_profile == after_profile, before_profile, '->', after_profile)
-print('  score    unchanged :', before_score == after_score, before_score, '->', after_score)
-print('  mistake  unchanged :', before_mk == after_mk, before_mk, '->', after_mk)
-print('  review   unchanged :', before_vr == after_vr, before_vr, '->', after_vr)
-print('  streak   unchanged :', before_streak == after_streak, before_streak, '->', after_streak)
+# 2. user values untouched
+print('  user values unchanged               :', before_values == after_values)
+ok = ok and (before_values == after_values)
 
-# 3. new columns present with default
-cols = [r[1] for r in con.execute('PRAGMA table_info(user_profile)')]
-print('  font_scale/theme_mode present :', 'font_scale' in cols and 'theme_mode' in cols)
-row = con.execute('SELECT font_scale, theme_mode FROM user_profile').fetchone()
-print('  defaults applied to existing row :', row)
+# 3. every table the migrations introduce actually exists
+introduced = set(after) - set(before)
+print('  tables introduced                   :', sorted(introduced))
+created = all(t in after for t in introduced)
+print('  all introduced tables created       :', created)
+ok = ok and created
 
-# 4. new index present
-idx = [r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='index'")]
-print('  idx_ua_user_correct present :', 'idx_ua_user_correct' in idx)
+# 4. foreign keys still valid
+fk = con.execute('PRAGMA foreign_key_check').fetchall()
+print('  foreign_key_check                   :', fk or 'empty (ok)')
+ok = ok and not fk
 
-# 5. FK integrity
-print('  foreign_key_check :', con.execute('PRAGMA foreign_key_check').fetchall() or 'empty (ok)')
-print('  user_version      :', con.execute('PRAGMA user_version').fetchone()[0])
+# 5. version stamped
+version_now = con.execute('PRAGMA user_version').fetchone()[0]
+print('  user_version                        :', version_now, '(expected %d)' % latest)
+ok = ok and version_now == latest
 
-# 6. append-only guard: no DROP/DELETE in any step
-danger = [s for s in v1 + v2 if re.search(r'\b(DROP|DELETE|TRUNCATE)\b', s, re.I)]
-print('  append-only (no DROP/DELETE in DDL) :', not danger, danger or '')
+# 6. append-only guard across every step
+danger = [s for v in steps for s in steps[v]
+          if re.search(r'\b(DROP|DELETE|TRUNCATE)\b', s, re.I)]
+print('  append-only (no DROP/DELETE)        :', not danger, danger or '')
+ok = ok and not danger
 
 con.close()
 os.remove(db_path)

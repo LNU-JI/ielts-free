@@ -86,6 +86,132 @@ CREATE TABLE IF NOT EXISTS reading_options (
 
 CREATE INDEX IF NOT EXISTS idx_ro_question ON reading_options(question_id);
 
+-- ---------------------------------------------------------------------------
+-- Listening (V0.2)
+--
+-- Audio is synthesised ON DEVICE from `listening_cues` using the platform TTS
+-- engine, so the content pack ships text only: no audio files, no network, no
+-- downloads. Each cue is one spoken sentence (or one short turn) and is the
+-- unit of sentence-by-sentence intensive listening.
+-- ---------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS listening_sections (
+  id INTEGER PRIMARY KEY,
+  part INTEGER NOT NULL CHECK (part BETWEEN 1 AND 4),
+  title TEXT NOT NULL,
+  scene TEXT,
+  accent TEXT,
+  difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5),
+  overview TEXT,
+  skills TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_ls_part ON listening_sections(part);
+CREATE INDEX IF NOT EXISTS idx_ls_difficulty ON listening_sections(difficulty);
+
+CREATE TABLE IF NOT EXISTS listening_cues (
+  id INTEGER PRIMARY KEY,
+  section_id INTEGER NOT NULL,
+  order_index INTEGER NOT NULL,
+  speaker TEXT,
+  text TEXT NOT NULL,
+  translation TEXT,
+  phonetic_notes TEXT,
+  FOREIGN KEY (section_id) REFERENCES listening_sections(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_lc_section ON listening_cues(section_id);
+
+CREATE TABLE IF NOT EXISTS listening_questions (
+  id INTEGER PRIMARY KEY,
+  section_id INTEGER NOT NULL,
+  order_index INTEGER NOT NULL,
+  question_type TEXT NOT NULL,
+  prompt TEXT NOT NULL,
+  options TEXT,
+  answer TEXT NOT NULL,
+  alternatives TEXT,
+  evidence_cue_id INTEGER,
+  explanation TEXT,
+  distractors TEXT,
+  FOREIGN KEY (section_id) REFERENCES listening_sections(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_lq_section ON listening_questions(section_id);
+
+-- ---------------------------------------------------------------------------
+-- Speaking (V0.2)
+-- ---------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS speaking_topics (
+  id INTEGER PRIMARY KEY,
+  part INTEGER NOT NULL CHECK (part BETWEEN 1 AND 3),
+  topic TEXT NOT NULL,
+  title TEXT NOT NULL,
+  cue_card TEXT,
+  prep_seconds INTEGER,
+  speak_seconds INTEGER NOT NULL,
+  difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5)
+);
+
+CREATE INDEX IF NOT EXISTS idx_st_part ON speaking_topics(part);
+
+CREATE TABLE IF NOT EXISTS speaking_questions (
+  id INTEGER PRIMARY KEY,
+  topic_id INTEGER NOT NULL,
+  order_index INTEGER NOT NULL,
+  question TEXT NOT NULL,
+  question_cn TEXT,
+  sample_answer TEXT,
+  key_phrases TEXT,
+  follow_ups TEXT,
+  FOREIGN KEY (topic_id) REFERENCES speaking_topics(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_sq_topic ON speaking_questions(topic_id);
+
+-- ---------------------------------------------------------------------------
+-- Writing (V0.2)
+-- ---------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS writing_tasks (
+  id INTEGER PRIMARY KEY,
+  task INTEGER NOT NULL CHECK (task IN (1, 2)),
+  title TEXT NOT NULL,
+  prompt TEXT NOT NULL,
+  chart_data TEXT,
+  min_words INTEGER NOT NULL,
+  time_minutes INTEGER NOT NULL,
+  difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5)
+);
+
+CREATE INDEX IF NOT EXISTS idx_wt_task ON writing_tasks(task);
+
+CREATE TABLE IF NOT EXISTS writing_samples (
+  id INTEGER PRIMARY KEY,
+  task_id INTEGER NOT NULL,
+  band TEXT,
+  essay TEXT NOT NULL,
+  outline TEXT,
+  annotations TEXT,
+  FOREIGN KEY (task_id) REFERENCES writing_tasks(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_ws_task ON writing_samples(task_id);
+
+CREATE TABLE IF NOT EXISTS writing_phrases (
+  id INTEGER PRIMARY KEY,
+  category TEXT NOT NULL,
+  task INTEGER,
+  phrase TEXT NOT NULL,
+  meaning_cn TEXT,
+  example TEXT,
+  band TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_wp_category ON writing_phrases(category);
+CREATE INDEX IF NOT EXISTS idx_wp_task ON writing_phrases(task);
+
 CREATE TABLE IF NOT EXISTS content_metadata (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   content_version TEXT NOT NULL UNIQUE,

@@ -14,10 +14,18 @@ library;
 ///
 /// Bumped whenever the user-database DDL changes. Migration steps are defined in
 /// `lib/core/database/migrations.dart` (T02). Never drop user data on upgrade.
-const int kUserDbVersion = 1;
+///
+/// - `1` V0.1 initial schema
+/// - `2` display settings on `user_profile`
+/// - `3` V0.2 practice records (listening error log, sentence / phrase books,
+///   speaking and writing attempts)
+const int kUserDbVersion = 3;
 
 /// Content database schema version (read-only, shipped with the app).
-const int kContentDbVersion = 1;
+///
+/// - `1` V0.1 vocabulary + reading
+/// - `2` V0.2 adds listening, speaking and writing content tables
+const int kContentDbVersion = 2;
 
 /// Central, immutable collection of app constants.
 abstract final class AppConstants {
