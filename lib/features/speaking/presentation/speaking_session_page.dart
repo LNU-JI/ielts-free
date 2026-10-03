@@ -6,7 +6,6 @@ import 'package:ielts_free/app/router.dart';
 import 'package:ielts_free/app/strings.dart';
 import 'package:ielts_free/app/theme.dart';
 import 'package:ielts_free/core/models/speaking_question.dart';
-import 'package:ielts_free/features/speaking/application/speaking_audio_player.dart';
 import 'package:ielts_free/features/speaking/application/speaking_session_controller.dart';
 import 'package:ielts_free/features/speaking/presentation/widgets/cue_card_view.dart';
 import 'package:ielts_free/features/speaking/presentation/widgets/question_prompt.dart';
@@ -38,7 +37,6 @@ class SpeakingSessionPage extends ConsumerWidget {
         ref.watch(speakingSessionControllerProvider(topicId));
     final SpeakingSessionController controller =
         ref.read(speakingSessionControllerProvider(topicId).notifier);
-    final bool canReplay = ref.watch(speakingAudioPlayerProvider).isSupported;
 
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +59,7 @@ class SpeakingSessionPage extends ConsumerWidget {
                 icon: Icons.record_voice_over_outlined,
                 message: AppStrings.speakingEmpty,
               )
-            : _content(context, data, controller, canReplay),
+            : _content(context, data, controller),
       ),
     );
   }
@@ -70,7 +68,6 @@ class SpeakingSessionPage extends ConsumerWidget {
     BuildContext context,
     SpeakingSessionState data,
     SpeakingSessionController controller,
-    bool canReplay,
   ) {
     final ThemeData theme = Theme.of(context);
     final SpeakingQuestion? question = data.current;
@@ -127,7 +124,7 @@ class SpeakingSessionPage extends ConsumerWidget {
               label: AppStrings.speakingReplay,
               icon: Icons.play_arrow_outlined,
               expand: true,
-              onPressed: canReplay ? controller.replay : null,
+              onPressed: controller.replay,
             ),
             const SizedBox(height: AppSpacing.md),
             SelfRatingView(

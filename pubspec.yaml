@@ -42,22 +42,34 @@ dependencies:
 
   # --- V0.2 skill modules -------------------------------------------------
   # Listening audio is SYNTHESISED ON DEVICE from the section transcripts, so
-  # the content pack ships text only and there is no audio to download. This is
-  # strictly more offline than shipping mp3s, which is why `just_audio` is still
-  # deliberately absent.
+  # the content pack ships text only and there is no audio to download — which is
+  # strictly more offline than shipping mp3s.
   flutter_tts: ^4.2.5
 
   # Microphone capture for the speaking module. Recordings stay in the app's own
   # documents directory and are never uploaded.
   record: ^5.1.2
 
+  # Replay of a recorded speaking answer. Plays back the LOCAL file the learner
+  # has just recorded (inside the app documents directory) on Android, Windows
+  # and the other desktop targets. No streaming and no network audio.
+  #
+  # `audioplayers` was the first choice, but it drags `http` in as a transitive
+  # dependency, which the offline red line below forbids. `just_audio` plays a
+  # local file without pulling any networking package into the lockfile.
+  just_audio: ^0.10.6
+
   # NOTE (Route B): This project uses sqflite + sqflite_common_ffi with
   # hand-written SQL and DAOs. There is intentionally NO drift / build_runner.
   #
   # Intentionally NOT included (offline red line, see docs/ARCHITECTURE-v0.1.md 8.1):
   #   google_fonts, dio, http, web_socket_channel, firebase_*, shared_preferences,
-  #   just_audio (listening uses on-device TTS instead), chart libraries
-  #   (statistics uses CustomPainter), build_runner, drift.
+  #   chart libraries (statistics uses CustomPainter), build_runner, drift.
+  #
+  # Audio stays fully offline. Listening is SYNTHESISED on device by flutter_tts
+  # (the content pack ships text only), and speaking replay uses just_audio to
+  # play back the LOCAL file the learner just recorded. There is no streaming
+  # audio, no networked audio and no audio asset to download.
 
 dev_dependencies:
   flutter_test:

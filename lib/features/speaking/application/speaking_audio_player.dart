@@ -1,63 +1,63 @@
 /// Playback of a recorded speaking answer.
 ///
-/// **No audio-playback package is bundled on purpose.** Pulling in `just_audio`
-/// (or similar) would add a platform plugin to a project that must stay
-/// dependency-light and fully offline — the same reasoning that keeps the
-/// listening module on the platform TTS engine.
-///
-/// So replay delegates to the operating system's default media handler where
-/// one exists (desktop) and reports [isSupported] = `false` elsewhere. On a
-/// platform without a handler the UI simply disables the replay button; the
-/// recording is still saved on device and can be opened from the file manager.
-/// A real in-app player can be dropped in behind this interface later without
-/// touching the session page.
+/// Replay plays back the **local** file the learner has just recorded in the
+/// app's own documents directory, using `just_audio`. The audio never leaves
+/// the device and no networking package is involved, which is what keeps this
+/// compatible with the project's offline red line (see
+/// docs/ARCHITECTURE-v0.1.md 8.1). The listening module keeps using the
+/// on-device TTS engine for exactly the same reason.
 library;
 
-import 'dart:io';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:just_audio/just_audio.dart';
 
 import 'package:ielts_free/core/utils/logger.dart';
 
 /// Plays a local recording.
 abstract interface class SpeakingAudioPlayer {
-  /// Whether replay is available on the current platform.
-  bool get isSupported;
-
-  /// Opens [path] with the platform's default media handler.
+  /// Plays the local file at [path] through the device's audio output.
   Future<void> play(String path);
 }
 
-/// [SpeakingAudioPlayer] that hands the file to the OS default handler.
-class SystemSpeakingAudioPlayer implements SpeakingAudioPlayer {
-  const SystemSpeakingAudioPlayer();
+/// [SpeakingAudioPlayer] backed by `just_audio`.
+///
+/// Works on Android, iOS, Windows, macOS and Linux alike — replay is available
+/// on every platform the app targets, so there is no capability check to make.
+class JustAudioSpeakingPlayer implements SpeakingAudioPlayer {
+  JustAudioSpeakingPlayer();
 
-  @override
-  bool get isSupported =>
-      Platform.isWindows || Platform.isMacOS || Platform.isLinux;
+  final AudioPlayer _player = AudioPlayer();
+  bool _disposed = false;
 
   @override
   Future<void> play(String path) async {
-    if (!isSupported) {
+    if (_disposed) {
       return;
     }
     try {
-      if (Platform.isWindows) {
-        // `start` is a cmd builtin; the empty string is the window title.
-        await Process.run('cmd', <String>['/c', 'start', '', path]);
-      } else if (Platform.isMacOS) {
-        await Process.run('open', <String>[path]);
-      } else {
-        await Process.run('xdg-open', <String>[path]);
-      }
+      // Stop whatever is still playing before starting the new answer.
+      await _player.stop();
+      await _player.setFilePath(path);
+      await _player.play();
     } on Object catch (error, stackTrace) {
       appLogger.warning('Speaking replay failed.', error, stackTrace);
     }
+  }
+
+  /// Releases the native audio resources held by this player.
+  Future<void> dispose() async {
+    if (_disposed) {
+      return;
+    }
+    _disposed = true;
+    await _player.dispose();
   }
 }
 
 /// The audio player used by the speaking session.
 final Provider<SpeakingAudioPlayer> speakingAudioPlayerProvider =
-    Provider<SpeakingAudioPlayer>(
-  (Ref ref) => const SystemSpeakingAudioPlayer(),
-);
+    Provider<SpeakingAudioPlayer>((Ref ref) {
+  final JustAudioSpeakingPlayer player = JustAudioSpeakingPlayer();
+  ref.onDispose(player.dispose);
+  return player;
+});

@@ -20,7 +20,7 @@ import 'package:ielts_free/features/settings/presentation/about_page.dart';
 import 'package:ielts_free/features/settings/presentation/settings_page.dart';
 import 'package:ielts_free/features/speaking/presentation/speaking_list_page.dart';
 import 'package:ielts_free/features/speaking/presentation/speaking_session_page.dart';
-import 'package:ielts_free/features/statistics/presentation/statistics_placeholder_page.dart';
+import 'package:ielts_free/features/statistics/presentation/statistics_page.dart';
 import 'package:ielts_free/features/study_plan/presentation/study_plan_page.dart';
 import 'package:ielts_free/features/vocabulary/presentation/vocabulary_detail_page.dart';
 import 'package:ielts_free/features/vocabulary/presentation/vocabulary_list_page.dart';
@@ -239,7 +239,7 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
           GoRoute(
             path: AppRoutes.statistics,
             builder: (BuildContext context, GoRouterState state) =>
-                const StatisticsPlaceholderPage(),
+                const StatisticsPage(),
           ),
         ],
       ),
