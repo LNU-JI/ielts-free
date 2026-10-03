@@ -680,6 +680,20 @@ abstract final class AppStrings {
   static const String writingPhraseBank = '句型库';
   static const String writingAddPhrase = '收藏句型';
   static const String writingUnderLength = '字数不足，考试会扣分。';
+  static const String writingSelfRating = '自评';
+  static const String writingRestored = '已恢复上次未完成的练习。';
+
+  /// Task 1 chart types, keyed by the `type` value in `writing_tasks.chart_data`.
+  static const Map<String, String> chartTypeLabels = <String, String>{
+    'line': '折线图',
+    'bar': '柱状图',
+    'pie': '饼图',
+    'table': '表格',
+  };
+
+  /// Human label for a `chart_data.type` value.
+  static String chartTypeLabel(String? type) =>
+      chartTypeLabels[type] ?? (type ?? '');
 
   // --- Statistics (V0.2) --------------------------------------------------
 

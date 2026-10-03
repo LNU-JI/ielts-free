@@ -7,7 +7,8 @@ import 'package:ielts_free/core/providers/bootstrap_provider.dart';
 import 'package:ielts_free/features/bootstrap/presentation/bootstrap_page.dart';
 import 'package:ielts_free/features/dashboard/presentation/dashboard_page.dart';
 import 'package:ielts_free/features/learn/presentation/learn_hub_page.dart';
-import 'package:ielts_free/features/listening/presentation/listening_placeholder_page.dart';
+import 'package:ielts_free/features/listening/presentation/listening_list_page.dart';
+import 'package:ielts_free/features/listening/presentation/listening_session_page.dart';
 import 'package:ielts_free/features/me/presentation/me_page.dart';
 import 'package:ielts_free/features/mistakes/presentation/mistake_detail_page.dart';
 import 'package:ielts_free/features/mistakes/presentation/mistakes_page.dart';
@@ -17,13 +18,15 @@ import 'package:ielts_free/features/reading/presentation/reading_list_page.dart'
 import 'package:ielts_free/features/reading/presentation/reading_session_page.dart';
 import 'package:ielts_free/features/settings/presentation/about_page.dart';
 import 'package:ielts_free/features/settings/presentation/settings_page.dart';
-import 'package:ielts_free/features/speaking/presentation/speaking_placeholder_page.dart';
+import 'package:ielts_free/features/speaking/presentation/speaking_list_page.dart';
+import 'package:ielts_free/features/speaking/presentation/speaking_session_page.dart';
 import 'package:ielts_free/features/statistics/presentation/statistics_placeholder_page.dart';
 import 'package:ielts_free/features/study_plan/presentation/study_plan_page.dart';
 import 'package:ielts_free/features/vocabulary/presentation/vocabulary_detail_page.dart';
 import 'package:ielts_free/features/vocabulary/presentation/vocabulary_list_page.dart';
 import 'package:ielts_free/features/vocabulary/presentation/vocabulary_practice_page.dart';
-import 'package:ielts_free/features/writing/presentation/writing_placeholder_page.dart';
+import 'package:ielts_free/features/writing/presentation/writing_list_page.dart';
+import 'package:ielts_free/features/writing/presentation/writing_session_page.dart';
 import 'package:ielts_free/shared/widgets/navigation/app_shell.dart';
 
 /// Route paths used across the app. Kept as constants so navigation calls and
@@ -193,17 +196,45 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
           GoRoute(
             path: AppRoutes.listening,
             builder: (BuildContext context, GoRouterState state) =>
-                const ListeningPlaceholderPage(),
+                const ListeningListPage(),
+            routes: <RouteBase>[
+              GoRoute(
+                path: ':id',
+                builder: (BuildContext context, GoRouterState state) =>
+                    ListeningSessionPage(
+                  sectionId:
+                      int.tryParse(state.pathParameters['id'] ?? '') ?? 0,
+                ),
+              ),
+            ],
           ),
           GoRoute(
             path: AppRoutes.writing,
             builder: (BuildContext context, GoRouterState state) =>
-                const WritingPlaceholderPage(),
+                const WritingListPage(),
+            routes: <RouteBase>[
+              GoRoute(
+                path: ':id',
+                builder: (BuildContext context, GoRouterState state) =>
+                    WritingSessionPage(
+                  taskId: int.tryParse(state.pathParameters['id'] ?? '') ?? 0,
+                ),
+              ),
+            ],
           ),
           GoRoute(
             path: AppRoutes.speaking,
             builder: (BuildContext context, GoRouterState state) =>
-                const SpeakingPlaceholderPage(),
+                const SpeakingListPage(),
+            routes: <RouteBase>[
+              GoRoute(
+                path: ':id',
+                builder: (BuildContext context, GoRouterState state) =>
+                    SpeakingSessionPage(
+                  topicId: int.tryParse(state.pathParameters['id'] ?? '') ?? 0,
+                ),
+              ),
+            ],
           ),
           GoRoute(
             path: AppRoutes.statistics,

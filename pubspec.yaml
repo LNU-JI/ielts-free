@@ -40,12 +40,24 @@ dependencies:
   # Local-only logging (never uploaded).
   logging: ^1.2.0
 
+  # --- V0.2 skill modules -------------------------------------------------
+  # Listening audio is SYNTHESISED ON DEVICE from the section transcripts, so
+  # the content pack ships text only and there is no audio to download. This is
+  # strictly more offline than shipping mp3s, which is why `just_audio` is still
+  # deliberately absent.
+  flutter_tts: ^4.2.5
+
+  # Microphone capture for the speaking module. Recordings stay in the app's own
+  # documents directory and are never uploaded.
+  record: ^5.1.2
+
   # NOTE (Route B): This project uses sqflite + sqflite_common_ffi with
   # hand-written SQL and DAOs. There is intentionally NO drift / build_runner.
   #
   # Intentionally NOT included (offline red line, see docs/ARCHITECTURE-v0.1.md 8.1):
   #   google_fonts, dio, http, web_socket_channel, firebase_*, shared_preferences,
-  #   just_audio (V0.2), chart libraries (V0.2), build_runner, drift.
+  #   just_audio (listening uses on-device TTS instead), chart libraries
+  #   (statistics uses CustomPainter), build_runner, drift.
 
 dev_dependencies:
   flutter_test:

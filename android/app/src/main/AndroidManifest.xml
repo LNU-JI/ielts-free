@@ -8,6 +8,10 @@
           aapt dump permissions build/app/outputs/flutter-apk/app-release.apk
     -->
 
+    <!-- Microphone capture for the speaking module. Recordings are written to
+         the app's private documents directory and are never uploaded. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
     <application
         android:label="IELTS Free"
         android:name="${applicationName}"
