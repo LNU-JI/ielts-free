@@ -28,6 +28,29 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Restore release keystore
+        # Why this step exists: without a stable signing key the runner signs the
+        # APK with a *freshly generated debug key* every time, so each release has
+        # a different signature. Android then refuses to install it over the
+        # previous version, forcing users to uninstall first — which wipes their
+        # entire on-device study database. We restore the single, permanent
+        # release key from repository secrets so upgrades keep working.
+        #
+        # The `if` guard keeps forks and pull requests working: when the secrets
+        # are absent the step is skipped and the build falls back to debug signing
+        # (see android/app/build.gradle.kts) instead of failing.
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > android/app/ielts-free-release.p12
+          printf 'storeFile=%s\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
+            "ielts-free-release.p12" "$KEYSTORE_PASSWORD" "$KEY_ALIAS" "$KEY_PASSWORD" \
+            > android/key.properties
+
       # No code generation (Route B). Straight to build.
       # Split per ABI: one APK per architecture instead of one fat APK carrying
       # all three native library sets. Roughly a third of the size each.

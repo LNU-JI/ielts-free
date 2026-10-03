@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:ielts_free/app/constants.dart';
 import 'package:ielts_free/app/router.dart';
@@ -197,6 +198,8 @@ class _SettingsBody extends ConsumerWidget {
               ),
             ],
           ),
+          const SizedBox(height: AppSpacing.lg),
+          const _UpdateCard(),
           const SizedBox(height: AppSpacing.lg),
           Center(
             child: Text(
@@ -729,6 +732,102 @@ class _ContentPackCardState extends ConsumerState<_ContentPackCard> {
         Expanded(
           child: Text(value, style: theme.textTheme.bodyMedium),
         ),
+      ],
+    );
+  }
+}
+
+/// In-app update entry (V0.2).
+///
+/// "Check for updates" opens the project's GitHub Releases page in the SYSTEM
+/// browser via an `ACTION_VIEW` intent. The browser performs the download; the
+/// app never issues a network request, so no `INTERNET` permission is added and
+/// the offline red line is preserved (see the `url_launcher` note in
+/// `pubspec.yaml`). The app performs NO version comparison — it cannot, because
+/// it never contacts a server. The version shown comes from [AppConstants].
+class _UpdateCard extends StatefulWidget {
+  const _UpdateCard();
+
+  @override
+  State<_UpdateCard> createState() => _UpdateCardState();
+}
+
+class _UpdateCardState extends State<_UpdateCard> {
+  /// The Releases page is opened in an EXTERNAL application (the system
+  /// browser), never an in-app WebView, so the app itself stays offline.
+  static final Uri _releasesUri =
+      Uri.parse('https://github.com/LNU-JI/ielts-free/releases/latest');
+
+  bool _busy = false;
+
+  Future<void> _checkForUpdates() async {
+    setState(() => _busy = true);
+    bool opened = false;
+    try {
+      opened = await launchUrl(
+        _releasesUri,
+        mode: LaunchMode.externalApplication,
+      );
+    } on Object {
+      opened = false;
+    }
+    if (!mounted) {
+      return;
+    }
+    setState(() => _busy = false);
+    if (!opened) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text(AppStrings.updateLaunchFailed)),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final TextStyle? hintStyle = theme.textTheme.bodySmall?.copyWith(
+      color: context.palette.muted,
+    );
+
+    return _Section(
+      title: AppStrings.updateSection,
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: Text(
+                AppStrings.updateCurrentVersion,
+                style: theme.textTheme.bodyLarge,
+              ),
+            ),
+            Text(
+              'v${AppConstants.appVersion}',
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: context.palette.muted,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.md),
+        if (_busy)
+          Row(
+            children: <Widget>[
+              const SizedBox(
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Text(AppStrings.updateOpening, style: hintStyle),
+            ],
+          )
+        else
+          FilledButton.tonal(
+            onPressed: _checkForUpdates,
+            child: const Text(AppStrings.updateCheckAction),
+          ),
+        const SizedBox(height: AppSpacing.sm),
+        Text(AppStrings.updateBrowserHint, style: hintStyle),
       ],
     );
   }

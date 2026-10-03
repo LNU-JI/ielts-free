@@ -33,6 +33,13 @@ abstract final class AppConstants {
 
   static const String appName = 'IELTS Free';
   static const String appTagline = 'Free Offline IELTS Learning App';
+
+  /// Version shown in the Settings "About & update" card.
+  ///
+  /// KEEP IN SYNC with the `version:` field in `pubspec.yaml`
+  /// (`0.1.0+1` => [appVersion] `0.1.0`, [appBuildNumber] `1`). This is the
+  /// single source of truth for the displayed version and is intentionally a
+  /// plain constant rather than `package_info_plus`, to avoid a new dependency.
   static const String appVersion = '0.1.0';
   static const String appBuildNumber = '1';
 

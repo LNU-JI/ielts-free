@@ -5,7 +5,10 @@ version: 0.1.0+1
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
-  flutter: '>=3.22.0'
+  # Kept in step with the tightest lower bound among our dependencies.
+  # url_launcher 6.3.3 requires flutter >=3.41.0, so advertising 3.22 here would
+  # promise a range that cannot actually resolve. CI uses `channel: stable`.
+  flutter: '>=3.41.0'
 
 dependencies:
   flutter:
@@ -85,6 +88,17 @@ dependencies:
   # content pack that bundles the `.db` with its `manifest.json`.
   file_picker: ^10.3.10
   archive: ^4.3.0
+
+  # --- V0.2 in-app update entry -------------------------------------------
+  # "Check for updates" opens the project's GitHub Releases page in the SYSTEM
+  # BROWSER via an `ACTION_VIEW` intent. The browser does the networking; the
+  # app itself never touches the network, so NO `INTERNET` permission is added
+  # and the offline red line is preserved (same model as the content-pack
+  # import above). `url_launcher` and its platform packages pull in no
+  # networking package (no `http` / `dio` / `web_socket_channel`), and
+  # `url_launcher_android` does not declare `INTERNET` in its own manifest.
+  # Do NOT use `package_info_plus` here — the version comes from AppConstants.
+  url_launcher: ^6.3.3
 
 dev_dependencies:
   flutter_test:

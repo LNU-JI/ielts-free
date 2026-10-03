@@ -806,4 +806,24 @@ abstract final class AppStrings {
   static const String contentPackCountsListening = '听力';
   static const String contentPackCountsWriting = '写作';
   static const String contentPackCountsSpeaking = '口语';
+
+  // --- Update (V0.2) ------------------------------------------------------
+
+  /// Title of the "about & update" card on the Settings page.
+  static const String updateSection = '关于与更新';
+  static const String updateCurrentVersion = '当前版本';
+
+  /// Button that opens the GitHub Releases page in the SYSTEM browser.
+  static const String updateCheckAction = '检查更新';
+
+  /// Explains that the app itself stays offline; the browser does the work.
+  static const String updateBrowserHint =
+      '将在浏览器中打开下载页；本 App 不联网，更新由你手动完成。';
+
+  /// Shown while the external browser is being launched.
+  static const String updateOpening = '正在打开浏览器…';
+
+  /// Graceful fallback when no browser can handle the URL.
+  static const String updateLaunchFailed =
+      '无法打开浏览器，请手动访问 github.com/LNU-JI/ielts-free/releases';
 }

@@ -56,6 +56,12 @@ app.*.map.json
 /android/key.properties
 *.keystore
 *.jks
+# PKCS12 keystores are the same thing under a different extension — the release
+# key generated for this project is a .p12, and committing it would hand over
+# the app's identity (and make future updates impossible to sign).
+*.p12
+*.pem
+android/app/*.p12
 
 # -----------------------------------------------------------------------------
 # NOTE (Route B): This project uses NO code generation.

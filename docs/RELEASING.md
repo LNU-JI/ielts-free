@@ -102,6 +102,64 @@ Only do this **before** anyone else has cloned the repository.
 
 ---
 
+## 1.5 Configure the Android release signing key — **required before the first release**
+
+This is a **pre-release, must-do step**, not an optional nicety.
+
+### Why it is mandatory
+
+Android only installs an APK on top of an existing app if **both are signed
+with the same key**. If they are not, the update is rejected and the user's only
+way forward is to **uninstall the old version first** — which deletes the
+on-device SQLite database and therefore **every bit of their study data**
+(progress, vocabulary, streaks).
+
+By default `flutter build apk --release` signs with the *debug* key. On a GitHub
+runner, which is a brand-new VM every time, `~/.android/debug.keystore` does not
+exist, so the Android Gradle Plugin **generates a random new key on every run**.
+The result: every release is signed differently, and no release can be installed
+over the previous one. In other words, **the app cannot be upgraded at all**.
+
+The fix is to sign every release with **one permanent release key**, stored
+outside the repository and injected into CI from repository secrets.
+
+### The four GitHub Actions secrets
+
+Create them in **Settings → Secrets and variables → Actions → New repository
+secret**. The names must match exactly (they are referenced by
+`.github/workflows/release.yml` and `.github/workflows/android.yml`):
+
+| Secret name | What to put in it |
+| --- | --- |
+| `ANDROID_KEYSTORE_BASE64` | The **entire contents** of `keystore-base64.txt` — the base64 of the `.p12` keystore, a **single line** with no wrapping. |
+| `ANDROID_KEYSTORE_PASSWORD` | The `storePassword` value. |
+| `ANDROID_KEY_ALIAS` | The `keyAlias` value (e.g. `ielts-free`). |
+| `ANDROID_KEY_PASSWORD` | The `keyPassword` value. |
+
+The generated keystore, its base64 and the plaintext `CREDENTIALS.txt` live in
+`D:\雅思\workbuddyai\keys\` — **outside the repository**, so they can never be
+committed. The repo's `.gitignore` additionally ignores `android/key.properties`,
+`*.keystore` and `*.jks`; note it does **not** yet list `*.p12`, so never copy a
+`.p12` into the repository tree. (CI writes one to
+`android/app/ielts-free-release.p12` only on the throwaway runner.)
+
+At build time CI decodes `ANDROID_KEYSTORE_BASE64` into
+`android/app/ielts-free-release.p12` and writes `android/key.properties`, which
+`android/app/build.gradle.kts` picks up automatically. If the secrets are absent
+(for example on a fork's pull request) the step is skipped and the build falls
+back to debug signing rather than failing.
+
+### If you lose the keystore
+
+The key is the app's identity. **If it is lost or its password is forgotten, you
+can never again publish a version that upgrades an already-installed copy** —
+every existing user would have to uninstall (losing all their data) before they
+could install anything new. Back up `ielts-free-release.p12` **and**
+`CREDENTIALS.txt` in at least two separate offline locations before the first
+release.
+
+---
+
 ## 2. What runs automatically
 
 | Workflow | Trigger | Does |
@@ -182,8 +240,12 @@ CI, delete the `hooks:` block — the official source works there.
 
 ## 5. Before publishing for real
 
-- [ ] Replace the debug signing config in `android/app/build.gradle.kts` with a
-      real keystore (`android/key.properties` is already git-ignored).
+- [ ] **Required — configure the Android release signing key.** Complete
+      [§1.5](#15-configure-the-android-release-signing-key--required-before-the-first-release):
+      generate the keystore, add the four `ANDROID_*` secrets, and back the key
+      up offline. Skipping this means every release is signed with a random key,
+      cannot be installed over the previous version, and forces users to
+      uninstall — **losing all their study data**.
 - [ ] Add screenshots to `README.md` (the section is currently a placeholder).
 - [ ] Add a Windows `app_icon.ico`.
 - [ ] Confirm `flutter test` and `flutter analyze` are green on CI.
