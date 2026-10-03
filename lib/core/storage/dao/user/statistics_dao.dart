@@ -62,6 +62,38 @@ class StatisticsDao extends BaseDao {
     return rows.first['m'] as int? ?? 0;
   }
 
+  /// Lifetime number of answers recorded in `user_answers` for [userId].
+  ///
+  /// The per-day `questions_answered` column only holds one day's count, so the
+  /// cumulative "questions answered" figure has to be aggregated from the raw
+  /// answer log instead.
+  Future<int> totalAnswers(String userId) => countRows(
+        'user_answers',
+        where: 'user_id = ?',
+        whereArgs: <Object?>[userId],
+      );
+
+  /// Lifetime number of correct answers in `user_answers` for [userId].
+  Future<int> totalCorrectAnswers(String userId) => countRows(
+        'user_answers',
+        where: 'user_id = ? AND is_correct = ?',
+        whereArgs: <Object?>[userId, 1],
+      );
+
+  /// Lifetime number of distinct LOCAL study days for [userId].
+  ///
+  /// `answered_at` is stored as a UTC ISO-8601 string; SQLite's `localtime`
+  /// modifier maps it back to the device's calendar day so the count matches
+  /// the local-day semantics of the streak and daily plan.
+  Future<int> totalStudyDays(String userId) async {
+    final List<Map<String, Object?>> rows = await db.rawQuery(
+      "SELECT COUNT(DISTINCT date(answered_at, 'localtime')) AS d "
+      'FROM user_answers WHERE user_id = ?',
+      <Object?>[userId],
+    );
+    return Sqflite.firstIntValue(rows) ?? 0;
+  }
+
   /// One page of daily statistics, newest first.
   Future<List<LearningStatistics>> page(
     String userId, {

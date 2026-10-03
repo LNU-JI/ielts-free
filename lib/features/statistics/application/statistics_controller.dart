@@ -41,10 +41,10 @@ class StatisticsData {
   /// Lifetime study minutes.
   final int totalStudyMinutes;
 
-  /// Questions answered (as recorded by the statistics row).
+  /// Lifetime questions answered, aggregated from `user_answers`.
   final int questionsAnswered;
 
-  /// Correct answers among [questionsAnswered].
+  /// Lifetime correct answers among [questionsAnswered].
   final int correctCount;
 
   /// Current study streak in days.
@@ -136,7 +136,15 @@ class StatisticsController extends AsyncNotifier<StatisticsData> {
 
     final ProgressRepository progress =
         await ref.read(progressRepositoryProvider.future);
-    final LearningStatistics? stats = await progress.todayStatistics(userId);
+    // The running totals (`total_study_minutes` / `current_streak` /
+    // `total_days`) only exist on the statistics rows, and every row carries the
+    // latest values — so read the most recent row, not just today's. The
+    // cumulative answer counts are aggregated from the raw answer log, because
+    // `learning_statistics.questions_answered` is a *per-day* figure.
+    final LearningStatistics? stats = await progress.latestStatistics(userId);
+    final int totalAnswered = await progress.totalAnswers(userId);
+    final int totalCorrect = await progress.totalCorrectAnswers(userId);
+    final int studyDays = await progress.totalStudyDays(userId);
     final Map<SkillType, double> rawScores =
         await progress.skillScoreMap(userId);
 
@@ -147,10 +155,10 @@ class StatisticsController extends AsyncNotifier<StatisticsData> {
 
     return StatisticsData(
       totalStudyMinutes: stats?.totalStudyMinutes ?? 0,
-      questionsAnswered: stats?.questionsAnswered ?? 0,
-      correctCount: stats?.correctCount ?? 0,
+      questionsAnswered: totalAnswered,
+      correctCount: totalCorrect,
       currentStreak: stats?.currentStreak ?? 0,
-      totalDays: stats?.totalDays ?? 0,
+      totalDays: stats?.totalDays ?? studyDays,
       skillScores: _roundedScores(rawScores),
       errorCounts: errors,
     );

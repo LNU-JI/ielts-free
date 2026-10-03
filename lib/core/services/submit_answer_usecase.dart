@@ -779,10 +779,17 @@ class SubmitAnswerUseCase {
         isNewDay ? 0 : intOrDefault(todayRows.first['words_reviewed'], 0);
     final int baseWordsMastered =
         isNewDay ? 0 : intOrDefault(todayRows.first['words_mastered'], 0);
-    final int baseStreak =
-        isNewDay ? 0 : intOrDefault(todayRows.first['current_streak'], 0);
-    final String? baseLastStudyDate =
-        isNewDay ? null : asString(todayRows.first['last_study_date']);
+    // Streak and `last_study_date` are running totals, not per-day figures:
+    // when today has no row yet, continue from the most recent previous day so
+    // consecutive days actually increment instead of restarting at 1.
+    final int baseStreak = isNewDay
+        ? (prevRows.isEmpty
+            ? 0
+            : intOrDefault(prevRows.first['current_streak'], 0))
+        : intOrDefault(todayRows.first['current_streak'], 0);
+    final String? baseLastStudyDate = isNewDay
+        ? (prevRows.isEmpty ? null : asString(prevRows.first['last_study_date']))
+        : asString(todayRows.first['last_study_date']);
     final int baseLifetimeMinutes = isNewDay
         ? prevLifetimeMinutes
         : intOrDefault(todayRows.first['total_study_minutes'], 0);
@@ -798,7 +805,12 @@ class SubmitAnswerUseCase {
         : (baseLastStudyDate ?? today);
 
     final int newStudyMinutes = baseStudyMinutes + addedMinutes;
-    final int newTotalDays = isNewDay ? prevTotalDays + 1 : prevTotalDays;
+    // `total_days` is also a running total: a new day adds one, but on a repeat
+    // answer the same day must keep today's already-counted value (reading it
+    // from the previous day would reset it).
+    final int newTotalDays = isNewDay
+        ? prevTotalDays + 1
+        : intOrDefault(todayRows.first['total_days'], prevTotalDays);
 
     final Map<String, Object?> row = <String, Object?>{
       'user_id': userId,

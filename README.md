@@ -7,6 +7,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Flutter](https://img.shields.io/badge/Flutter-3.47.5-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 
+🌐 **[官网 / 下载页](https://lnu-ji.github.io/ielts-free/)**
+
 > IELTS Free is an independent, offline-first, open-source IELTS learning app.
 > No account required. No server required. No AI required.
 > Learn anywhere. Learn offline. Learn for free.

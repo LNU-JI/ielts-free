@@ -75,6 +75,22 @@ abstract interface class ProgressRepository {
   /// Today's statistics row, or `null`.
   Future<LearningStatistics?> todayStatistics(String userId);
 
+  /// The most recent statistics row, or `null` when the user never studied.
+  ///
+  /// Every row carries the *running* totals (`total_study_minutes`,
+  /// `current_streak`, `total_days`), so the latest row is the right source for
+  /// the cumulative overview even on a day the user has not studied yet.
+  Future<LearningStatistics?> latestStatistics(String userId);
+
+  /// Lifetime number of answers recorded for [userId] (`user_answers`).
+  Future<int> totalAnswers(String userId);
+
+  /// Lifetime number of correct answers for [userId] (`user_answers`).
+  Future<int> totalCorrectAnswers(String userId);
+
+  /// Lifetime number of distinct local study days for [userId].
+  Future<int> totalStudyDays(String userId);
+
   /// Saves a statistics row.
   Future<void> saveStatistics(LearningStatistics stats);
 
@@ -188,6 +204,24 @@ class SqliteProgressRepository implements ProgressRepository {
           AppDateUtils.todayLocalDateString(),
         ),
       );
+
+  @override
+  Future<LearningStatistics?> latestStatistics(String userId) =>
+      runDbGuarded('PROGRESS_LATEST_STATS', () => _statisticsDao.latest(userId));
+
+  @override
+  Future<int> totalAnswers(String userId) =>
+      runDbGuarded('PROGRESS_TOTAL_ANSWERS', () => _statisticsDao.totalAnswers(userId));
+
+  @override
+  Future<int> totalCorrectAnswers(String userId) => runDbGuarded(
+        'PROGRESS_TOTAL_CORRECT',
+        () => _statisticsDao.totalCorrectAnswers(userId),
+      );
+
+  @override
+  Future<int> totalStudyDays(String userId) =>
+      runDbGuarded('PROGRESS_TOTAL_DAYS', () => _statisticsDao.totalStudyDays(userId));
 
   @override
   Future<void> saveStatistics(LearningStatistics stats) =>
