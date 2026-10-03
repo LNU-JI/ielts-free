@@ -29,12 +29,14 @@ jobs:
         run: flutter pub get
 
       # No code generation (Route B). Straight to build.
-      - name: Build release APK
-        run: flutter build apk --release
+      # Split per ABI: one APK per architecture instead of one fat APK carrying
+      # all three native library sets. Roughly a third of the size each.
+      - name: Build release APK (split per ABI)
+        run: flutter build apk --release --split-per-abi
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: ielts-free-android-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-*-release.apk
           if-no-files-found: error

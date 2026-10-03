@@ -153,6 +153,14 @@
   .dl-head{display:flex;align-items:center;gap:14px;margin-bottom:6px;}
   .dl-head h3{margin:0;font-size:19px;font-weight:700;color:var(--primary);}
   .dl-meta{margin:0 0 20px;font-size:13.5px;color:var(--muted);}
+  .dl-table{
+    width:100%;border-collapse:collapse;margin:0 0 16px;font-size:13.5px;
+    border:1px solid var(--border);border-radius:10px;overflow:hidden;
+  }
+  .dl-table th,.dl-table td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);}
+  .dl-table th{background:var(--surface);color:var(--muted);font-weight:600;font-size:12.5px;}
+  .dl-table tr:last-child td{border-bottom:0;}
+  .dl-table code{font-size:12.5px;background:var(--surface);padding:1px 5px;border-radius:4px;}
   .dl-card .btn{align-self:flex-start;margin-top:auto;}
   .note{
     margin-top:24px;padding:20px 22px;border-radius:var(--radius);
@@ -229,7 +237,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/>
         </svg>
-        <span>下载 Android 版<small>APK · 约 57 MB</small></span>
+        <span>下载 Android 版<small>APK · 约 20 MB</small></span>
       </a>
       <a class="btn btn-ghost" href="https://github.com/LNU-JI/ielts-free/releases/latest">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -455,7 +463,19 @@
             </span>
             <h3>Android</h3>
           </div>
-          <p class="dl-meta">APK 安装包 · 约 57 MB · 适用于 Android 7.0 及以上</p>
+          <p class="dl-meta">APK 安装包 · 每个约 20 MB · 适用于 Android 7.0 及以上</p>
+          <p class="dl-meta">安装包按 CPU 架构拆分，请按下表选择 —— 绝大多数手机选 <strong>arm64-v8a</strong> 即可。</p>
+          <table class="dl-table">
+            <thead>
+              <tr><th>文件</th><th>适用设备</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>…-arm64-v8a.apk</code></td><td><strong>推荐</strong> · 2017 年后几乎所有手机</td></tr>
+              <tr><td><code>…-armeabi-v7a.apk</code></td><td>较老的 32 位设备</td></tr>
+              <tr><td><code>…-x86_64.apk</code></td><td>模拟器 / 少数 x86 平板</td></tr>
+            </tbody>
+          </table>
+          <p class="dl-meta">不确定就装 arm64-v8a；装错了系统会提示「应用未安装」，换一个即可。</p>
           <a class="btn btn-primary" href="https://github.com/LNU-JI/ielts-free/releases/latest">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/>

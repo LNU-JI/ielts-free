@@ -49,14 +49,25 @@ jobs:
           cache: true
       - name: Install dependencies
         run: flutter pub get
-      - name: Build release APK
-        run: flutter build apk --release
-      - name: Stage APK with versioned name
+      - name: Build release APK (split per ABI)
+        # A single fat APK carries the native libraries for arm64-v8a,
+        # armeabi-v7a and x86_64 at once, which is most of its size. Splitting
+        # produces one APK per architecture — roughly a third of the size each,
+        # with no loss of functionality. Users pick the one matching their
+        # device; the arm64 build covers essentially every phone made since
+        # 2017 and is the one to recommend on the landing page.
+        run: flutter build apk --release --split-per-abi
+      - name: Stage APKs with versioned names
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
           mkdir -p dist
-          cp build/app/outputs/flutter-apk/app-release.apk \
-             "dist/IELTS-Free-Android-v${VERSION}.apk"
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk \
+             "dist/IELTS-Free-Android-v${VERSION}-arm64-v8a.apk"
+          cp build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk \
+             "dist/IELTS-Free-Android-v${VERSION}-armeabi-v7a.apk"
+          cp build/app/outputs/flutter-apk/app-x86_64-release.apk \
+             "dist/IELTS-Free-Android-v${VERSION}-x86_64.apk"
+          ls -lh dist
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
