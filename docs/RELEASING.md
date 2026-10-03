@@ -25,9 +25,27 @@ git remote add origin https://github.com/<YOUR-USERNAME>/ielts-free.git
 git push -u origin main
 ```
 
-Git will ask for credentials. Use a **Personal Access Token** (classic, scope
-`repo`) as the password — GitHub no longer accepts account passwords over HTTPS.
-Create one at <https://github.com/settings/tokens>.
+Git will ask for credentials. Use a **Personal Access Token** (classic) as the
+password — GitHub no longer accepts account passwords over HTTPS.
+
+Create one at <https://github.com/settings/tokens> with **two** scopes ticked:
+
+| Scope | Why |
+| --- | --- |
+| `repo` | push commits |
+| `workflow` | **required** — the repository contains `.github/workflows/*.yml`, and GitHub refuses to create or update those files without it |
+
+Omitting `workflow` fails the whole push with:
+
+```
+! [remote rejected] main -> main (refusing to allow a Personal Access Token
+  to create or update workflow `.github/workflows/android.yml` without
+  `workflow` scope)
+```
+
+You can add the scope to an existing token later (token page → *Edit* → tick
+`workflow` → *Update token*); the token string stays the same, so the credential
+already stored by Git Credential Manager keeps working.
 
 > If you prefer SSH, use
 > `git remote add origin git@github.com:<YOUR-USERNAME>/ielts-free.git`
@@ -53,6 +71,12 @@ token has the `repo` scope.
 **`Authentication failed`** — GitHub rejects account passwords over HTTPS. Create
 a Personal Access Token (classic, scope `repo`) at
 <https://github.com/settings/tokens> and paste it when Git asks for a password.
+
+**`refusing to allow a Personal Access Token to create or update workflow ... without 'workflow' scope`**
+
+The token is missing the `workflow` scope. Add it (token page → *Edit* → tick
+`workflow` → *Update token*) and push again — no need to re-enter credentials,
+the token string is unchanged.
 
 **`src refspec main does not match any`** — you are not on the `main` branch:
 
