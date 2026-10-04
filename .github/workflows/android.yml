@@ -36,12 +36,11 @@ jobs:
         # entire on-device study database. We restore the single, permanent
         # release key from repository secrets so upgrades keep working.
         #
-        # The `if` guard keeps forks and pull requests working: when the secrets
-        # are absent the step is skipped and the build falls back to debug signing
-        # (see android/app/build.gradle.kts) instead of failing.
         # The guard lives inside the shell rather than in a step-level `if`,
         # because the `secrets` context is not available to `if` expressions and
-        # using it there makes the whole workflow fail to compile.
+        # using it there makes the whole workflow fail to compile. Skipping the
+        # step when the secret is absent keeps forks and pull requests building
+        # with debug signing instead of failing.
         env:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
