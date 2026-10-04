@@ -313,7 +313,11 @@ class ContentPackService {
         'Imported content pack v${prepared.metadata.contentVersion} '
         'from ${p.basename(sourcePath)}.',
       );
-      return current();
+      // `await` is required: without it the returned Future would escape the
+      // try/catch, so a failure while reading the freshly-installed pack would
+      // bypass the logging + DatabaseException wrapping below and leak a raw
+      // error instead of the user-facing Chinese message.
+      return await current();
     } on AppException {
       rethrow;
     } on Object catch (error, stackTrace) {

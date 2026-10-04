@@ -224,7 +224,7 @@ class _ListeningSessionPageState extends ConsumerState<ListeningSessionPage> {
   ) {
     final ListeningCue? cue = data.currentCue;
     if (cue == null) {
-      return <Widget>[Text(AppStrings.listeningEmpty)];
+      return <Widget>[const Text(AppStrings.listeningEmpty)];
     }
     return <Widget>[
       _cueNavigator(context, data, controller),
@@ -313,7 +313,7 @@ class _ListeningSessionPageState extends ConsumerState<ListeningSessionPage> {
     final ThemeData theme = Theme.of(context);
     if (!data.hasQuestions) {
       return <Widget>[
-        EmptyState(
+        const EmptyState(
           icon: Icons.rule_folder_outlined,
           message: AppStrings.listeningEmpty,
         ),

@@ -154,13 +154,15 @@ void main() {
       expect(file.existsSync(), isTrue,
           reason: 'run from the package root (flutter test does)');
 
-      final String noComments = file
-          .readAsStringSync()
+      // Comments carry no schema meaning, so they do not participate in the
+      // DDL comparison. Both sides must have their `--` line comments stripped
+      // (the Dart string is not pre-processed like the .sql file), otherwise a
+      // comment block that exists identically in both copies is reported as a
+      // spurious difference. Mirrors `tool/verify/schema_diff.py`'s `norm_list`.
+      List<String> normalise(String sql) => sql
           .split('\n')
           .where((String l) => !l.trimLeft().startsWith('--'))
-          .join('\n');
-
-      List<String> normalise(String sql) => sql
+          .join('\n')
           .split(';')
           .map((String s) => s.replaceAll(RegExp(r'\s+'), ' ').trim())
           .where((String s) => s.isNotEmpty)
@@ -168,7 +170,7 @@ void main() {
 
       expect(normalise(contentSchemaStatements().join(';')), isNotEmpty);
       expect(
-        normalise(noComments),
+        normalise(file.readAsStringSync()),
         normalise(kContentSchemaSql),
         reason: 'the two content schemas must be statement-for-statement equal',
       );

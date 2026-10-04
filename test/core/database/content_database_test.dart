@@ -1,8 +1,8 @@
 /// Content-database test — FR-006 / FR-090 / ARCHITECTURE §4.1.
 ///
 /// Verifies the shipped read-only content library: it opens read-only, rejects
-/// writes, is internally consistent, carries the expected V0.1 counts and its
-/// SHA256 matches the manifest.
+/// writes, is internally consistent, carries the expected content-pack v2.0.0
+/// counts and its SHA256 matches the manifest.
 library;
 
 import 'dart:convert';
@@ -70,13 +70,13 @@ void main() {
     );
   });
 
-  test('row counts match the V0.1 seed spec (300 / 8 / 80)', () async {
+  test('row counts match the v2.0.0 seed spec (1000 / 8 / 80)', () async {
     Future<int> count(String table) async =>
         Sqflite.firstIntValue(
           await db!.rawQuery('SELECT COUNT(*) FROM $table'),
         ) ??
         0;
-    expect(await count('vocabulary'), 300);
+    expect(await count('vocabulary'), 1000);
     expect(await count('reading_passages'), 8);
     expect(await count('reading_questions'), 80);
   });
@@ -108,7 +108,7 @@ void main() {
         jsonDecode(File(manifestPath).readAsStringSync())
             as Map<String, dynamic>;
     expect(actual, manifest['checksum']);
-    expect(manifest['vocabularyCount'], 300);
+    expect(manifest['vocabularyCount'], 1000);
     expect(manifest['readingCount'], 8);
     expect(manifest['readingQuestionCount'], 80);
   });
