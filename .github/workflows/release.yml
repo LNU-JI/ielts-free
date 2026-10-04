@@ -60,13 +60,19 @@ jobs:
         # The `if` guard keeps forks and pull requests working: when the secrets
         # are absent the step is skipped and the build falls back to debug signing
         # (see android/app/build.gradle.kts) instead of failing.
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        # The guard lives inside the shell rather than in a step-level `if`,
+        # because the `secrets` context is not available to `if` expressions and
+        # using it there makes the whole workflow fail to compile.
         env:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "::warning::ANDROID_KEYSTORE_BASE64 is not set, so this build falls back to debug signing. An APK signed this way cannot be installed over a previously released one."
+            exit 0
+          fi
           echo "$KEYSTORE_BASE64" | base64 -d > android/app/ielts-free-release.p12
           printf 'storeFile=%s\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
             "ielts-free-release.p12" "$KEYSTORE_PASSWORD" "$KEY_ALIAS" "$KEY_PASSWORD" \
